@@ -16,23 +16,6 @@
     <!-- Override the Reveal theme varables: -->
     <!-- https://github.com/hakimel/reveal.js/blob/master/css/theme/template/exposer.scss -->
     <style type="text/css">
-      .reveal {
-        font-family: Arial;
-        font-weight: normal;
-      }
-
-      .reveal h1,
-      .reveal h2,
-      .reveal h3 {
-        text-transform: none;
-        font-family: Arial;
-        font-weight: normal;
-      }
-
-      .reveal h2 {
-        font-size: 38px;
-      }
-
       :root {
         /* Color from slides */
         --r-background-color: #01114f;
@@ -51,6 +34,32 @@
 
         /* Section subheader color per theme */
         --r-section-subhead-color: #00ec86;
+      }
+
+      .reveal {
+        font-family: var(--r-main-font);
+        font-weight: normal;
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        text-transform: none;
+        font-family: var(--r-heading-font);
+        font-weight: normal;
+      }
+
+      .reveal h2 {
+        font-size: 38px;
+      }
+
+      .reveal pre {
+        font-size: 0.3em;
+      }
+
+      .reveal .subtitle {
+        font-size: 80%;
+        margin-top: -30px;
       }
 
       .sink {
@@ -80,9 +89,39 @@
         text-align: right;
       }
 
-      .reveal .subtitle {
-        font-size: 80%;
-        margin-top: -30px;
+      .two-columns {
+        display: flex;
+        flex-direction: row;
+        margin: calc(var(--r-block-margin) * -1);
+      }
+
+      .two-columns iframe {
+        top: 0;
+        left: 0;
+        width: 200%;
+        max-width: unset;
+        max-height: unset;
+        aspect-ratio: 4 / 3;
+        transform: scale(0.5) translate(-50%, -50%);
+        background: #000;
+      }
+
+      .two-columns .iframe-wrapper {
+        overflow: hidden;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+      }
+
+      .two-columns .left-column {
+        position: relative;
+        width: 50%;
+      }
+
+      .two-columns .right-column {
+        position: relative;
+        flex-grow: 1;
+        padding: var(--r-block-margin);
+        padding-left: 0;
       }
     </style>
 
@@ -141,10 +180,35 @@
 
         <section
           class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+          data-slideId="direct-line-measurement"
+          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
         >
           <h2>DirectLineMeasurement3D widget</h2>
-          <p class="subhead">Section Subhead</p>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <pre>
+                  <code class="hljs" data-trim data-line-numbers>const widget = new DirectLineMeasurement3D({ view });
+view.ui.add(widget, "top-right");</code>
+                </pre>
+              </div>
+
+              <div class="code-snippet fragment">
+                <pre>
+                  <code class="hljs" data-trim data-line-numbers>widget.viewModel.unit = "kilometers";
+widget.viewModel.unitOptions = ["meters", "kilometers"];</code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe
+                  data-src="./samples/0-direct-line-measurement/"
+                ></iframe>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section
