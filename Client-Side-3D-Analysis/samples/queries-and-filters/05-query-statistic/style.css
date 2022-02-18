@@ -1,0 +1,38 @@
+html,
+body,
+#viewDiv {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  font-family: "Avenir Next W00","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.title,
+.description {
+  padding: 0.5em 0;
+}
+
+.title {
+  font-weight: bold;
+  color: #555;
+  font-size: 1.3em;
+}
+
+#statsContainer {
+  padding: 0.5em;
+  background-color: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  max-height: 700px;
+  overflow-y: auto;
+}
+
+.charts {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.charts>div{
+  text-align: center;
+}

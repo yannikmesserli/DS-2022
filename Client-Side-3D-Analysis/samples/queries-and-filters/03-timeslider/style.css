@@ -1,0 +1,43 @@
+html,
+body,
+#viewDiv {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  font-family: "Avenir Next W00","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.esri-time-slider {
+  box-shadow: none;
+  border: 1px solid #ddd;
+}
+
+.esri-slider__thumb,
+.esri-slider__anchor--moving:focus .esri-slider__thumb {
+  border: 2px solid #555;
+}
+
+.esri-time-slider__mode--cumulative-from-start .esri-slider__segment-0 {
+  background-color: #555;
+}
+
+.esri-time-slider__max,
+.esri-time-slider__min {
+  display: none;
+}
+
+.esri-time-slider__time-extent-date {
+  color: #555;
+}
+
+.esri-slider__thumb:hover {
+  border-color: #555;
+}
+
+#timeContainer {
+  position: absolute;
+  bottom: 25px;
+  left: 20px;
+  right: 20px;
+}

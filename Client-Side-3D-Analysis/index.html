@@ -123,6 +123,31 @@
         padding: var(--r-block-margin);
         padding-left: 0;
       }
+
+      button.play {
+   width: 32px;
+   height: 32px;
+
+   border: none;
+   outline:none;
+   position: absolute;
+   margin-right: 10px;
+    margin-top: -12px;
+        right: 0;
+
+   cursor: pointer;
+
+   background-color: rgba(0,0,0,0);
+   background-image: url("./images/play_64_50.png");
+   background-size: 32px;
+   background-repeat: no-repeat;
+
+   z-index: 10;
+ }
+
+ button.play:hover {
+   background-image: url("./images/play_64.png");
+ }
     </style>
 
     <!-- Theme used for syntax highlighted code -->
@@ -287,13 +312,470 @@
           <p class="subhead">Section Subhead</p>
         </section>
 
+        </section>
+
         <section
           class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
         >
-          <h2>Client-side Querying and Filtering</h2>
-          <p class="subhead">Section Subhead</p>
-        </section>
+
+<h1>Querying and Filtering a SceneLayer</h1>
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+          title="customizing-popups"
+        >
+
+<h2>Loading the WebScene</h2>
+
+<div class="two-columns">
+  <div class="left-column">
+    <div class="code-snippet">
+      <pre><code class="lang-ts">
+  config.portalUrl = "http://jsapi.maps.arcgis.com/";
+  <br>
+  webscene = new WebScene({
+    portalItem: { id: "a350d4d2b71a40a6a95031d25da9535f" }
+  })
+  <br>
+  view = new SceneView({
+    map: webscene,
+    container: "viewDiv"
+  });
+      </code></pre>
+    </div>
+    <div class="code-snippet fragment">
+      <pre><code class="lang-ts">
+  let layer, layerView;
+  <br>
+  webscene.load().then(function() {
+    layer = webscene.layers.find(
+      (l) => l.title === "Helsinki_buildings"
+    );
+    view.whenLayerView(layer).then(function (lV) {
+      layerView = lV;
+    });
+  });
+      </code></pre>
+    </div>
+  </div>
+
+  <div class="right-column">
+    <iframe data-src="./samples/queries-and-filters/01-custom-popups/" ></iframe>
+  </div>
+</div>
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+          title="customizing-popups"
+        >
+
+<h2>Customizing Popups</h2>
+
+<div class="two-columns">
+  <div class="left-column">
+    <div class="code-snippet">
+      <button class="play" id="popup-1"></button>
+      <pre><code class="lang-ts">
+  layer.popupTemplate = {
+    title: `{address}`,
+    content: `This structure was built in {yearCompleted} 
+              and has a {usage} use.`
+  };
+      </code></pre>
+    </div>
+    <div class="code-snippet fragment">
+      <button class="play" id="popup-2"></button>
+      <pre><code class="lang-ts">
+  content: [{
+    type: "text",
+    text: `This structure was built in {yearCompleted} 
+            and has a {usage} use.`
+  },{
+    type: "fields",
+    fieldInfos: [{
+      fieldName: "solarAreaSuitableM2",
+      label: "Area suitable for solar panels (m&lt;sup&gt;2&lt;/sup&gt;)"
+    },{
+      fieldName: "solarElectricitGenPotYearlyKWh",
+      label: "Yearly solar electricity potential (KWh)"
+    }]
+  }]
+      </code></pre>
+    </div>
+  </div>
+
+  <div class="right-column">
+    <iframe data-src="./samples/queries-and-filters/01-custom-popups/" ></iframe>
+  </div>
+</div>
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+        >
+
+<h2>Filters vs Queries</h2>
+
+<img src="./images/filter_vs_query.png" width="800px">
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+          title="filter-attribute"
+        >
+
+<h2>Filtering by Attributes</h2>
+
+<div class="two-columns">
+  <div class="left-column">
+    <div class="code-snippet">
+      <button class="play" id="filter-0"></button>
+      <pre><code class="lang-ts" data-line-numbers>  layer.renderer = new ClassBreaksRenderer({
+    field: "yearCompleted",
+    classBreakInfos: [
+      {
+        minValue: 1900,
+        maxValue: 1924,
+        symbol: { ... }
+      },
+      ...
+    ]
+  });</code></pre>
+    </div>
+    <div class="code-snippet fragment">
+      <button class="play" id="filter-1"></button>
+      <pre><code class="lang-ts">  layer.outFields = ["yearCompleted"];
+  <br>
+  layerView.filter = new FeatureFilter({
+    where: `yearCompleted > 1950`
+  });</code></pre>
+    </div>
+    <div class="code-snippet fragment">
+      <button class="play" id="filter-2"></button>
+      <pre><code class="lang-ts">  layerView.filter = null;</code></pre>
+    </div>
+  </div>
+
+  <div class="right-column">
+    <iframe data-src="./samples/queries-and-filters/02-filter-attributes/" ></iframe>
+  </div>
+</div>
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+        >
+
+<h2>Documentation</h2>
+- https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html
+- https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-SceneLayerView.html#filter
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+          title="timeslider"
+        >
+
+<h2>Adding a Time Slider</h2>
+
+<div class="two-columns">
+  <div class="left-column">
+    <div class="code-snippet">
+      <button class="play" id="timeslider-1"></button>
+      <pre><code class="lang-ts">  const start = new Date(1900, 0, 1);
+  const end = new Date(2021, 0, 1);
+  <br>
+  const timeSlider = new TimeSlider({
+    container: "timeContainer",
+    mode: "cumulative-from-start",
+    fullTimeExtent: { start, end },
+    values: [end],
+    stops: {
+      interval: {
+        value: 5,
+        unit: "years"
+      },
+      timeExtent: { start, end }
+    }
+  });</code></pre>
+    </div>
+    <div class="code-snippet fragment">
+      <button class="play" id="timeslider-2"></button>
+      <pre><code class="lang-ts">  timeSlider.watch("timeExtent", function(timeExtent) {
+    const maxYear = timeExtent.end.getFullYear();
+    <br>
+    layerView.filter = new FeatureFilter({
+      where: `yearCompleted <= ${maxYear}`
+    });
+  });</code></pre>
+    </div>
+  </div>
+  <div class="right-column">
+    <iframe data-src="./samples/queries-and-filters/03-timeslider/" ></iframe>
+  </div>
+</div>
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+        >
+
+<h2>Documentation</h2>
+https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+          title="query-attribute"
+        >
+
+<h2>Attribute Queries</h2>
+
+<div class="two-columns">
+  <div class="left-column">
+    <div class="code-snippet">
+      <pre><code class="lang-ts">  layer.outFields = ["solarAreaSuitableM2", "address"];
+  <br>
+  const query = layerView.createQuery();
+  query.where = "solarAreaSuitableM2 BETWEEN 400 AND 500";</code></pre>
+    </div>
+    <div class="code-snippet fragment">
+      <button class="play" id="query-1"></button>
+      <pre><code class="lang-ts">  query.outFields = ["address"];
+  <br>
+  layerView.queryFeatures(query).then(function(response) {
+    response.features.forEach(function(entry) {
+      output(entry.attributes);
+    });
+  }).catch(console.error);</code></pre>
+    </div>
+    <div class="code-snippet fragment">
+      <button class="play" id="query-2"></button>
+      <pre><code class="lang-ts">  layerView.queryObjectIds(query).then(function(response) {
+    highlightHandle = layerView.highlight(response);
+  }).catch(console.error);</code></pre>
+    </div>
+    <div class="code-snippet fragment">
+      <pre><code class="lang-ts">  highlightHandle.remove();</code></pre>
+    </div>
+  </div>
+
+  <div class="right-column">
+    <iframe data-src="./samples/queries-and-filters/04-query-attributes/" ></iframe>
+  </div>
+</div>
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+          title="query-attribute"
+        >
+
+<h2>Attribute Queries</h2>
+
+<div class="two-columns">
+  <div class="left-column">
+    <div class="code-snippet">
+      <button class="play" id="query-3"></button>
+      <pre><code class="lang-ts">  layer.outFields = ["solarAreaSuitableM2", "usage"];
+        <br>
+  const query = layerView.createQuery();
+  query.where = "solarAreaSuitableM2 BETWEEN 400 AND 500";
+  query.outFields = ["usage"];</code></pre>
+    </div>
+    <div class="code-snippet fragment">
+      <button class="play" id="query-4"></button>
+      <pre><code class="lang-ts">  query.returnDistinctValues = true;</code></pre>
+    </div>
+  </div>
+
+  <div class="right-column">
+    <iframe data-src="./samples/queries-and-filters/04-query-attributes/" ></iframe>
+  </div>
+</div>
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+          title="query-statistic"
+        >
+
+<h2>Statistic Queries</h2>
+
+<div class="two-columns">
+  <div class="left-column">
+    <div class="code-snippet">
+      <pre><code class="lang-ts">query.outStatistics = [
+  new StatisticDefinition({
+    outStatisticFieldName: "avg_area",
+    onStatisticField: "solarAreaSuitableM2",
+    statisticType: "avg" //supports min, max, sum, std, ...
+  })
+]);</code></pre>
+    </div>
+    <div class="code-snippet fragment">
+      <button class="play" id="statistic-1"></button>
+      <pre><code class="lang-ts">layerView.queryFeatures(query).then(function(response) {
+  output("Average area: "
+    + response.features[0].attributes.avg_area);
+}).catch(console.error);</code></pre>
+    </div>
+  </div>
+
+  <div class="right-column">
+    <iframe data-src="./samples/queries-and-filters/05-query-statistic/" ></iframe>
+  </div>
+</div>
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+          title="query-statistic"
+        >
+
+<h2>Statistic Queries</h2>
+
+<div class="two-columns">
+  <div class="left-column">
+    <div class="code-snippet">
+      <button class="play" id="statistic-2"></button>
+      <pre><code class="lang-ts">query.outStatistics = [
+  ...
+  {
+    outStatisticFieldName: "area_400_500",
+    onStatisticField: 
+      `CASE WHEN (solarAreaSuitableM2 < 500 AND
+      solarAreaSuitableM2 >= 400) THEN 1 ELSE 0 END`,
+    statisticType: "sum"
+  },
+  ...
+]);
+<br>
+query.where = "usage = 'industrial'";
+<br>
+layerView.queryFeatures(query).then(function(response) {
+  chart.update(response.features[0].attributes);
+}).catch(console.error);</code></pre>
+    </div>
+  </div>
+
+  <div class="right-column">
+    <iframe data-src="./samples/queries-and-filters/05-query-statistic/" ></iframe>
+  </div>
+</div>
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+          title="spatial"
+        >
+
+<h2>Spatial Filters and Queries</h2>
+
+<div class="two-columns">
+  <div class="left-column">
+    <div class="code-snippet">
+      <pre><code class="lang-ts">const sketch = new Sketch({
+  layer: sketchLayer,
+  view: view
+});
+<br>
+sketch.on("create", function (event) {
+  if (event.state === "complete") {
+    layerView.filter.geometry = event.graphic.geometry
+  }
+});
+sketch.on("update", function (event) {
+  if (!event.cancelled && event.graphics.length) {
+    layerView.filter.geometry = event.graphics[0].geometry
+  }
+});
+<br>
+view.ui.add(sketch, "top-right");</code></pre>
+    </div>
+    <div class="code-snippet fragment">
+      <button class="play" id="spatial-1"></button>
+      <pre><code class="lang-ts">query.geometry = geometry;
+query.spatialRelationship = "contains";
+query.distance = 100;
+query.units = "meters";
+<br>
+query.where = "usage = 'residential'";</code></pre>
+    </div>
+    <div class="code-snippet fragment">
+      <pre><code class="lang-ts">const debouncedQuery = promiseUtils.debounce(function () {
+  layerView.queryObjectIds(query).then(/*...*/);
+});
+debouncedQuery();</code></pre>
+    </div>
+  </div>
+
+  <div class="right-column">
+    <iframe data-src="./samples/queries-and-filters/06-query-geometry/" ></iframe>
+  </div>
+</div>
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+        >
+
+<h2>Spatial Relationships</h2>
+
+<img src="./images/spatial_relationships.png">
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+        >
+
+<h2>Documentation</h2>
+https://developers.arcgis.com/javascript/latest/api-reference/esri-tasks-support-Query.html
+
+</section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+        >
+
+<h2>Additional Resources</h2>
+- https://developers.arcgis.com/javascript/latest/sample-code/
+- https://arcg.is/008mnO
+
+</section>
+
 
         <!-- FEEDBACK SLIDE: -->
         <section
