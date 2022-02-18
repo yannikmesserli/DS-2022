@@ -17,17 +17,20 @@
     <!-- https://github.com/hakimel/reveal.js/blob/master/css/theme/template/exposer.scss -->
     <style type="text/css">
       .reveal {
-        font-family: Avenir Next, Helvetica Neue, Helvetica, sans-serif;
-        font-weight: light;
+        font-family: Arial;
+        font-weight: normal;
       }
 
       .reveal h1,
       .reveal h2,
       .reveal h3 {
         text-transform: none;
-        font-weight: 900;
-        font-family: Avenir Next Condensed, Helvetica Neue, Helvetica,
-          sans-serif;
+        font-family: Arial;
+        font-weight: normal;
+      }
+
+      .reveal h2 {
+        font-size: 38px;
       }
 
       :root {
@@ -56,6 +59,25 @@
         padding: 20px;
         padding-bottom: 0;
         color: white;
+      }
+
+      .subhead {
+        font-size: 24px;
+        color: var(--r-section-subhead-color);
+      }
+
+      .align-left .subhead,
+      .align-left h1,
+      .align-left h2,
+      .align-left h3 {
+        text-align: left;
+      }
+
+      .align-right .subhead,
+      .align-right h1,
+      .align-right h2,
+      .align-right h3 {
+        text-align: right;
       }
 
       .reveal .subtitle {
@@ -93,43 +115,116 @@
           </p>
         </section>
 
-        <section data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
-          <h1 style="text-align: left; font-size: 48px">Section Header</h1>
-          <p
-            style="
-              text-align: left;
-              font-size: 24px;
-              color: var(--r-section-subhead-color);
-            "
-          >
-            Section Subhead
-          </p>
+        <!-- <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+        >
+          <h2>Section Header</h2>
+          <p class="subhead">Section Subhead</p>
         </section>
 
-        <section data-background="../reveal.js/img/2022/dev-summit/bg-5.png">
-          <h1 style="text-align: left; font-size: 48px">Section Header</h1>
-          <p
-            style="
-              text-align: left;
-              font-size: 24px;
-              color: var(--r-section-subhead-color);
-            "
-          >
-            Section Subhead
-          </p>
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
+        >
+          <h2>Section Header</h2>
+          <p class="subhead">Section Subhead</p>
         </section>
 
-        <section data-background="../reveal.js/img/2022/dev-summit/bg-6.png">
-          <h1 style="text-align: right; font-size: 48px">Section Header</h1>
-          <p
-            style="
-              text-align: right;
-              font-size: 24px;
-              color: var(--r-section-subhead-color);
-            "
-          >
-            Section Subhead
-          </p>
+        <section
+          class="align-right"
+          data-background="../reveal.js/img/2022/dev-summit/bg-6.png"
+        >
+          <h2>Section Header</h2>
+          <p class="subhead">Section Subhead</p>
+        </section> -->
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+        >
+          <h2>DirectLineMeasurement3D widget</h2>
+          <p class="subhead">Section Subhead</p>
+        </section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
+        >
+          <h2>DirectLineMeasurementAnalysis</h2>
+          <p class="subhead">Section Subhead</p>
+        </section>
+
+        <section
+          class="align-right"
+          data-background="../reveal.js/img/2022/dev-summit/bg-6.png"
+        >
+          <h2>AreaMeasurement3D widget</h2>
+          <p class="subhead">Section Subhead</p>
+        </section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+        >
+          <h2>AreaMeasurementAnalysis</h2>
+          <p class="subhead">Section Subhead</p>
+        </section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
+        >
+          <h2>Slice widget</h2>
+          <p class="subhead">Section Subhead</p>
+        </section>
+
+        <section
+          class="align-right"
+          data-background="../reveal.js/img/2022/dev-summit/bg-6.png"
+        >
+          <h2>SliceAnalysis</h2>
+          <p class="subhead">Section Subhead</p>
+        </section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+        >
+          <h2>LineOfSight widget</h2>
+          <p class="subhead">Section Subhead</p>
+        </section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
+        >
+          <h2>LineOfSightAnalysis</h2>
+          <p class="subhead">Section Subhead</p>
+        </section>
+
+        <section
+          class="align-right"
+          data-background="../reveal.js/img/2022/dev-summit/bg-6.png"
+        >
+          <h2>ElevationProfile widget</h2>
+          <p class="subhead">Section Subhead</p>
+        </section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+        >
+          <h2>ShadowCast widget</h2>
+          <p class="subhead">Section Subhead</p>
+        </section>
+
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
+        >
+          <h2>Client-side Querying and Filtering</h2>
+          <p class="subhead">Section Subhead</p>
         </section>
 
         <!-- FEEDBACK SLIDE: -->
