@@ -1,9 +1,11 @@
 // @ts-check
-import { ESRI_OFFICE_BSL } from "../scenes.js";
+import Slice from "esri/widgets/Slice.js";
 import { initView, onInit } from "../utils.js";
 
 let view, widget;
 
-onInit("slice", () => {
-  view = initView(ESRI_OFFICE_BSL);
+onInit("line-of-sight", () => {
+  view = initView();
+  widget = new Slice({ view });
+  view.ui.add(widget, "top-right");
 });

@@ -125,29 +125,29 @@
       }
 
       button.play {
-   width: 32px;
-   height: 32px;
+        width: 32px;
+        height: 32px;
 
-   border: none;
-   outline:none;
-   position: absolute;
-   margin-right: 10px;
-    margin-top: -12px;
+        border: none;
+        outline: none;
+        position: absolute;
+        margin-right: 10px;
+        margin-top: -12px;
         right: 0;
 
-   cursor: pointer;
+        cursor: pointer;
 
-   background-color: rgba(0,0,0,0);
-   background-image: url("./images/play_64_50.png");
-   background-size: 32px;
-   background-repeat: no-repeat;
+        background-color: rgba(0, 0, 0, 0);
+        background-image: url("./images/play_64_50.png");
+        background-size: 32px;
+        background-repeat: no-repeat;
 
-   z-index: 10;
- }
+        z-index: 10;
+      }
 
- button.play:hover {
-   background-image: url("./images/play_64.png");
- }
+      button.play:hover {
+        background-image: url("./images/play_64.png");
+      }
     </style>
 
     <!-- Theme used for syntax highlighted code -->
@@ -179,51 +179,27 @@
           </p>
         </section>
 
-        <!-- <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-        >
-          <h2>Section Header</h2>
-          <p class="subhead">Section Subhead</p>
-        </section>
-
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
-        >
-          <h2>Section Header</h2>
-          <p class="subhead">Section Subhead</p>
-        </section>
-
-        <section
-          class="align-right"
-          data-background="../reveal.js/img/2022/dev-summit/bg-6.png"
-        >
-          <h2>Section Header</h2>
-          <p class="subhead">Section Subhead</p>
-        </section> -->
-
         <section
           class="align-left"
           data-slideId="direct-line-measurement"
           data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
         >
           <h2>DirectLineMeasurement3D widget</h2>
-
           <div class="two-columns">
             <div class="left-column">
-              <div class="code-snippet">
+              <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="hljs" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim data-line-numbers>
                     const widget = new DirectLineMeasurement3D({ view });
+
                     view.ui.add(widget, "top-right");
                   </code>
                 </pre>
               </div>
 
-              <div class="code-snippet fragment">
+              <div data-fragment-id="set-units" class="code-snippet fragment">
                 <pre>
-                  <code class="hljs" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim data-line-numbers>
                     widget.viewModel.unit = "kilometers";
                     widget.viewModel.unitOptions = ["meters", "kilometers"];
                   </code>
@@ -242,99 +218,280 @@
 
         <section
           class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
+          data-slideId="direct-line-measurement-analysis"
+          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
         >
           <h2>DirectLineMeasurementAnalysis</h2>
-          <p class="subhead">Section Subhead</p>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const zurich = new Point({
+                      x: 8.5417,
+                      y: 47.3769,
+                      spatialReference: SpatialReference.WGS84,
+                    });
+                    const palmSprings = new Point({
+                      x: -116.563645,
+                      y: 33.772349,
+                      spatialReference: SpatialReference.WGS84,
+                    });
+
+                    const analysis = new DirectLineMeasurementAnalysis({
+                      startPoint: zurich,
+                      endPoint: palmSprings,
+                    });
+                  
+                    view.analyses.add(analysis);
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe
+                  data-src="./samples/1-direct-line-measurement-analysis/"
+                ></iframe>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section
-          class="align-right"
-          data-background="../reveal.js/img/2022/dev-summit/bg-6.png"
+          class="align-left"
+          data-slideId="area-measurement"
+          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
         >
           <h2>AreaMeasurement3D widget</h2>
-          <p class="subhead">Section Subhead</p>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const widget = new AreaMeasurement3D({ view });
+
+                    view.ui.add(widget, "top-right");
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe
+                  data-src="./samples/2-direct-line-measurement-analysis/"
+                ></iframe>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section
           class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+          data-slideId="area-measurement-analysis"
+          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
         >
           <h2>AreaMeasurementAnalysis</h2>
-          <p class="subhead">Section Subhead</p>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const analysis = new AreaMeasurementAnalysis({
+                      geometry
+                    });
+                  
+                    view.analyses.add(analysis);
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe
+                  data-src="./samples/3-are-measurement-analysis/"
+                ></iframe>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section
           class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
+          data-slideId="slice"
+          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
         >
           <h2>Slice widget</h2>
-          <p class="subhead">Section Subhead</p>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const widget = new Slice({ view });
+
+                    view.ui.add(widget, "top-right");
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/4-slice/"></iframe>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section
-          class="align-right"
-          data-background="../reveal.js/img/2022/dev-summit/bg-6.png"
+          class="align-left"
+          data-slideId="slice-analysis"
+          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
         >
           <h2>SliceAnalysis</h2>
-          <p class="subhead">Section Subhead</p>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const analysis = new SliceAnalysis({
+                      shape
+                    });
+                  
+                    view.analyses.add(analysis);
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/5-slice-analysis/"></iframe>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section
           class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+          data-slideId="line-of-sight"
+          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
         >
           <h2>LineOfSight widget</h2>
-          <p class="subhead">Section Subhead</p>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const widget = new LineOfSight({ view });
+
+                    view.ui.add(widget, "top-right");
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/6-line-of-sight/"></iframe>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section
           class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
+          data-slideId="line-of-sight-analysis"
+          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
         >
           <h2>LineOfSightAnalysis</h2>
-          <p class="subhead">Section Subhead</p>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                <code class="lang-ts" data-trim data-line-numbers>
+                  const analysis = new LineOfSightAnalysis();
+                
+                  view.analyses.add(analysis);
+                </code>
+              </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/7-line-of-sight-analysis/"></iframe>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section
-          class="align-right"
-          data-background="../reveal.js/img/2022/dev-summit/bg-6.png"
+          class="align-left"
+          data-slideId="elevation-profile"
+          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
         >
           <h2>ElevationProfile widget</h2>
-          <p class="subhead">Section Subhead</p>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const widget = new ElevationProfile({ view });
+
+                    view.ui.add(widget, "top-right");
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/8-elevation-profile/"></iframe>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section
           class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+          data-slideId="elevation-profile"
+          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
         >
           <h2>ShadowCast widget</h2>
-          <p class="subhead">Section Subhead</p>
-        </section>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const widget = new ShadowCast({ view });
 
+                    view.ui.add(widget, "top-right");
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/9-shadow-cast/"></iframe>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
         >
-
-<h1>Querying and Filtering a SceneLayer</h1>
-
-</section>
+          <h1>Querying and Filtering a SceneLayer</h1>
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
           title="customizing-popups"
         >
+          <h2>Loading the WebScene</h2>
 
-<h2>Loading the WebScene</h2>
-
-<div class="two-columns">
-  <div class="left-column">
-    <div class="code-snippet">
-      <pre><code class="lang-ts">
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <pre><code class="lang-ts">
   config.portalUrl = "http://jsapi.maps.arcgis.com/";
   <br>
   webscene = new WebScene({
@@ -346,9 +503,9 @@
     container: "viewDiv"
   });
       </code></pre>
-    </div>
-    <div class="code-snippet fragment">
-      <pre><code class="lang-ts">
+              </div>
+              <div class="code-snippet fragment">
+                <pre><code class="lang-ts">
   let layer, layerView;
   <br>
   webscene.load().then(function() {
@@ -360,39 +517,39 @@
     });
   });
       </code></pre>
-    </div>
-  </div>
+              </div>
+            </div>
 
-  <div class="right-column">
-    <iframe data-src="./samples/queries-and-filters/01-custom-popups/" ></iframe>
-  </div>
-</div>
-
-</section>
+            <div class="right-column">
+              <iframe
+                data-src="./samples/queries-and-filters/01-custom-popups/"
+              ></iframe>
+            </div>
+          </div>
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
           title="customizing-popups"
         >
+          <h2>Customizing Popups</h2>
 
-<h2>Customizing Popups</h2>
-
-<div class="two-columns">
-  <div class="left-column">
-    <div class="code-snippet">
-      <button class="play" id="popup-1"></button>
-      <pre><code class="lang-ts">
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <button class="play" id="popup-1"></button>
+                <pre><code class="lang-ts">
   layer.popupTemplate = {
     title: `{address}`,
     content: `This structure was built in {yearCompleted} 
               and has a {usage} use.`
   };
       </code></pre>
-    </div>
-    <div class="code-snippet fragment">
-      <button class="play" id="popup-2"></button>
-      <pre><code class="lang-ts">
+              </div>
+              <div class="code-snippet fragment">
+                <button class="play" id="popup-2"></button>
+                <pre><code class="lang-ts">
   content: [{
     type: "text",
     text: `This structure was built in {yearCompleted} 
@@ -408,40 +565,38 @@
     }]
   }]
       </code></pre>
-    </div>
-  </div>
+              </div>
+            </div>
 
-  <div class="right-column">
-    <iframe data-src="./samples/queries-and-filters/01-custom-popups/" ></iframe>
-  </div>
-</div>
-
-</section>
+            <div class="right-column">
+              <iframe
+                data-src="./samples/queries-and-filters/01-custom-popups/"
+              ></iframe>
+            </div>
+          </div>
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
         >
+          <h2>Filters vs Queries</h2>
 
-<h2>Filters vs Queries</h2>
-
-<img src="./images/filter_vs_query.png" width="800px">
-
-</section>
+          <img src="./images/filter_vs_query.png" width="800px" />
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
           title="filter-attribute"
         >
+          <h2>Filtering by Attributes</h2>
 
-<h2>Filtering by Attributes</h2>
-
-<div class="two-columns">
-  <div class="left-column">
-    <div class="code-snippet">
-      <button class="play" id="filter-0"></button>
-      <pre><code class="lang-ts" data-line-numbers>  layer.renderer = new ClassBreaksRenderer({
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <button class="play" id="filter-0"></button>
+                <pre><code class="lang-ts" data-line-numbers>  layer.renderer = new ClassBreaksRenderer({
     field: "yearCompleted",
     classBreakInfos: [
       {
@@ -452,52 +607,52 @@
       ...
     ]
   });</code></pre>
-    </div>
-    <div class="code-snippet fragment">
-      <button class="play" id="filter-1"></button>
-      <pre><code class="lang-ts">  layer.outFields = ["yearCompleted"];
+              </div>
+              <div class="code-snippet fragment">
+                <button class="play" id="filter-1"></button>
+                <pre><code class="lang-ts">  layer.outFields = ["yearCompleted"];
   <br>
   layerView.filter = new FeatureFilter({
     where: `yearCompleted > 1950`
   });</code></pre>
-    </div>
-    <div class="code-snippet fragment">
-      <button class="play" id="filter-2"></button>
-      <pre><code class="lang-ts">  layerView.filter = null;</code></pre>
-    </div>
-  </div>
+              </div>
+              <div class="code-snippet fragment">
+                <button class="play" id="filter-2"></button>
+                <pre><code class="lang-ts">  layerView.filter = null;</code></pre>
+              </div>
+            </div>
 
-  <div class="right-column">
-    <iframe data-src="./samples/queries-and-filters/02-filter-attributes/" ></iframe>
-  </div>
-</div>
-
-</section>
+            <div class="right-column">
+              <iframe
+                data-src="./samples/queries-and-filters/02-filter-attributes/"
+              ></iframe>
+            </div>
+          </div>
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
         >
-
-<h2>Documentation</h2>
-- https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html
-- https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-SceneLayerView.html#filter
-
-</section>
+          <h2>Documentation</h2>
+          -
+          https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html
+          -
+          https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-SceneLayerView.html#filter
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
           title="timeslider"
         >
+          <h2>Adding a Time Slider</h2>
 
-<h2>Adding a Time Slider</h2>
-
-<div class="two-columns">
-  <div class="left-column">
-    <div class="code-snippet">
-      <button class="play" id="timeslider-1"></button>
-      <pre><code class="lang-ts">  const start = new Date(1900, 0, 1);
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <button class="play" id="timeslider-1"></button>
+                <pre><code class="lang-ts">  const start = new Date(1900, 0, 1);
   const end = new Date(2021, 0, 1);
   <br>
   const timeSlider = new TimeSlider({
@@ -513,158 +668,156 @@
       timeExtent: { start, end }
     }
   });</code></pre>
-    </div>
-    <div class="code-snippet fragment">
-      <button class="play" id="timeslider-2"></button>
-      <pre><code class="lang-ts">  timeSlider.watch("timeExtent", function(timeExtent) {
+              </div>
+              <div class="code-snippet fragment">
+                <button class="play" id="timeslider-2"></button>
+                <pre><code class="lang-ts">  timeSlider.watch("timeExtent", function(timeExtent) {
     const maxYear = timeExtent.end.getFullYear();
     <br>
     layerView.filter = new FeatureFilter({
       where: `yearCompleted <= ${maxYear}`
     });
   });</code></pre>
-    </div>
-  </div>
-  <div class="right-column">
-    <iframe data-src="./samples/queries-and-filters/03-timeslider/" ></iframe>
-  </div>
-</div>
-
-</section>
+              </div>
+            </div>
+            <div class="right-column">
+              <iframe
+                data-src="./samples/queries-and-filters/03-timeslider/"
+              ></iframe>
+            </div>
+          </div>
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
         >
-
-<h2>Documentation</h2>
-https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html
-
-</section>
+          <h2>Documentation</h2>
+          https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
           title="query-attribute"
         >
+          <h2>Attribute Queries</h2>
 
-<h2>Attribute Queries</h2>
-
-<div class="two-columns">
-  <div class="left-column">
-    <div class="code-snippet">
-      <pre><code class="lang-ts">  layer.outFields = ["solarAreaSuitableM2", "address"];
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <pre><code class="lang-ts">  layer.outFields = ["solarAreaSuitableM2", "address"];
   <br>
   const query = layerView.createQuery();
   query.where = "solarAreaSuitableM2 BETWEEN 400 AND 500";</code></pre>
-    </div>
-    <div class="code-snippet fragment">
-      <button class="play" id="query-1"></button>
-      <pre><code class="lang-ts">  query.outFields = ["address"];
+              </div>
+              <div class="code-snippet fragment">
+                <button class="play" id="query-1"></button>
+                <pre><code class="lang-ts">  query.outFields = ["address"];
   <br>
   layerView.queryFeatures(query).then(function(response) {
     response.features.forEach(function(entry) {
       output(entry.attributes);
     });
   }).catch(console.error);</code></pre>
-    </div>
-    <div class="code-snippet fragment">
-      <button class="play" id="query-2"></button>
-      <pre><code class="lang-ts">  layerView.queryObjectIds(query).then(function(response) {
+              </div>
+              <div class="code-snippet fragment">
+                <button class="play" id="query-2"></button>
+                <pre><code class="lang-ts">  layerView.queryObjectIds(query).then(function(response) {
     highlightHandle = layerView.highlight(response);
   }).catch(console.error);</code></pre>
-    </div>
-    <div class="code-snippet fragment">
-      <pre><code class="lang-ts">  highlightHandle.remove();</code></pre>
-    </div>
-  </div>
+              </div>
+              <div class="code-snippet fragment">
+                <pre><code class="lang-ts">  highlightHandle.remove();</code></pre>
+              </div>
+            </div>
 
-  <div class="right-column">
-    <iframe data-src="./samples/queries-and-filters/04-query-attributes/" ></iframe>
-  </div>
-</div>
-
-</section>
+            <div class="right-column">
+              <iframe
+                data-src="./samples/queries-and-filters/04-query-attributes/"
+              ></iframe>
+            </div>
+          </div>
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
           title="query-attribute"
         >
+          <h2>Attribute Queries</h2>
 
-<h2>Attribute Queries</h2>
-
-<div class="two-columns">
-  <div class="left-column">
-    <div class="code-snippet">
-      <button class="play" id="query-3"></button>
-      <pre><code class="lang-ts">  layer.outFields = ["solarAreaSuitableM2", "usage"];
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <button class="play" id="query-3"></button>
+                <pre><code class="lang-ts">  layer.outFields = ["solarAreaSuitableM2", "usage"];
         <br>
   const query = layerView.createQuery();
   query.where = "solarAreaSuitableM2 BETWEEN 400 AND 500";
   query.outFields = ["usage"];</code></pre>
-    </div>
-    <div class="code-snippet fragment">
-      <button class="play" id="query-4"></button>
-      <pre><code class="lang-ts">  query.returnDistinctValues = true;</code></pre>
-    </div>
-  </div>
+              </div>
+              <div class="code-snippet fragment">
+                <button class="play" id="query-4"></button>
+                <pre><code class="lang-ts">  query.returnDistinctValues = true;</code></pre>
+              </div>
+            </div>
 
-  <div class="right-column">
-    <iframe data-src="./samples/queries-and-filters/04-query-attributes/" ></iframe>
-  </div>
-</div>
-
-</section>
+            <div class="right-column">
+              <iframe
+                data-src="./samples/queries-and-filters/04-query-attributes/"
+              ></iframe>
+            </div>
+          </div>
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
           title="query-statistic"
         >
+          <h2>Statistic Queries</h2>
 
-<h2>Statistic Queries</h2>
-
-<div class="two-columns">
-  <div class="left-column">
-    <div class="code-snippet">
-      <pre><code class="lang-ts">query.outStatistics = [
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <pre><code class="lang-ts">query.outStatistics = [
   new StatisticDefinition({
     outStatisticFieldName: "avg_area",
     onStatisticField: "solarAreaSuitableM2",
     statisticType: "avg" //supports min, max, sum, std, ...
   })
 ]);</code></pre>
-    </div>
-    <div class="code-snippet fragment">
-      <button class="play" id="statistic-1"></button>
-      <pre><code class="lang-ts">layerView.queryFeatures(query).then(function(response) {
+              </div>
+              <div class="code-snippet fragment">
+                <button class="play" id="statistic-1"></button>
+                <pre><code class="lang-ts">layerView.queryFeatures(query).then(function(response) {
   output("Average area: "
     + response.features[0].attributes.avg_area);
 }).catch(console.error);</code></pre>
-    </div>
-  </div>
+              </div>
+            </div>
 
-  <div class="right-column">
-    <iframe data-src="./samples/queries-and-filters/05-query-statistic/" ></iframe>
-  </div>
-</div>
-
-</section>
+            <div class="right-column">
+              <iframe
+                data-src="./samples/queries-and-filters/05-query-statistic/"
+              ></iframe>
+            </div>
+          </div>
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
           title="query-statistic"
         >
+          <h2>Statistic Queries</h2>
 
-<h2>Statistic Queries</h2>
-
-<div class="two-columns">
-  <div class="left-column">
-    <div class="code-snippet">
-      <button class="play" id="statistic-2"></button>
-      <pre><code class="lang-ts">query.outStatistics = [
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <button class="play" id="statistic-2"></button>
+                <pre><code class="lang-ts">query.outStatistics = [
   ...
   {
     outStatisticFieldName: "area_400_500",
@@ -681,28 +834,28 @@ query.where = "usage = 'industrial'";
 layerView.queryFeatures(query).then(function(response) {
   chart.update(response.features[0].attributes);
 }).catch(console.error);</code></pre>
-    </div>
-  </div>
+              </div>
+            </div>
 
-  <div class="right-column">
-    <iframe data-src="./samples/queries-and-filters/05-query-statistic/" ></iframe>
-  </div>
-</div>
-
-</section>
+            <div class="right-column">
+              <iframe
+                data-src="./samples/queries-and-filters/05-query-statistic/"
+              ></iframe>
+            </div>
+          </div>
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
           title="spatial"
         >
+          <h2>Spatial Filters and Queries</h2>
 
-<h2>Spatial Filters and Queries</h2>
-
-<div class="two-columns">
-  <div class="left-column">
-    <div class="code-snippet">
-      <pre><code class="lang-ts">const sketch = new Sketch({
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <pre><code class="lang-ts">const sketch = new Sketch({
   layer: sketchLayer,
   view: view
 });
@@ -719,63 +872,57 @@ sketch.on("update", function (event) {
 });
 <br>
 view.ui.add(sketch, "top-right");</code></pre>
-    </div>
-    <div class="code-snippet fragment">
-      <button class="play" id="spatial-1"></button>
-      <pre><code class="lang-ts">query.geometry = geometry;
+              </div>
+              <div class="code-snippet fragment">
+                <button class="play" id="spatial-1"></button>
+                <pre><code class="lang-ts">query.geometry = geometry;
 query.spatialRelationship = "contains";
 query.distance = 100;
 query.units = "meters";
 <br>
 query.where = "usage = 'residential'";</code></pre>
-    </div>
-    <div class="code-snippet fragment">
-      <pre><code class="lang-ts">const debouncedQuery = promiseUtils.debounce(function () {
+              </div>
+              <div class="code-snippet fragment">
+                <pre><code class="lang-ts">const debouncedQuery = promiseUtils.debounce(function () {
   layerView.queryObjectIds(query).then(/*...*/);
 });
 debouncedQuery();</code></pre>
-    </div>
-  </div>
+              </div>
+            </div>
 
-  <div class="right-column">
-    <iframe data-src="./samples/queries-and-filters/06-query-geometry/" ></iframe>
-  </div>
-</div>
-
-</section>
-
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-        >
-
-<h2>Spatial Relationships</h2>
-
-<img src="./images/spatial_relationships.png">
-
-</section>
+            <div class="right-column">
+              <iframe
+                data-src="./samples/queries-and-filters/06-query-geometry/"
+              ></iframe>
+            </div>
+          </div>
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
         >
+          <h2>Spatial Relationships</h2>
 
-<h2>Documentation</h2>
-https://developers.arcgis.com/javascript/latest/api-reference/esri-tasks-support-Query.html
-
-</section>
+          <img src="./images/spatial_relationships.png" />
+        </section>
 
         <section
           class="align-left"
           data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
         >
+          <h2>Documentation</h2>
+          https://developers.arcgis.com/javascript/latest/api-reference/esri-tasks-support-Query.html
+        </section>
 
-<h2>Additional Resources</h2>
-- https://developers.arcgis.com/javascript/latest/sample-code/
-- https://arcg.is/008mnO
-
-</section>
-
+        <section
+          class="align-left"
+          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
+        >
+          <h2>Additional Resources</h2>
+          - https://developers.arcgis.com/javascript/latest/sample-code/ -
+          https://arcg.is/008mnO
+        </section>
 
         <!-- FEEDBACK SLIDE: -->
         <section

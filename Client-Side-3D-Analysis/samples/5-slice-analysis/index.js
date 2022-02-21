@@ -5,5 +5,5 @@ import { initView, onInit } from "../utils.js";
 let view, widget;
 
 onInit("slice-analysis", () => {
-  view = initView(ESRI_OFFICE_BSL);
+  view = initView();
 });

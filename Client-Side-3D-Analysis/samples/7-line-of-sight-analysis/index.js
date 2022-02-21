@@ -5,5 +5,5 @@ import { initView, onInit } from "../utils.js";
 let view, widget;
 
 onInit("line-of-sight-analysis", () => {
-  view = initView(ESRI_OFFICE_BSL);
+  view = initView();
 });

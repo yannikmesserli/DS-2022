@@ -1,9 +1,11 @@
 // @ts-check
-import { ESRI_OFFICE_BSL } from "../scenes.js";
+import AreaMeasurement3D from "esri/widgets/AreaMeasurement3D.js";
 import { initView, onInit } from "../utils.js";
 
 let view, widget;
 
 onInit("area-measurement", () => {
-  view = initView(ESRI_OFFICE_BSL);
+  view = initView();
+  widget = new AreaMeasurement3D({ view });
+  view.ui.add(widget, "top-right");
 });

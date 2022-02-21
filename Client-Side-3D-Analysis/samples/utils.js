@@ -8,14 +8,22 @@ export function onInit(title, cb) {
   }
 }
 
+export function onFragment(id, cb) {
+  parent.Reveal.on("fragmentshown", (event) => {
+    if (event.fragment.getAttribute("data-fragment-id") === id) {
+      cb();
+    }
+  });
+}
+
 export function initView(itemId) {
   const view = new SceneView({
-    map: new WebScene({ portalItem: { id: itemId } }),
+    map: itemId
+      ? new WebScene({ portalItem: { id: itemId } })
+      : new WebScene({ basemap: "topo" }),
     container: "viewDiv",
     qualityProfile: "medium",
-    popup: {
-      defaultPopupTemplateEnabled: false
-    }
+    popup: { defaultPopupTemplateEnabled: false },
   });
 
   view.ui.add(new Fullscreen({ view }), "bottom-right");

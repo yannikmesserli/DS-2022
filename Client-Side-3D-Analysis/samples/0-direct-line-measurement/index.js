@@ -1,13 +1,15 @@
 // @ts-check
 import DirectLineMeasurement3D from "esri/widgets/DirectLineMeasurement3D.js";
-import { ESRI_OFFICE_BSL } from "../scenes.js";
-import { initView, onInit } from "../utils.js";
+import { initView, onFragment, onInit } from "../utils.js";
 
 let view, widget;
 
 onInit("direct-line-measurement", () => {
-  view = initView(ESRI_OFFICE_BSL);
+  view = initView();
+  addWidget();
 });
+
+onFragment("set-units", setUnits);
 
 /**
  * Creates a new DirectLineMeasurement3D widget and adds it to the view.
