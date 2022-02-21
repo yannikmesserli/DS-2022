@@ -7,6 +7,8 @@ let view, widget;
 
 onInit("shadow-cast", () => {
   view = initView(SHADOW_CAST);
+  view.environment.lighting.directShadowsEnabled = false;
+
   widget = new ShadowCast({ view });
   view.ui.add(widget, "top-right");
 });

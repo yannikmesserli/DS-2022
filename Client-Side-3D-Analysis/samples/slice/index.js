@@ -1,11 +1,11 @@
 // @ts-check
-import LineOfSight from "esri/widgets/LineOfSight.js";
+import Slice from "esri/widgets/Slice.js";
 import { initView, onInit } from "../utils.js";
 
 let view, widget;
 
-onInit("line-of-sight", () => {
+onInit("slice", () => {
   view = initView();
-  widget = new LineOfSight({ view });
+  widget = new Slice({ view });
   view.ui.add(widget, "top-right");
 });

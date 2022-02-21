@@ -2,10 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <title>Esri Dev Summit 2022</title>
 
@@ -114,7 +111,7 @@
 
       .two-columns .left-column {
         position: relative;
-        width: 50%;
+        width: 60%;
       }
 
       .two-columns .right-column {
@@ -156,21 +153,12 @@
   <body>
     <div class="reveal">
       <div class="slides">
-        <section
-          data-background="../reveal.js/img/2022/dev-summit/bg-1.png"
-          data-background-size="cover"
-        >
+        <section data-background="../reveal.js/img/2022/dev-summit/bg-1.png" data-background-size="cover">
           <h1 style="text-align: left; font-size: 60px">
             ArcGIS API for JavaScript:<br />
             Client-Side 3D Analysis
           </h1>
-          <p
-            style="
-              text-align: left;
-              font-size: 30px;
-              color: var(--r-section-subhead-color);
-            "
-          >
+          <p style="text-align: left; font-size: 30px; color: var(--r-section-subhead-color)">
             Grete Soosalu, Hugo Campos & Yannik Messerli
           </p>
           <p style="text-align: left; font-size: 30px">
@@ -208,9 +196,7 @@
             </div>
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe
-                  data-src="./samples/0-direct-line-measurement/"
-                ></iframe>
+                <iframe data-src="./samples/direct-line-measurement/"></iframe>
               </div>
             </div>
           </div>
@@ -250,9 +236,7 @@
             </div>
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe
-                  data-src="./samples/1-direct-line-measurement-analysis/"
-                ></iframe>
+                <iframe data-src="./samples/direct-line-measurement-analysis/"></iframe>
               </div>
             </div>
           </div>
@@ -275,12 +259,22 @@
                   </code>
                 </pre>
               </div>
+
+              <div data-fragment-id="set-units" class="code-snippet fragment">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    widget.viewModel.unit = "square-meters";
+                    widget.viewModel.unitOptions = [
+                      "square-meters",
+                      "square-kilometers"
+                    ];
+                  </code>
+                </pre>
+              </div>
             </div>
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe
-                  data-src="./samples/2-direct-line-measurement-analysis/"
-                ></iframe>
+                <iframe data-src="./samples/area-measurement/"></iframe>
               </div>
             </div>
           </div>
@@ -308,19 +302,13 @@
             </div>
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe
-                  data-src="./samples/3-are-measurement-analysis/"
-                ></iframe>
+                <iframe data-src="./samples/area-measurement-analysis/"></iframe>
               </div>
             </div>
           </div>
         </section>
 
-        <section
-          class="align-left"
-          data-slideId="slice"
-          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
-        >
+        <section class="align-left" data-slideId="slice" data-background="../reveal.js/img/2022/dev-summit/bg-7.png">
           <h2>Slice widget</h2>
           <div class="two-columns">
             <div class="left-column">
@@ -336,7 +324,7 @@
             </div>
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe data-src="./samples/4-slice/"></iframe>
+                <iframe data-src="./samples/slice/"></iframe>
               </div>
             </div>
           </div>
@@ -364,7 +352,7 @@
             </div>
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe data-src="./samples/5-slice-analysis/"></iframe>
+                <iframe data-src="./samples/slice-analysis/"></iframe>
               </div>
             </div>
           </div>
@@ -390,7 +378,7 @@
             </div>
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe data-src="./samples/6-line-of-sight/"></iframe>
+                <iframe data-src="./samples/line-of-sight/"></iframe>
               </div>
             </div>
           </div>
@@ -416,7 +404,36 @@
             </div>
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe data-src="./samples/7-line-of-sight-analysis/"></iframe>
+                <iframe data-src="./samples/line-of-sight-analysis/"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="align-left"
+          data-slideId="shadow-cast"
+          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
+        >
+          <h2>ShadowCast widget</h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const widget = new ShadowCast({ view });
+
+                    // Show only accumulated shadows
+                    view.environment.lighting.directShadowsEnabled = false;
+
+                    view.ui.add(widget, "top-right");
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/shadow-cast/"></iframe>
               </div>
             </div>
           </div>
@@ -433,8 +450,24 @@
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
-                    const widget = new ElevationProfile({ view });
+                    const widget = new ElevationProfile({
+                      view,
+                      profiles: [
+                        {
+                          type: "ground",
+                          color: "#61d4a4",
+                          title: "Ground", 
+                        },
+                        {
+                          type: "view",
+                          color: "#8f61d4",
+                          title: "Layers",
+                          exclude: [view.map.ground],
 
+                        },
+                      ],
+                    });
+                    
                     view.ui.add(widget, "top-right");
                   </code>
                 </pre>
@@ -442,42 +475,13 @@
             </div>
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe data-src="./samples/8-elevation-profile/"></iframe>
+                <iframe data-src="./samples/elevation-profile/"></iframe>
               </div>
             </div>
           </div>
         </section>
 
-        <section
-          class="align-left"
-          data-slideId="elevation-profile"
-          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
-        >
-          <h2>ShadowCast widget</h2>
-          <div class="two-columns">
-            <div class="left-column">
-              <div data-fragment-id="add-widget" class="code-snippet">
-                <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
-                    const widget = new ShadowCast({ view });
-
-                    view.ui.add(widget, "top-right");
-                  </code>
-                </pre>
-              </div>
-            </div>
-            <div class="right-column">
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/9-shadow-cast/"></iframe>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
           <h1>Querying and Filtering a SceneLayer</h1>
         </section>
 
@@ -521,9 +525,7 @@
             </div>
 
             <div class="right-column">
-              <iframe
-                data-src="./samples/queries-and-filters/01-custom-popups/"
-              ></iframe>
+              <iframe data-src="./samples/queries-and-filters/01-custom-popups/"></iframe>
             </div>
           </div>
         </section>
@@ -569,17 +571,12 @@
             </div>
 
             <div class="right-column">
-              <iframe
-                data-src="./samples/queries-and-filters/01-custom-popups/"
-              ></iframe>
+              <iframe data-src="./samples/queries-and-filters/01-custom-popups/"></iframe>
             </div>
           </div>
         </section>
 
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
           <h2>Filters vs Queries</h2>
 
           <img src="./images/filter_vs_query.png" width="800px" />
@@ -623,29 +620,18 @@
             </div>
 
             <div class="right-column">
-              <iframe
-                data-src="./samples/queries-and-filters/02-filter-attributes/"
-              ></iframe>
+              <iframe data-src="./samples/queries-and-filters/02-filter-attributes/"></iframe>
             </div>
           </div>
         </section>
 
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
           <h2>Documentation</h2>
-          -
-          https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html
-          -
+          - https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html -
           https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-SceneLayerView.html#filter
         </section>
 
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-          title="timeslider"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png" title="timeslider">
           <h2>Adding a Time Slider</h2>
 
           <div class="two-columns">
@@ -681,26 +667,17 @@
               </div>
             </div>
             <div class="right-column">
-              <iframe
-                data-src="./samples/queries-and-filters/03-timeslider/"
-              ></iframe>
+              <iframe data-src="./samples/queries-and-filters/03-timeslider/"></iframe>
             </div>
           </div>
         </section>
 
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
           <h2>Documentation</h2>
           https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html
         </section>
 
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-          title="query-attribute"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png" title="query-attribute">
           <h2>Attribute Queries</h2>
 
           <div class="two-columns">
@@ -733,18 +710,12 @@
             </div>
 
             <div class="right-column">
-              <iframe
-                data-src="./samples/queries-and-filters/04-query-attributes/"
-              ></iframe>
+              <iframe data-src="./samples/queries-and-filters/04-query-attributes/"></iframe>
             </div>
           </div>
         </section>
 
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-          title="query-attribute"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png" title="query-attribute">
           <h2>Attribute Queries</h2>
 
           <div class="two-columns">
@@ -764,18 +735,12 @@
             </div>
 
             <div class="right-column">
-              <iframe
-                data-src="./samples/queries-and-filters/04-query-attributes/"
-              ></iframe>
+              <iframe data-src="./samples/queries-and-filters/04-query-attributes/"></iframe>
             </div>
           </div>
         </section>
 
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-          title="query-statistic"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png" title="query-statistic">
           <h2>Statistic Queries</h2>
 
           <div class="two-columns">
@@ -799,18 +764,12 @@
             </div>
 
             <div class="right-column">
-              <iframe
-                data-src="./samples/queries-and-filters/05-query-statistic/"
-              ></iframe>
+              <iframe data-src="./samples/queries-and-filters/05-query-statistic/"></iframe>
             </div>
           </div>
         </section>
 
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-          title="query-statistic"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png" title="query-statistic">
           <h2>Statistic Queries</h2>
 
           <div class="two-columns">
@@ -838,18 +797,12 @@ layerView.queryFeatures(query).then(function(response) {
             </div>
 
             <div class="right-column">
-              <iframe
-                data-src="./samples/queries-and-filters/05-query-statistic/"
-              ></iframe>
+              <iframe data-src="./samples/queries-and-filters/05-query-statistic/"></iframe>
             </div>
           </div>
         </section>
 
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-          title="spatial"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png" title="spatial">
           <h2>Spatial Filters and Queries</h2>
 
           <div class="two-columns">
@@ -891,44 +844,29 @@ debouncedQuery();</code></pre>
             </div>
 
             <div class="right-column">
-              <iframe
-                data-src="./samples/queries-and-filters/06-query-geometry/"
-              ></iframe>
+              <iframe data-src="./samples/queries-and-filters/06-query-geometry/"></iframe>
             </div>
           </div>
         </section>
 
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
           <h2>Spatial Relationships</h2>
 
           <img src="./images/spatial_relationships.png" />
         </section>
 
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
           <h2>Documentation</h2>
           https://developers.arcgis.com/javascript/latest/api-reference/esri-tasks-support-Query.html
         </section>
 
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-4.png"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
           <h2>Additional Resources</h2>
-          - https://developers.arcgis.com/javascript/latest/sample-code/ -
-          https://arcg.is/008mnO
+          - https://developers.arcgis.com/javascript/latest/sample-code/ - https://arcg.is/008mnO
         </section>
 
         <!-- FEEDBACK SLIDE: -->
-        <section
-          data-markdown
-          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
-        >
+        <section data-markdown data-background="../reveal.js/img/2022/dev-summit/bg-7.png">
           <textarea data-template>
             Please provide your feedback for this session by clicking on the session survey link directly below the video.
           </textarea>
