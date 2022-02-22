@@ -25,4 +25,9 @@ module.exports = defineConfig(({ command }) => ({
       },
     },
   },
+  resolve: {
+    alias: {
+      json2csv: "json2csv/dist/json2csv.umd.js",
+    },
+  },
 }));

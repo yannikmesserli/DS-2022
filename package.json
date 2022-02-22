@@ -18,6 +18,8 @@
   "homepage": "https://github.com/yannikmesserli/DS-2022#readme",
   "dependencies": {
     "@arcgis/core": "next",
+    "file-saver": "^2.0.5",
+    "json2csv": "^5.0.6",
     "vite": "^2.8.4"
   }
 }
