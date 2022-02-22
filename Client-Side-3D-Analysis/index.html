@@ -89,7 +89,7 @@
       .two-columns {
         display: flex;
         flex-direction: row;
-        margin: calc(var(--r-block-margin) * -1);
+        gap: var(--r-block-margin);
       }
 
       .two-columns iframe {
@@ -109,6 +109,11 @@
         aspect-ratio: 4 / 3;
       }
 
+      .two-columns pre {
+        margin: 0;
+        width: 100%;
+      }
+
       .two-columns .left-column {
         position: relative;
         width: 60%;
@@ -117,8 +122,7 @@
       .two-columns .right-column {
         position: relative;
         flex-grow: 1;
-        padding: var(--r-block-margin);
-        padding-left: 0;
+        padding: 0;
       }
 
       button.play {
@@ -499,6 +503,39 @@
                 <iframe data-src="./samples/elevation-profile/"></iframe>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section
+          class="align-left"
+          data-slideId="pass-analysis-to-widgets"
+          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
+        >
+          <h2>Passing analysis to widgets</h2>
+          <div class="code-snippet">
+            <pre style="margin: 0">
+              <code class="lang-ts" data-trim data-line-numbers>
+              const lineAnalysis = new DirectLineMeasurementAnalysis({ /* ... */ });
+              const lineWidget = new DirectLineMeasurement3D({ 
+                analysis: lineAnalysis
+              });
+              
+              const areaAnalysis = new AreaMeasurementAnalysis({ /* ... */ });
+              const areaWidget = new AreaMeasurement3D({ 
+                analysis: areaAnalysis
+              });
+
+              const sliceAnalysis = new SliceAnalysis({ /* ... */ });
+              const sliceWidget = new Slice({ 
+                analysis: sliceAnalysis
+              });
+
+              const lineOfSightAnalysis = new LineOfSightAnalysis({ /* ... */ });
+              const lineOfSightWidget = new LineOfSight({ 
+                analysis: lineOfSightAnalysis
+              });
+              </code>
+            </pre>
           </div>
         </section>
 
