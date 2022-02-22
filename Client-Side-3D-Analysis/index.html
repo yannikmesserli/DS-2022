@@ -174,7 +174,7 @@
         <section
           class="align-left"
           data-slideId="direct-line-measurement"
-          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
+          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
         >
           <h2>DirectLineMeasurement3D widget</h2>
           <div class="two-columns">
@@ -209,7 +209,7 @@
         <section
           class="align-left"
           data-slideId="direct-line-measurement-analysis"
-          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
+          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
         >
           <h2>DirectLineMeasurementAnalysis</h2>
           <div class="two-columns">
@@ -251,7 +251,7 @@
         <section
           class="align-left"
           data-slideId="area-measurement"
-          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
+          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
         >
           <h2>AreaMeasurement3D widget</h2>
           <div class="two-columns">
@@ -289,7 +289,7 @@
         <section
           class="align-left"
           data-slideId="area-measurement-analysis"
-          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
+          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
         >
           <h2>AreaMeasurementAnalysis</h2>
           <div class="two-columns">
@@ -333,7 +333,7 @@
           </div>
         </section>
 
-        <section class="align-left" data-slideId="slice" data-background="../reveal.js/img/2022/dev-summit/bg-7.png">
+        <section class="align-left" data-slideId="slice" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2>Slice widget</h2>
           <div class="two-columns">
             <div class="left-column">
@@ -358,19 +358,40 @@
         <section
           class="align-left"
           data-slideId="slice-analysis"
-          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
+          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
         >
           <h2>SliceAnalysis</h2>
           <div class="two-columns">
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
-                    const analysis = new SliceAnalysis({
-                      shape
+                  <code class="lang-ts" data-trim data-line-numbers="1-7|10-12|14-25|1-26">
+                  const slidesAndPlanes = [{
+                    title: "Front",
+                    shape: new SlicePlane({ /* ... */ }),
+                  }, {
+                    title: "Top",
+                    shape: new SlicePlane({ /* ... */ }),
+                  }];
+
+                  slidesAndPlanes.forEach(({ title, shape }) => {
+                    const slide = view.map.presentation.slides.find((s) => {
+                      return s.title.text === title;
                     });
-                  
-                    view.analyses.add(analysis);
+
+                    const button = document.createElement("calcite-button");
+                    button.textContent = title;
+                    button.onclick = () => {
+                      // Cut through the building
+                      view.analyses.removeAll();
+                      view.analyses.add(new Slice({ shape }));
+
+                      // Move camera to the right position
+                      slide.applyTo(view);
+                    };
+
+                    view.ui.add(button, "bottom-left");
+                  });
                   </code>
                 </pre>
               </div>
@@ -386,7 +407,7 @@
         <section
           class="align-left"
           data-slideId="line-of-sight"
-          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
+          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
         >
           <h2>LineOfSight widget</h2>
           <div class="two-columns">
@@ -412,7 +433,7 @@
         <section
           class="align-left"
           data-slideId="line-of-sight-analysis"
-          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
+          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
         >
           <h2>LineOfSightAnalysis</h2>
           <div class="two-columns">
@@ -438,7 +459,7 @@
         <section
           class="align-left"
           data-slideId="shadow-cast"
-          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
+          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
         >
           <h2>ShadowCast widget</h2>
           <div class="two-columns">
@@ -467,7 +488,7 @@
         <section
           class="align-left"
           data-slideId="elevation-profile"
-          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
+          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
         >
           <h2>ElevationProfile widget</h2>
           <div class="two-columns">
@@ -509,7 +530,7 @@
         <section
           class="align-left"
           data-slideId="pass-analysis-to-widgets"
-          data-background="../reveal.js/img/2022/dev-summit/bg-7.png"
+          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
         >
           <h2>Passing analysis to widgets</h2>
           <div class="code-snippet">
