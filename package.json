@@ -1,0 +1,23 @@
+{
+  "name": "ds-2022",
+  "version": "0.0.1",
+  "description": "Repository of presentations for Esri's DevSummit 2022 in Palm Springs",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yannikmesserli/DS-2022.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yannikmesserli/DS-2022/issues"
+  },
+  "homepage": "https://github.com/yannikmesserli/DS-2022#readme",
+  "dependencies": {
+    "@arcgis/core": "next",
+    "vite": "^2.8.4"
+  }
+}

@@ -1,5 +1,5 @@
 // @ts-check
-import AreaMeasurement3D from "esri/widgets/AreaMeasurement3D.js";
+import AreaMeasurement3D from "@arcgis/core/widgets/AreaMeasurement3D.js";
 import { initView, onFragment, onInit } from "../utils.js";
 
 let view, widget;

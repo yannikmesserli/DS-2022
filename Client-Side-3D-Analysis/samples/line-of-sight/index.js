@@ -1,5 +1,5 @@
 // @ts-check
-import LineOfSight from "esri/widgets/LineOfSight.js";
+import LineOfSight from "@arcgis/core/widgets/LineOfSight.js";
 import { SHADOW_CAST } from "../scenes.js";
 import { initView, onInit } from "../utils.js";
 

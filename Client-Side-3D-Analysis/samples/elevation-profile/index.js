@@ -1,5 +1,5 @@
 // @ts-check
-import ElevationProfile from "esri/widgets/ElevationProfile.js";
+import ElevationProfile from "@arcgis/core/widgets/ElevationProfile.js";
 import { MANHATTAN } from "../scenes.js";
 import { initView, onInit } from "../utils.js";
 

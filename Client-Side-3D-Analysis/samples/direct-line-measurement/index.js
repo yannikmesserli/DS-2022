@@ -1,5 +1,5 @@
 // @ts-check
-import DirectLineMeasurement3D from "esri/widgets/DirectLineMeasurement3D.js";
+import DirectLineMeasurement3D from "@arcgis/core/widgets/DirectLineMeasurement3D.js";
 import { initView, onFragment, onInit } from "../utils.js";
 
 let view, widget;
@@ -14,3 +14,5 @@ onFragment("set-units", () => {
   widget.viewModel.unit = "kilometers";
   widget.viewModel.unitOptions = ["meters", "kilometers"];
 });
+
+console.log("test");

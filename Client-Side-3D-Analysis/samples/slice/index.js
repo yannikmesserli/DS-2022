@@ -1,5 +1,5 @@
 // @ts-check
-import Slice from "esri/widgets/Slice.js";
+import Slice from "@arcgis/core/widgets/Slice.js";
 import { initView, onInit } from "../utils.js";
 
 let view, widget;

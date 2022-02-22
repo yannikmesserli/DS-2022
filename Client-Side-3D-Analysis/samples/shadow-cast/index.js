@@ -1,5 +1,5 @@
 // @ts-check
-import ShadowCast from "esri/widgets/ShadowCast.js";
+import ShadowCast from "@arcgis/core/widgets/ShadowCast.js";
 import { SHADOW_CAST } from "../scenes.js";
 import { initView, onInit } from "../utils.js";
 
