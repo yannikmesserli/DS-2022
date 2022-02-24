@@ -1,5 +1,5 @@
 // @ts-check
-import DirectLineMeasurement from "@arcgis/core/analysis/DirectLineMeasurement.js";
+import DirectLineMeasurementAnalysis from "@arcgis/core/analysis/DirectLineMeasurementAnalysis.js";
 import Point from "@arcgis/core/geometry/Point.js";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference.js";
 import { initView, onInit, throwIfAborted } from "../utils.js";
@@ -30,7 +30,7 @@ onInit("direct-line-measurement-analysis", () => {
       return;
     }
 
-    const analysis = new DirectLineMeasurement({
+    const analysis = new DirectLineMeasurementAnalysis({
       startPoint: result.graphic.geometry,
       endPoint: palmSprings,
     });

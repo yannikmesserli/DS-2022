@@ -1,5 +1,5 @@
 // @ts-check
-import Slice from "@arcgis/core/analysis/Slice";
+import SliceAnalysis from "@arcgis/core/analysis/SliceAnalysis";
 import SlicePlane from "@arcgis/core/analysis/SlicePlane";
 import "@esri/calcite-components";
 import "@esri/calcite-components/dist/components/button";
@@ -69,7 +69,7 @@ function addSlideButton({ title, shape }) {
   button.onclick = () => {
     // Apply the slice to show the inside of the building.
     view.analyses.removeAll();
-    view.analyses.add(new Slice({ shape }));
+    view.analyses.add(new SliceAnalysis({ shape }));
 
     // Move to the right viewpoint.
     slide.applyTo(view);

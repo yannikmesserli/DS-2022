@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Esri Dev Summit 2022 - ArcGIS JS API for JavaScript: Web editing in 3D</title>
+
+    <link rel="stylesheet" href="../reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="../reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="../reveal.js/dist/theme/black.css" />
+    <link rel="stylesheet" href="../reveal.js/plugin/highlight/monokai.css" />
+    <link rel="stylesheet" href="../main.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-background="../reveal.js/img/2022/dev-summit/bg-1.png" data-background-size="cover">
+          <h1 style="text-align: left; font-size: 60px">
+            ArcGIS JS API for JavaScript: <br />
+            Web editing in 3D
+          </h1>
+          <p style="text-align: left; font-size: 30px; color: var(--r-section-subhead-color)">
+            Grete Soosalu, Hugo Campos & Jesse van den Kieboom
+          </p>
+          <p style="text-align: left; font-size: 30px">
+            Slides:
+            <a href="http://bit.ly/abc123"><code>http://bit.ly/abc123</code></a>
+          </p>
+        </section>
+
+        <section
+          class="align-left"
+          data-slideId="direct-line-measurement"
+          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
+        >
+          <h2>Title 1</h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const widget = new DirectLineMeasurement3D({ view });
+
+                    view.ui.add(widget, "top-right");
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="set-units" class="code-snippet fragment">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    widget.viewModel.unit = "kilometers";
+                    widget.viewModel.unitOptions = ["meters", "kilometers"];
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/direct-line-measurement/"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
+          <h2>Header</h2>
+
+          <img src="./images/spatial_relationships.png" />
+        </section>
+
+        <!-- FEEDBACK SLIDE: -->
+        <section data-markdown data-background="../reveal.js/img/2022/dev-summit/bg-7.png">
+          <textarea data-template>
+            Please provide your feedback for this session by clicking on the session survey link directly below the video.
+          </textarea>
+        </section>
+
+        <!-- ESRI LOGO SLIDE: -->
+        <section data-background="../reveal.js/img/2022/dev-summit/bg-8.png">
+          <!-- <img src="img/esri-science-logo-white.png" /> -->
+        </section>
+      </div>
+    </div>
+
+    <script src="../reveal.js/dist/reveal.js"></script>
+    <script src="../reveal.js/plugin/notes/notes.js"></script>
+    <script src="../reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../reveal.js/plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>

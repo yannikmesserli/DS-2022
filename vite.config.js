@@ -1,27 +1,32 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
 
-const samples = [
-  "direct-line-measurement",
-  "direct-line-measurement-analysis",
-  "area-measurement",
-  "area-measurement-analysis",
-  "line-of-sight",
-  "line-of-sight-analysis",
-  "shadow-cast",
-  "elevation-profile",
-];
+const talks = {
+  ["web-editing-in-3d"]: [],
+  ["Client-Side-3D-Analysis"]: [
+    "direct-line-measurement",
+    "direct-line-measurement-analysis",
+    "area-measurement",
+    "area-measurement-analysis",
+    "line-of-sight",
+    "line-of-sight-analysis",
+    "shadow-cast",
+    "elevation-profile",
+  ],
+};
 
 module.exports = defineConfig(({ command }) => ({
   base: command === "build" ? "https://zrh-dev-local/DS-2022/dist/" : "./",
   build: {
     rollupOptions: {
       input: {
-        ["Client-Side-3D-Analysis"]: resolve(__dirname, "Client-Side-3D-Analysis", "index.html"),
-        ...samples.reduce((res, name) => {
-          res[name] = resolve(__dirname, `Client-Side-3D-Analysis/samples`, name, "index.html");
-          return res;
-        }, {}),
+        ...Object.entries(talks).reduce((res, [talkFolder, samples]) => {
+          res[talkFolder] = resolve(__dirname, talkFolder, "index.html");
+          for (const sampleFolder of samples) {
+            const path = `${talkFolder}\${sampleFolder}`;
+            res[path] = resolve(__dirname, path, sampleFolder, "index.html");
+          }
+        }),
       },
     },
   },

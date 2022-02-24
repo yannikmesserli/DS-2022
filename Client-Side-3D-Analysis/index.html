@@ -4,161 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-    <title>Esri Dev Summit 2022</title>
+    <title>Esri Dev Summit 2022 - ArcGIS JS API: Client-side 3D analysis</title>
 
     <link rel="stylesheet" href="../reveal.js/dist/reset.css" />
     <link rel="stylesheet" href="../reveal.js/dist/reveal.css" />
     <link rel="stylesheet" href="../reveal.js/dist/theme/black.css" />
-
-    <!-- Override the Reveal theme varables: -->
-    <!-- https://github.com/hakimel/reveal.js/blob/master/css/theme/template/exposer.scss -->
-    <style type="text/css">
-      :root {
-        /* Color from slides */
-        --r-background-color: #01114f;
-
-        /* Main text color */
-        --r-main-color: #fff;
-
-        /* Arial font is recommended */
-        --r-heading-font: Arial, Helvetica Neue, Helvetica, sans-serif;
-        --r-main-font: Arial, Helvetica Neue, Helvetica, sans-serif;
-
-        /* For consistency with the template: */
-        --r-heading-font-weight: normal;
-        --r-heading-text-transform: none;
-        --r-heading-text-shadow: none;
-
-        /* Section subheader color per theme */
-        --r-section-subhead-color: #00ec86;
-
-        --iframe-scale: 0.4;
-      }
-
-      .reveal {
-        font-family: var(--r-main-font);
-        font-weight: normal;
-      }
-
-      .reveal h1,
-      .reveal h2,
-      .reveal h3 {
-        text-transform: none;
-        font-family: var(--r-heading-font);
-        font-weight: normal;
-      }
-
-      .reveal h2 {
-        font-size: 38px;
-      }
-
-      .reveal pre {
-        font-size: 0.25em;
-      }
-
-      .reveal .subtitle {
-        font-size: 80%;
-        margin-top: -30px;
-      }
-
-      .sink {
-        border-radius: 10px;
-        background: rgba(0, 0, 0, 0.5);
-        padding: 20px;
-        padding-bottom: 0;
-        color: white;
-      }
-
-      .subhead {
-        font-size: 24px;
-        color: var(--r-section-subhead-color);
-      }
-
-      .align-left .subhead,
-      .align-left h1,
-      .align-left h2,
-      .align-left h3 {
-        text-align: left;
-      }
-
-      .align-right .subhead,
-      .align-right h1,
-      .align-right h2,
-      .align-right h3 {
-        text-align: right;
-      }
-
-      .two-columns {
-        display: flex;
-        flex-direction: row;
-        gap: var(--r-block-margin);
-      }
-
-      .two-columns iframe {
-        top: 0;
-        left: 0;
-        width: calc(100% / var(--iframe-scale));
-        max-width: unset;
-        max-height: unset;
-        aspect-ratio: 4 / 3;
-        transform: translate(-50%, -50%) scale(var(--iframe-scale)) translate(50%, 50%);
-        background: #fff;
-      }
-
-      .two-columns .iframe-wrapper {
-        overflow: hidden;
-        width: 100%;
-        aspect-ratio: 4 / 3;
-      }
-
-      .two-columns pre {
-        margin: 0;
-        width: 100%;
-      }
-
-      .two-columns .left-column {
-        position: relative;
-        width: 60%;
-      }
-
-      .two-columns .right-column {
-        position: relative;
-        flex-grow: 1;
-        padding: 0;
-      }
-
-      .two-columns .code-snippet.fragment.visible {
-        margin-top: var(--r-block-margin);
-      }
-
-      button.play {
-        width: 32px;
-        height: 32px;
-
-        border: none;
-        outline: none;
-        position: absolute;
-        margin-right: 10px;
-        margin-top: -12px;
-        right: 0;
-
-        cursor: pointer;
-
-        background-color: rgba(0, 0, 0, 0);
-        background-image: url("./images/play_64_50.png");
-        background-size: 32px;
-        background-repeat: no-repeat;
-
-        z-index: 10;
-      }
-
-      button.play:hover {
-        background-image: url("./images/play_64.png");
-      }
-    </style>
-
-    <!-- Theme used for syntax highlighted code -->
     <link rel="stylesheet" href="../reveal.js/plugin/highlight/monokai.css" />
+    <link rel="stylesheet" href="../main.css" />
   </head>
   <body>
     <div class="reveal">
@@ -234,7 +86,7 @@
                       return;
                     }
 
-                    const analysis = new DirectLineMeasurement({ 
+                    const analysis = new DirectLineMeasurementAnalysis({ 
                       startPoint: result.graphic.geometry,
                       endPoint: palmSprings
                     });
@@ -502,23 +354,7 @@
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
-                  const widget = new ElevationProfile({
-                    view,
-                    profiles: [
-                      {
-                        type: "ground",
-                        color: "#61d4a4",
-                        title: "Ground", 
-                      },
-                      {
-                        type: "view",
-                        color: "#8f61d4",
-                        title: "Layers",
-                        exclude: [view.map.ground],
-
-                      },
-                    ],
-                  });
+                  const widget = new ElevationProfile({ view });
                   
                   view.ui.add(widget, "top-right");
                   </code>

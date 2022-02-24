@@ -1,16 +1,13 @@
 // @ts-check
-import Camera from "@arcgis/core/Camera";
-import AreaMeasurement from "@arcgis/core/analysis/AreaMeasurement";
-import Polygon from "@arcgis/core/geometry/Polygon";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
-import MeshSymbol3D from "@arcgis/core/symbols/MeshSymbol3D";
-import FillSymbol3DLayer from "@arcgis/core/symbols/FillSymbol3DLayer";
-import SceneLayer from "@arcgis/core/layers/SceneLayer";
-import Graphic from "@arcgis/core/Graphic";
-import Extent from "@arcgis/core/geometry/Extent";
-import { initView, onInit, throwIfAborted, throwIfNotAbortError } from "../utils";
-import SpatialReference from "@arcgis/core/geometry/SpatialReference";
+import Camera from "@arcgis/core/Camera.js";
+import AreaMeasurementAnalysis from "@arcgis/core/analysis/AreaMeasurementAnalysis.js";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
+import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer.js";
+import MeshSymbol3D from "@arcgis/core/symbols/MeshSymbol3D.js";
+import FillSymbol3DLayer from "@arcgis/core/symbols/FillSymbol3DLayer.js";
+import SceneLayer from "@arcgis/core/layers/SceneLayer.js";
+import { initView, onInit, throwIfAborted, throwIfNotAbortError } from "../utils.js";
+import SpatialReference from "@arcgis/core/geometry/SpatialReference.js";
 
 let view;
 
@@ -59,7 +56,7 @@ onInit("area-measurement-analysis", () => {
       footprint.rings = footprint.rings.map((ring) => ring.map(([x, y]) => [x, y, extent.zmax + 10]));
       footprint.hasZ = true;
 
-      const analysis = new AreaMeasurement({
+      const analysis = new AreaMeasurementAnalysis({
         geometry: footprint,
         unit: "square-feet",
       });

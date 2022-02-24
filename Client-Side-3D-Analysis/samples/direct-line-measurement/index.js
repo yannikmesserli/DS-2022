@@ -1,5 +1,5 @@
 // @ts-check
-import DirectLineMeasurement3D from "@arcgis/core/widgets/DirectLineMeasurement3D.js";
+import DirectLineMeasurement3D from "@arcgis/core/widgets/DirectLineMeasurement3D";
 import { initView, onFragment, onInit } from "../utils.js";
 
 let view, widget;

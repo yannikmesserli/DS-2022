@@ -5,7 +5,7 @@ import ElevationProfileLineGround from "@arcgis/core/widgets/ElevationProfile/El
 import ElevationProfileLineView from "@arcgis/core/widgets/ElevationProfile/ElevationProfileLineView";
 import { saveAs } from "file-saver";
 import { Parser } from "json2csv";
-import { MANHATTAN } from "../scenes.js";
+import { HIKING_TRAILS, MANHATTAN } from "../scenes.js";
 import { initView, onFragment, onInit, throwIfAborted, throwIfNotAbortError } from "../utils.js";
 
 let view, widget;
@@ -17,7 +17,7 @@ onInit("elevation-profile", () => {
 });
 
 onInit("elevation-profile-csv", () => {
-  view = initView(MANHATTAN);
+  view = initView(HIKING_TRAILS);
   addWidget();
   addButton();
 });
