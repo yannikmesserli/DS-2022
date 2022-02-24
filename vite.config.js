@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 
 const talks = {
   ["web-editing-in-3d"]: ["advanced-editing"],
-  ["Client-Side-3D-Analysis"]: [
+  ["client-side-3d-analysis"]: [
     "direct-line-measurement",
     "direct-line-measurement-analysis",
     "area-measurement",
