@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "strict": true,
     "target": "ESNext",
     "moduleResolution": "Node",
     "lib": ["ESNext", "DOM"]
-  }
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["**/node_modules/**"]
 }

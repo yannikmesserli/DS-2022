@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/file-saver": "^2.0.5",
     "@types/json2csv": "5.0.3",
-    "@types/reveal": "4.2.0"
+    "@types/reveal": "4.2.0",
+    "typescript": "4.5.5"
   }
 }

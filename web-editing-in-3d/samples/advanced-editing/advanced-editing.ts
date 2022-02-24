@@ -148,7 +148,7 @@ const selectedFloorSymbol = new PolygonSymbol3D({
   ],
 });
 
-let selectedFloor: Graphic = null;
+let selectedFloor: Graphic | null = null;
 
 const extrudeLayer = new GraphicsLayer();
 view.map.add(extrudeLayer);
@@ -228,7 +228,11 @@ extrudeSVM.on("update", (ev) => {
     return;
   }
 
-  const originalZ = (selectedFloor.geometry as Polygon).rings[0][0][2];
+  if (!selectedFloor) {
+    return;
+  }
+
+  const originalZ = (selectedFloor.geometry as Polygon)?.rings[0][0][2];
   const z = (ev.graphics[0].geometry as Point).z;
 
   const numFloors = Math.max(0, Math.floor((z - originalZ) / 3) - 1);
@@ -293,6 +297,6 @@ drawingSVM.on("update", (ev) => {
   }
 });
 
-document.getElementById("action-masking").addEventListener("click", actionMasking);
-document.getElementById("action-draw-building").addEventListener("click", actionDrawBuilding);
-document.getElementById("action-extrude-building").addEventListener("click", actionExtrudeBuilding);
+document.getElementById("action-masking")!.addEventListener("click", actionMasking);
+document.getElementById("action-draw-building")!.addEventListener("click", actionDrawBuilding);
+document.getElementById("action-extrude-building")!.addEventListener("click", actionExtrudeBuilding);

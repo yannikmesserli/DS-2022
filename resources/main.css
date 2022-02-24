@@ -31,6 +31,7 @@
   text-transform: none;
   font-family: var(--r-heading-font);
   font-weight: normal;
+  margin-bottom: 0.5em;
 }
 
 .reveal h2 {
@@ -38,12 +39,20 @@
 }
 
 .reveal pre {
-  font-size: 0.25em;
+  font-size: 0.7rem;
 }
 
 .reveal .subtitle {
   font-size: 80%;
   margin-top: -30px;
+}
+
+.reveal ul {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+  font-weight: 100;
+  gap: 0.5em;
 }
 
 .sink {
@@ -75,11 +84,6 @@
 
 iframe {
   background: #fff;
-}
-
-iframe.full-size {
-  width: 100vw;
-  aspect-ratio: 16/9;
 }
 
 .two-columns {
