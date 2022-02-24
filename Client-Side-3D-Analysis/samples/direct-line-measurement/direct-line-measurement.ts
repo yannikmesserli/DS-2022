@@ -1,8 +1,10 @@
 // @ts-check
+import SceneView from "@arcgis/core/views/SceneView";
 import DirectLineMeasurement3D from "@arcgis/core/widgets/DirectLineMeasurement3D";
-import { initView, onFragment, onInit } from "../utils.js";
+import { initView, onFragment, onInit } from "../utils";
 
-let view, widget;
+let view: SceneView;
+let widget: DirectLineMeasurement3D;
 
 onInit("direct-line-measurement", () => {
   view = initView();

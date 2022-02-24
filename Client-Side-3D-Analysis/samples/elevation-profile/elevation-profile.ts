@@ -1,14 +1,16 @@
 // @ts-check
 import { whenOnce } from "@arcgis/core/core/reactiveUtils";
+import SceneView from "@arcgis/core/views/SceneView";
 import ElevationProfile from "@arcgis/core/widgets/ElevationProfile.js";
 import ElevationProfileLineGround from "@arcgis/core/widgets/ElevationProfile/ElevationProfileLineGround";
 import ElevationProfileLineView from "@arcgis/core/widgets/ElevationProfile/ElevationProfileLineView";
 import { saveAs } from "file-saver";
 import { Parser } from "json2csv";
-import { HIKING_TRAILS, MANHATTAN } from "../scenes.js";
-import { initView, onFragment, onInit, throwIfAborted, throwIfNotAbortError } from "../utils.js";
+import { HIKING_TRAILS, MANHATTAN } from "../scenes";
+import { initView, onFragment, onInit, throwIfAborted, throwIfNotAbortError } from "../utils";
 
-let view, widget;
+let view: SceneView;
+let widget: ElevationProfile;
 
 onInit("elevation-profile", () => {
   view = initView(MANHATTAN);
@@ -39,7 +41,8 @@ function addWidget() {
  * elevation of everything else (buildings, integrated mesh, etc).
  */
 function setGroundAndViewProfileLines() {
-  widget.profiles = [makeGroundProfileLine(), makeViewProfileLine()];
+  widget.profiles.removeAll();
+  widget.profiles.addMany([makeGroundProfileLine(), makeViewProfileLine()]);
 }
 
 /**
@@ -79,10 +82,7 @@ function addButton() {
   view.ui.add(button, "bottom-left");
 }
 
-/**
- * @type {AbortController}
- */
-let abortController = null;
+let abortController: AbortController | null = null;
 
 /**
  * Generates a CSV file from the elevation profile data

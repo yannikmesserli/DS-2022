@@ -1,11 +1,12 @@
 // @ts-check
-import DirectLineMeasurementAnalysis from "@arcgis/core/analysis/DirectLineMeasurementAnalysis.js";
-import Point from "@arcgis/core/geometry/Point.js";
-import SpatialReference from "@arcgis/core/geometry/SpatialReference.js";
-import { initView, onInit, throwIfAborted } from "../utils.js";
-import { WORLD_CAPITALS } from "../scenes.js";
+import DirectLineMeasurementAnalysis from "@arcgis/core/analysis/DirectLineMeasurementAnalysis";
+import Point from "@arcgis/core/geometry/Point";
+import SpatialReference from "@arcgis/core/geometry/SpatialReference";
+import SceneView from "@arcgis/core/views/SceneView";
+import { WORLD_CAPITALS } from "../scenes";
+import { initView, onInit, throwIfAborted } from "../utils";
 
-let view;
+let view: SceneView;
 
 onInit("direct-line-measurement-analysis", () => {
   view = initView(WORLD_CAPITALS);
@@ -16,7 +17,7 @@ onInit("direct-line-measurement-analysis", () => {
     spatialReference: SpatialReference.WGS84,
   });
 
-  let abortController = null;
+  let abortController: AbortController | null = null;
 
   view.on("click", async (event) => {
     abortController?.abort();
@@ -35,7 +36,7 @@ onInit("direct-line-measurement-analysis", () => {
       endPoint: palmSprings,
     });
 
-    view.analyses.removeAll();
-    view.analyses.add(analysis);
+    (view as any).analyses.removeAll();
+    (view as any).analyses.add(analysis);
   });
 });

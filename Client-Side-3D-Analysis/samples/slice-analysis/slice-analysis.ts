@@ -1,24 +1,28 @@
 // @ts-check
 import SliceAnalysis from "@arcgis/core/analysis/SliceAnalysis";
 import SlicePlane from "@arcgis/core/analysis/SlicePlane";
+import SceneView from "@arcgis/core/views/SceneView";
+import WebScene from "@arcgis/core/WebScene";
 import "@esri/calcite-components";
 import "@esri/calcite-components/dist/components/button";
 import { ESRI_OFFICE_BSL } from "../scenes";
 import { initView, onInit } from "../utils";
 
-/**
- * @type {__esri.SceneView}
- */
-let view;
+let view: SceneView;
 
 onInit("slice-analysis", () => {
   view = initView(ESRI_OFFICE_BSL);
-  view.map.when(() => SLIDES.forEach(addSlideButton));
+  (view.map as WebScene).when(() => SLIDES.forEach(addSlideButton));
 });
+
+interface SlideInfo {
+  title: string;
+  shape: SlicePlane;
+}
 
 // Information about which slice plane we would like to activate for each slide
 // in our scene. We will identify the slide by its title.
-const SLIDES = [
+const SLIDES: SlideInfo[] = [
   {
     title: "Front",
     shape: new SlicePlane({
@@ -55,9 +59,9 @@ const SLIDES = [
  * Creates a button which allows selecting a viewpoint
  * from where one can look at the sliced building.
  */
-function addSlideButton({ title, shape }) {
+function addSlideButton({ title, shape }: SlideInfo) {
   // Find the slide corresponding to the slice info for which we'll create a button.
-  const slide = view.map.presentation.slides.find((s) => s.title.text === title);
+  const slide = (view.map as WebScene).presentation.slides.find((s) => s.title.text === title);
 
   // Create a button which applies the slide when clicked.
   const button = document.createElement("calcite-button");
@@ -68,8 +72,8 @@ function addSlideButton({ title, shape }) {
 
   button.onclick = () => {
     // Apply the slice to show the inside of the building.
-    view.analyses.removeAll();
-    view.analyses.add(new SliceAnalysis({ shape }));
+    (view as any).analyses.removeAll();
+    (view as any).analyses.add(new SliceAnalysis({ shape }));
 
     // Move to the right viewpoint.
     slide.applyTo(view);

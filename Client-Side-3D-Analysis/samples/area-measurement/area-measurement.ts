@@ -1,8 +1,10 @@
 // @ts-check
-import AreaMeasurement3D from "@arcgis/core/widgets/AreaMeasurement3D.js";
-import { initView, onFragment, onInit } from "../utils.js";
+import SceneView from "@arcgis/core/views/SceneView";
+import AreaMeasurement3D from "@arcgis/core/widgets/AreaMeasurement3D";
+import { initView, onFragment, onInit } from "../utils";
 
-let view, widget;
+let view: SceneView;
+let widget: AreaMeasurement3D;
 
 onInit("area-measurement", () => {
   view = initView();

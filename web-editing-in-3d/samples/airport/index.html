@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>AreaMeasurement3D</title>
+    <link rel="stylesheet" href="../../../node_modules/@arcgis/core/assets/esri/themes/light/main.css" />
+    <style>
+      html,
+      body,
+      #main {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+    <script src="./airport.ts" type="module"></script>
+  </head>
+  <body>
+    <div id="main">
+      <div id="viewDiv"></div>
+      <div id="toolbar" class="calcite-theme-dark">
+        <calcite-action-bar expand-disabled="yes">
+          <calcite-action id="action-masking" icon="group-x"></calcite-action>
+          <calcite-action id="action-draw-building" icon="urban-model-"></calcite-action>
+          <calcite-action id="action-extrude-building" icon="export-"></calcite-action>
+        </calcite-action-bar>
+      </div>
+    </div>
+  </body>
+</html>

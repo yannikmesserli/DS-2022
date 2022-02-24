@@ -1,15 +1,20 @@
 // @ts-check
-import Camera from "@arcgis/core/Camera.js";
-import AreaMeasurementAnalysis from "@arcgis/core/analysis/AreaMeasurementAnalysis.js";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
-import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer.js";
-import MeshSymbol3D from "@arcgis/core/symbols/MeshSymbol3D.js";
-import FillSymbol3DLayer from "@arcgis/core/symbols/FillSymbol3DLayer.js";
-import SceneLayer from "@arcgis/core/layers/SceneLayer.js";
-import { initView, onInit, throwIfAborted, throwIfNotAbortError } from "../utils.js";
-import SpatialReference from "@arcgis/core/geometry/SpatialReference.js";
+import AreaMeasurementAnalysis from "@arcgis/core/analysis/AreaMeasurementAnalysis";
+import Camera from "@arcgis/core/Camera";
+import Extent from "@arcgis/core/geometry/Extent";
+import Polygon from "@arcgis/core/geometry/Polygon";
+import SpatialReference from "@arcgis/core/geometry/SpatialReference";
+import Graphic from "@arcgis/core/Graphic";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import SceneLayer from "@arcgis/core/layers/SceneLayer";
+import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
+import FillSymbol3DLayer from "@arcgis/core/symbols/FillSymbol3DLayer";
+import MeshSymbol3D from "@arcgis/core/symbols/MeshSymbol3D";
+import SceneView from "@arcgis/core/views/SceneView";
+import WebScene from "@arcgis/core/WebScene";
+import { initView, onInit, throwIfAborted, throwIfNotAbortError } from "../utils";
 
-let view;
+let view: SceneView;
 
 const buildings = new SceneLayer({
   opacity: 1,
@@ -30,7 +35,7 @@ onInit("area-measurement-analysis", () => {
   view = initView();
   initScene();
 
-  let abortController = null;
+  let abortController: AbortController | null = null;
 
   view.on("click", async (e) => {
     abortController?.abort();
@@ -61,8 +66,8 @@ onInit("area-measurement-analysis", () => {
         unit: "square-feet",
       });
 
-      view.analyses.removeAll();
-      view.analyses.add(analysis);
+      (view as any).analyses.removeAll();
+      (view as any).analyses.add(analysis);
     } catch (e) {
       throwIfNotAbortError(e);
     }
@@ -70,9 +75,10 @@ onInit("area-measurement-analysis", () => {
 });
 
 function initScene() {
-  view.map.basemap = "dark-gray-vector";
-  view.map.ground = "world-elevation";
-  view.map.addMany([buildings, footprints]);
+  const scene = view.map as WebScene;
+  scene.basemap = "dark-gray-vector" as any; // Rely on auto-casting
+  scene.ground = "world-elevation" as any; // Rely on auto-casting
+  scene.addMany([buildings, footprints]);
 
   view.camera = new Camera({
     position: {
@@ -86,7 +92,7 @@ function initScene() {
   });
 }
 
-async function getFootprint(building, signal) {
+async function getFootprint(building: Graphic, signal: AbortSignal): Promise<Polygon | null> {
   const query = footprints.createQuery();
   query.objectIds = [building.getObjectId()];
   query.outFields = ["*"];
@@ -96,10 +102,10 @@ async function getFootprint(building, signal) {
   const result = await footprints.queryFeatures(query);
   throwIfAborted(signal);
 
-  return result.features.length === 0 ? null : result.features[0].geometry;
+  return result.features.length === 0 ? null : (result.features[0].geometry as Polygon);
 }
 
-async function getExtent(building, signal) {
+async function getExtent(building: Graphic, signal: AbortSignal): Promise<Extent | null> {
   const buildingsLV = await view.whenLayerView(buildings);
   throwIfAborted(signal);
 
