@@ -3,8 +3,8 @@ import DirectLineMeasurementAnalysis from "@arcgis/core/analysis/DirectLineMeasu
 import Point from "@arcgis/core/geometry/Point";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import SceneView from "@arcgis/core/views/SceneView";
-import { WORLD_CAPITALS } from "../scenes";
-import { initView, onInit, throwIfAborted } from "../utils";
+import { WORLD_CAPITALS } from "../../../common/scenes";
+import { initView, onInit, throwIfAborted } from "../../../common/utils";
 
 let view: SceneView;
 

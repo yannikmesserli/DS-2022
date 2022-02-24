@@ -1,8 +1,8 @@
 // @ts-check
 import SceneView from "@arcgis/core/views/SceneView";
 import LineOfSight from "@arcgis/core/widgets/LineOfSight";
-import { SHADOW_CAST } from "../scenes";
-import { initView, onInit } from "../utils";
+import { SHADOW_CAST } from "../../../common/scenes";
+import { initView, onInit } from "../../../common/utils";
 
 let view: SceneView;
 let widget: LineOfSight;

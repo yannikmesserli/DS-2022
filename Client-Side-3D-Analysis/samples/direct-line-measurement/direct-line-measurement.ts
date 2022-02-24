@@ -1,7 +1,7 @@
 // @ts-check
 import SceneView from "@arcgis/core/views/SceneView";
 import DirectLineMeasurement3D from "@arcgis/core/widgets/DirectLineMeasurement3D";
-import { initView, onFragment, onInit } from "../utils";
+import { initView, onFragment, onInit } from "../../../common/utils";
 
 let view: SceneView;
 let widget: DirectLineMeasurement3D;
@@ -16,5 +16,3 @@ onFragment("set-units", () => {
   widget.viewModel.unit = "kilometers";
   widget.viewModel.unitOptions = ["meters", "kilometers"];
 });
-
-console.log("test");

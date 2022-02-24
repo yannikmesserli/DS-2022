@@ -5,8 +5,8 @@ import SceneView from "@arcgis/core/views/SceneView";
 import WebScene from "@arcgis/core/WebScene";
 import "@esri/calcite-components";
 import "@esri/calcite-components/dist/components/button";
-import { ESRI_OFFICE_BSL } from "../scenes";
-import { initView, onInit } from "../utils";
+import { ESRI_OFFICE_BSL } from "../../../common/scenes";
+import { initView, onInit } from "../../../common/utils";
 
 let view: SceneView;
 

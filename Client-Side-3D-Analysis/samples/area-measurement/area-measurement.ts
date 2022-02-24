@@ -1,7 +1,7 @@
 // @ts-check
 import AreaMeasurement3D from "@arcgis/core/widgets/AreaMeasurement3D";
-import { initSanFrancisco } from "../scenes";
-import { onFragment, onInit } from "../utils";
+import { initSanFrancisco } from "../../../common/scenes";
+import { onFragment, onInit } from "../../../common/utils";
 
 let widget: AreaMeasurement3D;
 

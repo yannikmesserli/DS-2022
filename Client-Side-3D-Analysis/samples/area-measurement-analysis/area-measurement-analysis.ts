@@ -6,8 +6,8 @@ import Graphic from "@arcgis/core/Graphic";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
 import SceneView from "@arcgis/core/views/SceneView";
-import { initSanFrancisco } from "../scenes";
-import { onInit, throwIfAborted, throwIfNotAbortError } from "../utils";
+import { onInit, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
+import { initSanFrancisco } from "../../../common/scenes";
 
 let view: SceneView;
 let buildings: SceneLayer;

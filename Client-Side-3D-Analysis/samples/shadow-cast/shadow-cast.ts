@@ -1,8 +1,8 @@
 // @ts-check
 import SceneView from "@arcgis/core/views/SceneView";
-import ShadowCast from "@arcgis/core/widgets/ShadowCast.js";
-import { SHADOW_CAST } from "../scenes.js";
-import { initView, onInit } from "../utils.js";
+import ShadowCast from "@arcgis/core/widgets/ShadowCast";
+import { SHADOW_CAST } from "../../../common/scenes";
+import { initView, onInit } from "../../../common/utils";
 
 let view: SceneView;
 let widget: ShadowCast;

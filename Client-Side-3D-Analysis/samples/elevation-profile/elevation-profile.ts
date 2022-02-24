@@ -6,8 +6,8 @@ import ElevationProfileLineGround from "@arcgis/core/widgets/ElevationProfile/El
 import ElevationProfileLineView from "@arcgis/core/widgets/ElevationProfile/ElevationProfileLineView";
 import { saveAs } from "file-saver";
 import { Parser } from "json2csv";
-import { HIKING_TRAILS, MANHATTAN } from "../scenes";
-import { initView, onFragment, onInit, throwIfAborted, throwIfNotAbortError } from "../utils";
+import { HIKING_TRAILS, MANHATTAN } from "../../../common/scenes";
+import { initView, onFragment, onInit, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
 
 let view: SceneView;
 let widget: ElevationProfile;

@@ -1,12 +1,12 @@
-import SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import Point from "@arcgis/core/geometry/Point";
 import LineOfSightAnalysis from "@arcgis/core/analysis/LineOfSightAnalysis";
-import Collection from "@arcgis/core/core/Collection";
 import LineOfSightAnalysisTarget from "@arcgis/core/analysis/LineOfSightAnalysisTarget";
-import { initSanFrancisco } from "../scenes";
-import { onInit, throwIfAborted, throwIfNotAbortError } from "../utils";
 import Camera from "@arcgis/core/Camera";
+import Collection from "@arcgis/core/core/Collection";
+import Point from "@arcgis/core/geometry/Point";
+import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import SceneView from "@arcgis/core/views/SceneView";
+import { initSanFrancisco } from "../../../common/scenes";
+import { onInit, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
 
 const spatialReference = SpatialReference.WebMercator;
 const landmarks: { name: string; objectId: number; coords: number[] }[] = [
