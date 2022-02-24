@@ -1,39 +1,23 @@
 // @ts-check
 import AreaMeasurementAnalysis from "@arcgis/core/analysis/AreaMeasurementAnalysis";
-import Camera from "@arcgis/core/Camera";
 import Extent from "@arcgis/core/geometry/Extent";
 import Polygon from "@arcgis/core/geometry/Polygon";
-import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import Graphic from "@arcgis/core/Graphic";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
-import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
-import FillSymbol3DLayer from "@arcgis/core/symbols/FillSymbol3DLayer";
-import MeshSymbol3D from "@arcgis/core/symbols/MeshSymbol3D";
 import SceneView from "@arcgis/core/views/SceneView";
-import WebScene from "@arcgis/core/WebScene";
-import { initView, onInit, throwIfAborted, throwIfNotAbortError } from "../utils";
+import { initSanFrancisco } from "../scenes";
+import { onInit, throwIfAborted, throwIfNotAbortError } from "../utils";
 
 let view: SceneView;
-
-const buildings = new SceneLayer({
-  opacity: 1,
-  popupEnabled: false,
-  renderer: new SimpleRenderer({
-    symbol: new MeshSymbol3D({
-      symbolLayers: [new FillSymbol3DLayer({ material: { color: [150, 150, 150], colorMixMode: "replace" } })],
-    }),
-  }),
-  url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/SF_BLDG_WSL1/SceneServer/layers/0",
-});
-
-const footprints = new FeatureLayer({
-  url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/SF_BLDG_WSL1/FeatureServer/0",
-});
+let buildings: SceneLayer;
+let footprints: FeatureLayer;
 
 onInit("area-measurement-analysis", () => {
-  view = initView();
-  initScene();
+  const data = initSanFrancisco();
+  view = data.view;
+  buildings = data.buildings;
+  footprints = data.footprints;
 
   let abortController: AbortController | null = null;
 
@@ -73,24 +57,6 @@ onInit("area-measurement-analysis", () => {
     }
   });
 });
-
-function initScene() {
-  const scene = view.map as WebScene;
-  scene.basemap = "dark-gray-vector" as any; // Rely on auto-casting
-  scene.ground = "world-elevation" as any; // Rely on auto-casting
-  scene.addMany([buildings, footprints]);
-
-  view.camera = new Camera({
-    position: {
-      spatialReference: new SpatialReference({ wkid: 102100 }),
-      x: -13624530.501136787,
-      y: 4550280.841056057,
-      z: 1807.2933060163632,
-    },
-    heading: 278.95767768173954,
-    tilt: 24.162441184380782,
-  });
-}
 
 async function getFootprint(building: Graphic, signal: AbortSignal): Promise<Polygon | null> {
   const query = footprints.createQuery();
