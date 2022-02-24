@@ -17,6 +17,10 @@ import SceneView from "@arcgis/core/views/SceneView";
 import Fullscreen from "@arcgis/core/widgets/Fullscreen";
 import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 
+import "@esri/calcite-components";
+import "@esri/calcite-components/dist/components/calcite-action";
+import "@esri/calcite-components/dist/components/calcite-action-bar";
+
 const im = new IntegratedMeshLayer({
   portalItem: { id: "7a4ce32df4774997bbb32f230efbe7cc" },
 });
