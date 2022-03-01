@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Esri Dev Summit 2022 - ArcGIS JS API for JavaScript: Web editing in 3D</title>
+
+    <link rel="stylesheet" href="../reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="../reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="../reveal.js/dist/theme/black.css" />
+    <link rel="stylesheet" href="../reveal.js/plugin/highlight/monokai.css" />
+    <link rel="stylesheet" href="../resources/main.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-background="../reveal.js/img/2022/dev-summit/bg-1.png" data-background-size="cover">
+          <h1 style="text-align: left; font-size: 60px">
+            ArcGIS JS API for JavaScript: <br />
+            3D Visualization
+          </h1>
+          <p style="text-align: left; font-size: 30px; color: var(--r-section-subhead-color)">
+            Arno Fiva, Grete Soosalu & Jesse van den Kieboom
+          </p>
+          <p style="text-align: left; font-size: 30px">
+            Slides:
+            <a href="http://bit.ly/abc123"><code>http://bit.ly/abc123</code></a>
+          </p>
+        </section>
+
+        <!--------- Setting up a 3D application: HTML -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2>Setting up a 3D application</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <ul>
+                <li>HTML</li>
+                <br />
+              </ul>
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-line-numbers="1-15|17-18|22-24|26-29" data-trim>
+                    &lt;html&gt;
+                    &lt;head&gt;
+                      &lt;meta charset=&quot;utf-8&quot; /&gt;
+                      &lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1,maximum-scale=1,user-scalable=no&quot; /&gt;
+                      &lt;title&gt; &lt;/title&gt;
+                      &lt;style&gt;
+                        html,
+                        body,
+                        #viewDiv {
+                          padding: 0;
+                          margin: 0;
+                          height: 100%;
+                          width: 100%;
+                        }
+                      &lt;/style&gt;
+                  
+                      &lt;link rel=&quot;stylesheet&quot; href=&quot;https://jsdev.arcgis.com/4.23/esri/themes/light/main.css&quot; /&gt;
+                      &lt;script src=&quot;https://jsdev.arcgis.com/4.23/&quot;&gt;&lt;/script&gt;
+                  
+                      &lt;script&gt;
+                        require([&quot;esri/Map&quot;, &quot;esri/views/SceneView&quot;], (Map, SceneView) =&gt; {
+                          const map = new Map({
+                            basemap: &quot;satellite&quot;,
+                          });
+                  
+                          const view = new SceneView({
+                            container: &quot;viewDiv&quot;,
+                            map: map,
+                          });
+                        });
+                      &lt;/script&gt;
+                    &lt;/head&gt;
+                  
+                    &lt;body&gt;
+                      &lt;div id=&quot;viewDiv&quot;&gt;&lt;/div&gt;
+                    &lt;/body&gt;
+                  &lt;/html&gt;
+                  
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <ul>
+                <br />
+                <br />
+              </ul>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/basic-global.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--------- Setting up a 3D application: BASEMAP image -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2>Setting up a 3D applications</h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <ul>
+                <li>Basemap</li>
+              </ul>
+            </div>
+            <div class="right-column">
+              <img src="./images/basemapgallery.png" width="800px" />
+            </div>
+          </div>
+        </section>
+
+        <!--------- Setting up a 3D application: BASEMAP app -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2>Setting up a 3D applications</h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <ul>
+                <li>Basemap</li>
+              </ul>
+            </div>
+            <div class="right-column">
+              <iframe class="r-stretch" data-src="./samples/basic-global-basemap.html"></iframe>
+            </div>
+          </div>
+        </section>
+
+        <!--------- Setting up a 3D application: ELEVATION -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2>Setting up a 3D application</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <ul>
+                <li>Elevation</li>
+              </ul>
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                      <code class="lang-ts" data-trim>
+                      
+                          const map = new Map({
+                              qualityProfile: &quot;high&quot;,
+                              basemap: &quot;satellite&quot;,
+                              ground: &quot;world-topobathymetry&quot;,
+                          });
+                      
+                      </code>
+                    </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <ul>
+                <br />
+              </ul>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/basic-global-elevation.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--------- Setting up a 3D application: LOCAL -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2>Setting up a 3D application</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <ul>
+                <li>Local</li>
+              </ul>
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                      <code class="lang-ts" data-trim>
+                              const clippingExtent = new SceneView({
+                                container: &quot;viewDiv&quot;,
+                                viewingMode: &quot;local&quot;,
+                                map: map,
+                              });
+
+                              const view = new SceneView({
+                                container: &quot;viewDiv&quot;,
+                                viewingMode: &quot;local&quot;,
+                                clippingArea: clippingExtent,
+                                map: map,
+                              });
+                      
+                      </code>
+                    </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <ul>
+                <br />
+              </ul>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/basic-local.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--------- Setting up a 3D application: ADD LAYER -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2>Sources of data</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <ul>
+                <li>
+                  ArcGIS Online
+                  <ul>
+                    <li>Living Atlas – worldwide data</li>
+                  </ul>
+                </li>
+              </ul>
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                        <code class="lang-ts" data-trim>
+                        
+                            const layer = new FeatureLayer({
+                                url: &quot;https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Major_Cities/FeatureServer&quot;
+                            });
+                              
+                            const map = new Map({
+                                basemap: &quot;gray-vector&quot;,
+                                ground: &quot;world-elevation&quot;,
+                                layers: [layer]
+                            });
+                        
+                        </code>
+                      </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <ul>
+                <br />
+              </ul>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/data-layer.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--------- Setting up a 3D application: OTHERSTUFF -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2>Setting up a 3D application</h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <ul>
+                <li>HTML</li>
+                <li>Basemaps</li>
+                <li>Elevation data</li>
+                <li>Global vs local viewing modes</li>
+              </ul>
+            </div>
+            <div class="right-column">
+              <img src="./images/filter_vs_query.png" width="800px" />
+            </div>
+          </div>
+        </section>
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
+          <h2>Header</h2>
+        </section>
+
+        <!-- FEEDBACK SLIDE: -->
+        <section data-markdown data-background="../reveal.js/img/2022/dev-summit/bg-7.png">
+          <textarea data-template>
+            Please provide your feedback for this session by clicking on the session survey link directly below the video.
+          </textarea>
+        </section>
+
+        <!-- ESRI LOGO SLIDE: -->
+        <section data-background="../reveal.js/img/2022/dev-summit/bg-8.png">
+          <!-- <img src="img/esri-science-logo-white.png" /> -->
+        </section>
+      </div>
+    </div>
+
+    <script src="../reveal.js/dist/reveal.js"></script>
+    <script src="../reveal.js/plugin/notes/notes.js"></script>
+    <script src="../reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../reveal.js/plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>

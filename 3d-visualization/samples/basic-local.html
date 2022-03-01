@@ -1,0 +1,94 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>BuildingSceneLayer with Slice widget | Sample | ArcGIS API for JavaScript 4.23</title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      #menu {
+        padding: 0.8em;
+        max-width: 250px;
+      }
+
+      #sliceContainer {
+        width: inherit;
+      }
+
+      #sliceOptions {
+        margin: 0 15px;
+      }
+
+      #sliceOptions > button {
+        margin-bottom: 15px;
+      }
+
+      #sliceContainer {
+        max-width: 228px;
+      }
+    </style>
+
+    <link href="https://jsdev.arcgis.com/4.23/esri/themes/light/main.css" rel="stylesheet" type="text/css" />
+    <script src="https://jsdev.arcgis.com/4.23/"></script>
+
+    <script>
+      require([
+        "esri/WebScene",
+        "esri/views/SceneView",
+        "esri/layers/BuildingSceneLayer",
+        "esri/widgets/Slice",
+        "esri/widgets/Slice/SlicePlane",
+        "esri/widgets/LayerList",
+        "esri/core/Collection",
+      ], (WebScene, SceneView, BuildingSceneLayer) => {
+        const extent = {
+          spatialReference: {
+            latestWkid: 3857,
+            wkid: 102100,
+          },
+          xmin: -13045241.329652093,
+          ymin: 4036780.474001343,
+          xmax: -13045119.666179948,
+          ymax: 4036937.733336518,
+        };
+        // Load webscene and display it in a SceneView
+        const webscene = new WebScene({
+          portalItem: {
+            id: "c7470b0e4e4c44288cf287d658155300",
+          },
+        });
+        webscene.basemap = "gray-vector";
+        const view = new SceneView({
+          container: "viewDiv",
+          clippingArea: extent,
+          viewingMode: "local",
+          map: webscene,
+        });
+
+        // Create the BuildingSceneLayer and add it to the webscene
+        const buildingLayer = new BuildingSceneLayer({
+          url: "https://tiles.arcgis.com/tiles/V6ZHFr6zdgNZuVG0/arcgis/rest/services/BSL__4326__US_Redlands__EsriAdminBldg_PublicDemo/SceneServer",
+          title: "Administration Building, Redlands - Building Scene Layer",
+        });
+        webscene.layers.add(buildingLayer);
+
+        window.addEventListener("keypress", onKeypress, false);
+        function onKeypress(event) {
+          console.log(view.extent);
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
