@@ -1,4 +1,4 @@
-import { resolve } from "path";
+import { join, resolve } from "path";
 import { defineConfig } from "vite";
 
 const talks = {
@@ -15,20 +15,22 @@ const talks = {
   ],
 };
 
+const input = {
+  ...Object.entries(talks).reduce((res, [talkFolder, samples]) => {
+    res[talkFolder] = resolve(__dirname, talkFolder, "index.html");
+    for (const sampleFolder of samples) {
+      const path = join(talkFolder, "samples", sampleFolder);
+      res[path] = resolve(__dirname, path, "index.html");
+    }
+
+    return res;
+  }, {}),
+};
+
 module.exports = defineConfig(({ command }) => ({
   base: command === "build" ? "https://zrh-dev-local/DS-2022/dist/" : "./",
   build: {
-    rollupOptions: {
-      input: {
-        ...Object.entries(talks).reduce((res, [talkFolder, samples]) => {
-          res[talkFolder] = resolve(__dirname, talkFolder, "index.html");
-          for (const sampleFolder of samples) {
-            const path = `${talkFolder}\${sampleFolder}`;
-            res[path] = resolve(__dirname, path, sampleFolder, "index.html");
-          }
-        }),
-      },
-    },
+    rollupOptions: { input },
   },
   resolve: {
     alias: {
