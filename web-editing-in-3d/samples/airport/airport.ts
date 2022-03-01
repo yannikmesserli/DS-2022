@@ -19,6 +19,7 @@ widget.style.display = "flex";
 widget.style.flexDirection = "column";
 widget.style.gap = "10px";
 widget.style.padding = "10px";
+widget.textContent = "No buttons";
 view.ui.add(widget, "top-right");
 
 const treeSymbolPromise = new WebStyleSymbol({
