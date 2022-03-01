@@ -118,14 +118,25 @@ iframe {
   width: 60%;
 }
 
+.two-columns .left-column,
+.two-columns .v-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-block-margin);
+}
+
+.two-columns .left-column.r-stack {
+  display: grid;
+}
+
 .two-columns .right-column {
   position: relative;
   flex-grow: 1;
   padding: 0;
 }
 
-.two-columns .code-snippet.fragment.visible {
-  margin-top: var(--r-block-margin);
+.reveal .r-stack.no-margin > * {
+  margin: 0;
 }
 
 button.play {

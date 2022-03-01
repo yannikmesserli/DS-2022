@@ -57,126 +57,114 @@
           </div>
         </section>
 
-        <section
-          class="align-left"
-          data-slideId="elevation-modes-on-the-ground"
-          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2>Elevation Mode - on the ground</h2>
 
           <div class="two-columns">
-            <div class="left-column">
-              <pre class="code-snippet">
-                <code class="lang-ts" data-trim data-line-numbers>
-                const trees = new GraphicsLayer({ 
-                  elevationInfo: { mode: "on-the-ground" }
-                });
-                view.map.add(trees);
+            <div class="left-column r-stack no-margin">
+              <div class="code-snippet fade-out">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  const view = new SceneView(/* ... */);
 
-                // Get a `PointSymbol3D` for our graphics.
-                const treeSymbol = await new WebStyleSymbol({
-                  name: "Larix",
-                  styleName: "EsriRealisticTreesStyle",
-                }).fetchSymbol();
+                  const sketchViewModel = new SketchViewModel({
+                    view,
+                    defaultUpdateOptions: {
+                      enableRotation: true,
+                      enableScaling: true,
+                    },
+                  });
 
-                const button = document.createElement("calcite-button");
-                button.textContent = "Add tree";
-
-                button.addEventListener("click", () => {
-                  sketchViewModel.layer = trees;
-                  sketchViewModel.pointSymbol = treeSymbol;
-                  sketchViewModel.create("point");
-                });
-                </code>
-              </pre>
-            </div>
-            <div class="right-column">
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/airport/index.html"></iframe>
+                  // Small widget where we will add a few buttons
+                  const widget = document.createElement("div");
+                  widget.className = "esri-widget";
+                  widget.style.display = "flex";
+                  widget.style.flexDirection = "column";
+                  widget.style.gap = "10px";
+                  widget.style.padding = "10px";
+                  view.ui.add(widget, "top-right");
+                  </code>
+                </pre>
               </div>
-            </div>
-          </div>
-        </section>
 
-        <section
-          class="align-left"
-          data-slideId="elevation-modes-relative-to-ground"
-          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
-        >
-          <h2>Elevation Mode - above ground or sea level</h2>
+              <div data-fragment-id="elevation-modes-on-the-ground" class="code-snippet fragment fade-in-then-out">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  const trees = new GraphicsLayer({ 
+                    elevationInfo: { mode: "on-the-ground" }
+                  });
+                  view.map.add(trees);
 
-          <div class="two-columns">
-            <div class="left-column">
-              <pre class="code-snippet">
-                <code class="lang-ts" data-trim data-line-numbers>
-                const airplanes = new GraphicsLayer({ 
-                  elevationInfo: { mode: "relative-to-ground" }
-                });
-                view.map.add(airplanes);
+                  // Get a `PointSymbol3D` for our graphics.
+                  const treeSymbol = await new WebStyleSymbol({
+                    name: "Larix",
+                    styleName: "EsriRealisticTreesStyle",
+                  }).fetchSymbol();
 
-                // Get a `PointSymbol3D` for our graphics.
-                const airplaneSymbol = await new WebStyleSymbol({
-                  name: "Airplane_Propeller",
-                  styleName: "EsriRealisticTransportationStyle",
-                }).fetchSymbol();
+                  const button = document.createElement("calcite-button");
+                  button.textContent = "Add tree";
 
-                const button = document.createElement("calcite-button");
-                button.textContent = "Add airplane";
-
-                button.addEventListener("click", () => {
-                  sketchViewModel.layer = airplanes;
-                  sketchViewModel.pointSymbol = airplaneSymbol;
-                  sketchViewModel.create("point");
-                });
-                </code>
-              </pre>
-
-              <pre data-fragment-id="set-absolute" class="code-snippet fragment">
-                <code class="lang-ts" data-trim data-line-numbers>
-                airplanes.elevationInfo = { mode: "absolute-height" };
-                </code>
-              </pre>
-            </div>
-            <div class="right-column">
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/airport/index.html"></iframe>
+                  button.addEventListener("click", () => {
+                    sketchViewModel.layer = trees;
+                    sketchViewModel.pointSymbol = treeSymbol;
+                    sketchViewModel.create("point");
+                  });
+                  </code>
+                </pre>
               </div>
-            </div>
-          </div>
-        </section>
 
-        <section
-          class="align-left"
-          data-slideId="elevation-modes-relative-to-scene"
-          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
-        >
-          <h2>Elevation Mode - relative to scene</h2>
+              <div data-fragment-id="elevation-modes-relative-to-ground" class="code-snippet fragment fade-in-then-out">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  const airplanes = new GraphicsLayer({ 
+                    elevationInfo: { mode: "relative-to-ground" }
+                    // elevationInfo: { mode: "absolute-height" }
+                  });
+                  view.map.add(airplanes);
 
-          <div class="two-columns">
-            <div class="left-column">
-              <pre class="code-snippet">
-                <code class="lang-ts" data-trim data-line-numbers>
-                const antennas = new GraphicsLayer({ 
-                  elevationInfo: { mode: "relative-to-scene" }
-                });
-                view.map.add(antennas);
+                  // Get a `PointSymbol3D` for our graphics.
+                  const airplaneSymbol = await new WebStyleSymbol({
+                    name: "Airplane_Propeller",
+                    styleName: "EsriRealisticTransportationStyle",
+                  }).fetchSymbol();
 
-                // Get a `PointSymbol3D` for our graphics.
-                const antennaSymbol = await new WebStyleSymbol({
-                  name: "Cell_Phone_Antenna",
-                  styleName: "EsriInfrastructureStyle",
-                }).fetchSymbol();
+                  const button = document.createElement("calcite-button");
+                  button.textContent = "Add airplane";
 
-                const button = document.createElement("calcite-button");
-                button.textContent = "Add airplane";
-                
-                button.addEventListener("click", () => {
-                  sketchViewModel.layer = antennas;
-                  sketchViewModel.pointSymbol = antennaSymbol;
-                  sketchViewModel.create("point");
-                });
-                </code>
-              </pre>
+                  button.addEventListener("click", () => {
+                    sketchViewModel.layer = airplanes;
+                    sketchViewModel.pointSymbol = airplaneSymbol;
+                    sketchViewModel.create("point");
+                  });
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="elevation-modes-relative-to-scene" class="code-snippet fragment fade-in-then-out">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  const antennas = new GraphicsLayer({ 
+                    elevationInfo: { mode: "relative-to-scene" }
+                  });
+                  view.map.add(antennas);
+
+                  // Get a `PointSymbol3D` for our graphics.
+                  const antennaSymbol = await new WebStyleSymbol({
+                    name: "Cell_Phone_Antenna",
+                    styleName: "EsriInfrastructureStyle",
+                  }).fetchSymbol();
+
+                  const button = document.createElement("calcite-button");
+                  button.textContent = "Add airplane";
+                  
+                  button.addEventListener("click", () => {
+                    sketchViewModel.layer = antennas;
+                    sketchViewModel.pointSymbol = antennaSymbol;
+                    sketchViewModel.create("point");
+                  });
+                  </code>
+                </pre>
+              </div>
             </div>
             <div class="right-column">
               <div class="iframe-wrapper">
