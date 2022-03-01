@@ -23,7 +23,7 @@ export function initView(itemId?: string) {
   const view = new SceneView({
     map: itemId ? new WebScene({ portalItem: { id: itemId } }) : new WebScene({ basemap: "topo" }),
     container: "viewDiv",
-    qualityProfile: "low",
+    qualityProfile: "high",
     popup: { defaultPopupTemplateEnabled: false },
   });
 
