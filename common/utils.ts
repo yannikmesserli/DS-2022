@@ -12,19 +12,23 @@ export function onInit(title: string, cb: () => void) {
 }
 
 export function onFragment(id: string, cb: () => void) {
-  const check = () => {
-    if (getFragmentId(Reveal.getCurrentSlide()?.querySelector(".current-fragment")) === id) {
+  const run = () => {
+    if (getCurrentFragmentId() === id) {
       cb();
     }
   };
 
-  Reveal.addEventListener("fragmenthidden", check);
-  Reveal.addEventListener("fragmentshown", check);
-  check();
+  Reveal.addEventListener("fragmenthidden", run);
+  Reveal.addEventListener("fragmentshown", run);
+  run();
 }
 
-function getFragmentId(element: Element | null | undefined): string | null {
-  return element?.getAttribute("data-fragment-id") ?? null;
+function getCurrentFragment(): HTMLElement | null {
+  return Reveal.getCurrentSlide()?.querySelector(".current-fragment") ?? null;
+}
+
+function getCurrentFragmentId(): string | null {
+  return getCurrentFragment()?.getAttribute("data-fragment-id") ?? null;
 }
 
 export function initView(itemId?: string) {

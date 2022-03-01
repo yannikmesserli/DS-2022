@@ -2,7 +2,7 @@ import { join, resolve } from "path";
 import { defineConfig } from "vite";
 
 const talks = {
-  ["web-editing-in-3d"]: ["editing-2d-to-3d", "airport", "advanced-editing"],
+  ["web-editing-in-3d"]: ["editing-2d-to-3d", "airport", "feature-layer", "advanced-editing"],
   ["client-side-3d-analysis"]: [
     "direct-line-measurement",
     "direct-line-measurement-analysis",

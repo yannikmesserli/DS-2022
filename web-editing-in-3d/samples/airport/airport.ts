@@ -1,4 +1,5 @@
 import Collection from "@arcgis/core/core/Collection";
+import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import ExtrudeSymbol3DLayer from "@arcgis/core/symbols/ExtrudeSymbol3DLayer";
 import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D";
@@ -74,7 +75,7 @@ onFragment("on-the-ground", async () => {
   view.goTo(
     {
       position: {
-        spatialReference: { latestWkid: 3857, wkid: 102100 },
+        spatialReference: SpatialReference.WebMercator,
         x: 1099614.6066905723,
         y: 5865416.055518731,
         z: 1781.0668945247307,
@@ -97,7 +98,7 @@ onFragment("relative-to-ground", async () => {
   view.goTo(
     {
       position: {
-        spatialReference: { latestWkid: 3857, wkid: 102100 },
+        spatialReference: SpatialReference.WebMercator,
         x: 1099838.309838232,
         y: 5865770.443455763,
         z: 1771.2705388450995,
@@ -121,7 +122,7 @@ onFragment("relative-to-scene", async () => {
   view.goTo(
     {
       position: {
-        spatialReference: { latestWkid: 3857, wkid: 102100 },
+        spatialReference: SpatialReference.WebMercator,
         x: 1099820.528361645,
         y: 5865792.376922636,
         z: 1736.2411283198744,
@@ -146,7 +147,7 @@ onFragment("polygons", async () => {
   view.goTo(
     {
       position: {
-        spatialReference: { latestWkid: 3857, wkid: 102100 },
+        spatialReference: SpatialReference.WebMercator,
         x: 1099908.0674983682,
         y: 5865746.7213742165,
         z: 1933.7259117281064,
