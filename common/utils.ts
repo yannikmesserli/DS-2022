@@ -40,13 +40,22 @@ export function initView(itemId?: string) {
   return view;
 }
 
-export function throwIfAborted(signal: AbortSignal) {
+export function setHeader(header: string, selector: string = ".header"): void {
+  const headerElement = Reveal.getCurrentSlide().querySelector(selector);
+  if (!headerElement) {
+    return;
+  }
+
+  headerElement.textContent = header;
+}
+
+export function throwIfAborted(signal: AbortSignal): void {
   if (signal.aborted) {
     throw new Error("AbortError");
   }
 }
 
-export function throwIfNotAbortError(e: any) {
+export function throwIfNotAbortError(e: any): void {
   if (e?.message !== "AbortError") {
     throw e;
   }

@@ -57,12 +57,15 @@
           </div>
         </section>
 
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2>Elevation Mode - on the ground</h2>
+        <section data-slideId="airport" class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="header">Placing trees on the ground</h2>
 
           <div class="two-columns">
             <div class="left-column r-stack no-margin">
-              <div class="code-snippet fade-out">
+              <!--
+                Init
+              -->
+              <div data-fragment-id="init" class="code-snippet fade-out">
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
                   const view = new SceneView(/* ... */);
@@ -87,7 +90,10 @@
                 </pre>
               </div>
 
-              <div data-fragment-id="elevation-modes-on-the-ground" class="code-snippet fragment fade-in-then-out">
+              <!--
+                On-the-ground
+              -->
+              <div data-fragment-id="on-the-ground" class="code-snippet fragment fade-in-then-out">
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
                   const trees = new GraphicsLayer({ 
@@ -113,7 +119,10 @@
                 </pre>
               </div>
 
-              <div data-fragment-id="elevation-modes-relative-to-ground" class="code-snippet fragment fade-in-then-out">
+              <!--
+                Relative to ground (or absolute-height)
+              -->
+              <div data-fragment-id="relative-to-ground" class="code-snippet fragment fade-in-then-out">
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
                   const airplanes = new GraphicsLayer({ 
@@ -140,7 +149,10 @@
                 </pre>
               </div>
 
-              <div data-fragment-id="elevation-modes-relative-to-scene" class="code-snippet fragment fade-in-then-out">
+              <!--
+                Relative to scene
+              -->
+              <div data-fragment-id="relative-to-scene" class="code-snippet fragment fade-in-then-out">
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
                   const antennas = new GraphicsLayer({ 
@@ -161,6 +173,42 @@
                     sketchViewModel.layer = antennas;
                     sketchViewModel.pointSymbol = antennaSymbol;
                     sketchViewModel.create("point");
+                  });
+                  </code>
+                </pre>
+              </div>
+
+              <!--
+                Drawing polygons
+              -->
+              <div data-fragment-id="polygons" class="code-snippet fragment fade-in-then-out">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  const terminals = new GraphicsLayer({ 
+                    elevationInfo: { mode: "relative-to-scene" }
+                  });
+                  view.map.add(terminals);
+
+                  // Make sketching easier with snapping.
+                  sketchViewModel.snappingOptions.enabled = true;
+                  sketchViewModel.snappingOptions.featureSources = [{ layer: terminals }];
+
+                  const terminalSymbol = new PolygonSymbol3D({
+                    symbolLayers: [
+                      new ExtrudeSymbol3DLayer({
+                        size: 5,
+                        material: { color: [255, 255, 255, 1] },
+                      }),
+                    ],
+                  })
+
+                  const button = document.createElement("calcite-button");
+                  button.textContent = "Add terminal";
+                  
+                  button.addEventListener("click", () => {
+                    sketchViewModel.layer = terminals;
+                    sketchViewModel.polygonSymbol = terminalSymbol;
+                    sketchViewModel.create("polygon");
                   });
                   </code>
                 </pre>
