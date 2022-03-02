@@ -1,8 +1,8 @@
 // @ts-nocheck
 
-import WebScene from "esri/WebScene.js";
-import SceneView from "esri/views/SceneView.js";
-import config from "esri/config.js";
+import WebScene from "@arcgis/core/WebScene.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
+import config from "@arcgis/core/config.js";
 import appConfig from "../helpers/config.js";
 import statistics from "../helpers/statistics.js";
 import charts from "../helpers/charts.js";
@@ -10,7 +10,11 @@ import * as renderers from "../helpers/renderers.js";
 
 let view, layer, layerView;
 
-const slideTitle = parent.Reveal.getCurrentSlide().title;
+const slideTitle = parent.Reveal ? parent.Reveal.getCurrentSlide().title : null;
+
+if (slideTitle == null) {
+  init();
+}
 
 if (slideTitle === "query-statistic") {
   init();
@@ -33,9 +37,7 @@ function init() {
   });
 
   view.map.load().then(function () {
-    layer = view.map.layers.find(
-      (l) => l.title === appConfig.buildingLayerTitle
-    );
+    layer = view.map.layers.find((l) => l.title === appConfig.buildingLayerTitle);
 
     // Add all attributes used for querying here to make sure they are loaded!
     layer.outFields = [appConfig.solarAreaField, appConfig.usageField];

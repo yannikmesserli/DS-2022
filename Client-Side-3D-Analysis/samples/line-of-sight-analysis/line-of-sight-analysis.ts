@@ -1,47 +1,51 @@
 import LineOfSightAnalysis from "@arcgis/core/analysis/LineOfSightAnalysis";
+import LineOfSightAnalysisObserver from "@arcgis/core/analysis/LineOfSightAnalysisObserver";
 import LineOfSightAnalysisTarget from "@arcgis/core/analysis/LineOfSightAnalysisTarget";
-import Camera from "@arcgis/core/Camera";
 import Collection from "@arcgis/core/core/Collection";
 import Point from "@arcgis/core/geometry/Point";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import SceneView from "@arcgis/core/views/SceneView";
-import { initSanFrancisco } from "../../../common/scenes";
-import { onInit, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
+import { MUNICH } from "../../../common/scenes";
+import { initView, onInit, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
 
-const spatialReference = SpatialReference.WebMercator;
-const landmarks: { name: string; objectId: number; coords: number[] }[] = [
+const landmarks: { name: string; threshold: number; position: Point }[] = [
   {
-    name: "Transamerica Tower",
-    objectId: 66172,
-    coords: [-13625812.54317963, 4550529.976478969, 250.3171089636162],
+    name: "Neues Rathaus",
+    threshold: 5,
+    position: new Point({
+      spatialReference: SpatialReference.WebMercator,
+      x: 1288578.8301545328,
+      y: 6129760.9954138035,
+      z: 590,
+    }),
   },
   {
-    name: "Ferry Building",
-    objectId: 66245,
-    coords: [-13624790.00604594, 4550569.041253591, 60.78307350818068],
+    name: "St Peter's Church - Tower 1",
+    threshold: 15,
+    position: new Point({
+      spatialReference: SpatialReference.WebMercator,
+      x: 1288301.6231510378,
+      y: 6129918.859183111,
+      z: 610,
+    }),
   },
   {
-    name: "Other tower",
-    objectId: 66188,
-    coords: [-13625913.968927743, 4550099.989219229, 251.6641347669065],
+    name: "St Peter's Church - Tower 2",
+    threshold: 15,
+    position: new Point({
+      spatialReference: SpatialReference.WebMercator,
+      x: 1288300.8203933963,
+      y: 6129956.649379852,
+      z: 610,
+    }),
   },
 ];
 
 onInit("line-of-sight-analysis", () => {
-  const { view } = initSanFrancisco();
+  const view = initView(MUNICH);
 
-  view.camera = new Camera({
-    position: { spatialReference, x: -13624065, y: 4550413, z: 1463 },
-    heading: 269.2925694592433,
-    tilt: 42.78218584705901,
-  });
-
-  let analysis: LineOfSightAnalysis = new LineOfSightAnalysis({
-    targets: new Collection(
-      landmarks
-        .map(({ coords: [x, y, z] }) => new Point({ x, y, z, spatialReference }))
-        .map((position) => new LineOfSightAnalysisTarget({ position }))
-    ),
+  const analysis = new LineOfSightAnalysis({
+    targets: new Collection(landmarks.map(({ position }) => new LineOfSightAnalysisTarget({ position }))),
   });
   (view as any).analyses.add(analysis);
 
@@ -61,8 +65,8 @@ function setupPointerMove(view: SceneView, analysis: LineOfSightAnalysis): void 
       const { ground, results } = await view.hitTest(e);
       throwIfAborted(signal);
 
-      // Set the observer to the map point under the pointer.
-      analysis.observer = results.length === 0 ? ground?.mapPoint : results[0].mapPoint;
+      const position = results.length === 0 ? ground?.mapPoint : results[0].mapPoint;
+      analysis.observer = new LineOfSightAnalysisObserver({ position });
     } catch (e) {
       throwIfNotAbortError(e);
     }
@@ -78,28 +82,29 @@ function setupClick(view: SceneView, analysis: LineOfSightAnalysis): void {
       abortController = new AbortController();
       const { signal } = abortController;
 
-      const { results } = await (view as any).whenAnalysisView(analysis);
+      const { results } = (await view.whenAnalysisView(analysis)) as __esri.LineOfSightAnalysisView3D;
       throwIfAborted(signal);
 
-      // Make a new static analysis which will display only rays which hit their
-      // respective landmarks.
+      // Make a new analysis which will display only "hits"
       const staticAnalysis = new LineOfSightAnalysis({ observer: analysis.observer });
 
-      // Add the targets corresponding to the landmarks which were hit to the
-      // static analysis we created above.
-      for (let i = 0; i < results.length; ++i) {
-        const graphic = results.getItemAt(i)?.intersectedGraphic;
-        if (!graphic) {
+      // Add all the landmarks which were "hit" to the new analysis.
+      for (let i = 0; i < landmarks.length; ++i) {
+        const intersection = results.getItemAt(i)?.intersectedLocation;
+        const target = analysis.targets.getItemAt(i);
+        const landmark = landmarks[i];
+
+        if (!intersection || !target) {
           continue;
         }
 
-        // If we hit the same graphic as the one we had stored for the landmark
-        // we consider that there was a hit.
-        if (graphic.getObjectId() === landmarks[i].objectId) {
-          staticAnalysis.targets.push(analysis.targets.getItemAt(i));
+        if ((target as any).position.distance(intersection) < landmark.threshold) {
+          staticAnalysis.targets.push(target);
+          console.log(`${landmark.name} is visible from clicked point.`);
         }
       }
 
+      // Show the new analysis.
       (view as any).analyses.add(staticAnalysis);
     } catch (e) {
       throwIfNotAbortError(e);

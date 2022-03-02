@@ -1,14 +1,18 @@
 // @ts-nocheck
 
-import WebScene from "esri/WebScene.js";
-import SceneView from "esri/views/SceneView.js";
-import config from "esri/config.js";
+import WebScene from "@arcgis/core/WebScene.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
+import config from "@arcgis/core/config.js";
 import appConfig from "../helpers/config.js";
 import * as renderers from "../helpers/renderers.js";
 
 let view, layer, layerView;
 
-const slideTitle = parent.Reveal.getCurrentSlide().title;
+const slideTitle = parent.Reveal ? parent.Reveal.getCurrentSlide().title : null;
+
+if (slideTitle == null) {
+  init();
+}
 
 if (slideTitle === "query-attribute") {
   init();
@@ -18,10 +22,7 @@ if (slideTitle === "query-attribute") {
   doc.getElementById("query-2").onclick = queryObjectIds;
 
   doc.getElementById("query-3").onclick = queryFeatures(appConfig.usageField);
-  doc.getElementById("query-4").onclick = queryFeatures(
-    appConfig.usageField,
-    true
-  );
+  doc.getElementById("query-4").onclick = queryFeatures(appConfig.usageField, true);
 }
 
 function init() {
@@ -39,16 +40,10 @@ function init() {
   view.ui.add("statsContainer", "top-right");
 
   view.map.load().then(function () {
-    layer = view.map.layers.find(
-      (l) => l.title === appConfig.buildingLayerTitle
-    );
+    layer = view.map.layers.find((l) => l.title === appConfig.buildingLayerTitle);
 
     // Add all attributes used for querying here to make sure they are loaded!
-    layer.outFields = [
-      appConfig.solarAreaField,
-      appConfig.addressField,
-      appConfig.usageField,
-    ];
+    layer.outFields = [appConfig.solarAreaField, appConfig.addressField, appConfig.usageField];
 
     renderers.applySolarAreaRenderer(layer);
 

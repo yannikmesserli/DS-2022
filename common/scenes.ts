@@ -8,13 +8,13 @@ import MeshSymbol3D from "@arcgis/core/symbols/MeshSymbol3D";
 import WebScene from "@arcgis/core/WebScene";
 import { initView } from "./utils";
 
-export const ZURICH_KAFERBERG = "173e0afe6073499b95c5eaec7728035a";
-export const ZURICH_CITY = "71187d3fc8f54619ad2141294ee1ea07";
+export const ESRI_OFFICE_BSL = "94379f34cee14049a9273ab91ac1743f";
 export const HIKING_TRAILS = "8037d7b07bd2402d83faba39a60c76af";
 export const MANHATTAN = "9a542f6755274436985617a462ffdf44";
-export const ESRI_OFFICE_BSL = "94379f34cee14049a9273ab91ac1743f";
-export const WORLD_CAPITALS = "c025297bbf004abc863773858add4058";
+export const MUNICH = "cfddaf892c4b477bbc42a662acc4e88a";
+export const SAMEDAN_AIRPORT = "3ef242366dc24c2d98e3f8a0f253ae12";
 export const SHADOW_CAST = "f2220db76c6448b4be8083d19ef4cf8d";
+export const WORLD_CAPITALS = "c025297bbf004abc863773858add4058";
 
 export function initSanFrancisco() {
   const buildings = new SceneLayer({

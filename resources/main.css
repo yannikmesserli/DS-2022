@@ -17,7 +17,9 @@
   /* Section subheader color per theme */
   --r-section-subhead-color: #00ec86;
 
-  --iframe-scale: 0.4;
+  --spacing-half: calc(var(--r-block-margin) / 2);
+  --iframe-scale: 1;
+  --play-btn-size: 32px;
 }
 
 .reveal {
@@ -39,7 +41,11 @@
 }
 
 .reveal pre {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
+}
+
+.reveal .code-wrapper code {
+  min-height: calc(var(--play-btn-size) + var(--spacing-half));
 }
 
 .reveal .subtitle {
@@ -98,14 +104,14 @@ iframe {
   width: calc(100% / var(--iframe-scale));
   max-width: unset;
   max-height: unset;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
   transform: translate(-50%, -50%) scale(var(--iframe-scale)) translate(50%, 50%);
 }
 
 .two-columns .iframe-wrapper {
   overflow: hidden;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
 }
 
 .two-columns pre {
@@ -115,7 +121,18 @@ iframe {
 
 .two-columns .left-column {
   position: relative;
-  width: 60%;
+  width: 50%;
+}
+
+.two-columns .left-column,
+.two-columns .v-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-block-margin);
+}
+
+.two-columns .left-column.r-stack {
+  display: grid;
 }
 
 .two-columns .right-column {
@@ -124,25 +141,25 @@ iframe {
   padding: 0;
 }
 
-.two-columns .code-snippet.fragment.visible {
-  margin-top: var(--r-block-margin);
+.reveal .r-stack.no-margin > * {
+  margin: 0;
 }
 
 button.play {
-  width: 32px;
-  height: 32px;
+  width: var(--play-btn-size);
+  height: var(--play-btn-size);
 
   border: none;
   outline: none;
   position: absolute;
-  margin-right: 10px;
-  margin-top: -12px;
+  margin-right: var(--spacing-half);
+  margin-top: var(--spacing-half);
   right: 0;
 
   cursor: pointer;
 
   background-color: rgba(0, 0, 0, 0);
-  background-image: url("./images/play_64_50.png");
+  background-image: url("./play_64_50.png");
   background-size: 32px;
   background-repeat: no-repeat;
 
@@ -150,5 +167,5 @@ button.play {
 }
 
 button.play:hover {
-  background-image: url("./images/play_64.png");
+  background-image: url("./play_64.png");
 }

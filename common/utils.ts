@@ -12,18 +12,30 @@ export function onInit(title: string, cb: () => void) {
 }
 
 export function onFragment(id: string, cb: () => void) {
-  Reveal.addEventListener("fragmentshown", (event) => {
-    if (event.fragment.getAttribute("data-fragment-id") === id) {
+  const run = () => {
+    if (getCurrentFragmentId() === id) {
       cb();
     }
-  });
+  };
+
+  Reveal.addEventListener("fragmenthidden", run);
+  Reveal.addEventListener("fragmentshown", run);
+  run();
+}
+
+function getCurrentFragment(): HTMLElement | null {
+  return Reveal.getCurrentSlide()?.querySelector(".current-fragment") ?? null;
+}
+
+function getCurrentFragmentId(): string | null {
+  return getCurrentFragment()?.getAttribute("data-fragment-id") ?? null;
 }
 
 export function initView(itemId?: string) {
   const view = new SceneView({
     map: itemId ? new WebScene({ portalItem: { id: itemId } }) : new WebScene({ basemap: "topo" }),
     container: "viewDiv",
-    qualityProfile: "low",
+    qualityProfile: "high",
     popup: { defaultPopupTemplateEnabled: false },
   });
 
@@ -32,13 +44,22 @@ export function initView(itemId?: string) {
   return view;
 }
 
-export function throwIfAborted(signal: AbortSignal) {
+export function setHeader(header: string, selector: string = ".header"): void {
+  const headerElement = Reveal.getCurrentSlide().querySelector(selector);
+  if (!headerElement) {
+    return;
+  }
+
+  headerElement.textContent = header;
+}
+
+export function throwIfAborted(signal: AbortSignal): void {
   if (signal.aborted) {
     throw new Error("AbortError");
   }
 }
 
-export function throwIfNotAbortError(e: any) {
+export function throwIfNotAbortError(e: any): void {
   if (e?.message !== "AbortError") {
     throw e;
   }
