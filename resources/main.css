@@ -17,7 +17,9 @@
   /* Section subheader color per theme */
   --r-section-subhead-color: #00ec86;
 
+  --spacing-half: calc(var(--r-block-margin) / 2);
   --iframe-scale: 0.4;
+  --play-btn-size: 32px;
 }
 
 .reveal {
@@ -40,6 +42,10 @@
 
 .reveal pre {
   font-size: 0.6rem;
+}
+
+.reveal .code-wrapper code {
+  min-height: calc(var(--play-btn-size) + var(--spacing-half));
 }
 
 .reveal .subtitle {
@@ -140,16 +146,14 @@ iframe {
 }
 
 button.play {
-  --spacing: calc(var(--r-block-margin) / 2);
-
-  width: 32px;
-  height: 32px;
+  width: var(--play-btn-size);
+  height: var(--play-btn-size);
 
   border: none;
   outline: none;
   position: absolute;
-  margin-right: var(--spacing);
-  margin-top: var(--spacing);
+  margin-right: var(--spacing-half);
+  margin-top: var(--spacing-half);
   right: 0;
 
   cursor: pointer;
