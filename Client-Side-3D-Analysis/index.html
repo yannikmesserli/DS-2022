@@ -42,7 +42,7 @@
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                     const widget = new DirectLineMeasurement3D({ view });
 
                     view.ui.add(widget, "top-right");
@@ -52,7 +52,7 @@
 
               <div data-fragment-id="set-units" class="code-snippet fragment">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                     widget.viewModel.unit = "kilometers";
                     widget.viewModel.unitOptions = ["meters", "kilometers"];
                   </code>
@@ -77,24 +77,17 @@
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
-                  const palmSprings = new Point({ x: -116.563645, y: 33.772349 });
+                  <code class="lang-ts" data-trim>
+                  const palmSpringsPoint = new Point({ x: -116.563645, y: 33.772349 });
                   
                   view.on("click", async (event) => {
-                    // Error handling / cancellation omitted for brevity
-                  
-                    const { results } = await view.hitTest(event);
-                    const result = results.find((r) => r.graphic);
-                    if (!result) {
-                      return;
-                    }
+                    const clickedMapPoint = /* hit test, etc */
 
                     const analysis = new DirectLineMeasurementAnalysis({ 
-                      startPoint: result.graphic.geometry,
-                      endPoint: palmSprings
+                      startPoint: clickedMapPoint,
+                      endPoint: palmSpringsPoint
                     });
 
-                    view.analyses.removeAll();
                     view.analyses.add(analysis);
                   });
                   </code>
@@ -122,7 +115,7 @@
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                     const widget = new AreaMeasurement3D({ view });
 
                     view.ui.add(widget, "top-right");
@@ -132,7 +125,7 @@
 
               <div data-fragment-id="set-units" class="code-snippet fragment">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                     widget.viewModel.unit = "square-meters";
                     widget.viewModel.unitOptions = [
                       "square-meters",
@@ -160,7 +153,7 @@
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim > 
+                  <code class="lang-ts" data-trim > 
                   const buildings = new SceneLayer({ /* config */ });
 
                   view.on("click", async (e) => {
@@ -210,7 +203,7 @@
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                     const widget = new LineOfSight({ view });
 
                     view.ui.add(widget, "top-right");
@@ -236,7 +229,7 @@
             <div class="left-column r-stack no-margin">
               <div data-fragment-index="0" class="code-snippet fragment fade-out">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                   const landmarks = [
                     {
                       name: "Neues Rathaus",
@@ -268,7 +261,7 @@
 
               <div data-fragment-index="0" class="code-snippet fragment fade-in-then-out">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                   view.on("pointer-move", async (e) => {   
                     // Cancellation logic omitted for brevity
                     
@@ -284,7 +277,7 @@
 
               <div class="code-snippet fragment fade-in-then-out">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                   view.on("immediate-click", async () => {
                     // Cancellation logic omitted for brevity
               
@@ -330,7 +323,7 @@
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                     const widget = new Slice({ view });
 
                     view.ui.add(widget, "top-right");
@@ -356,7 +349,7 @@
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                   const slidesAndPlanes = [{
                     title: "Front",
                     shape: new SlicePlane({ /* ... */ }),
@@ -408,7 +401,7 @@
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                     const widget = new ShadowCast({ view });
 
                     // Show only accumulated shadows
@@ -437,7 +430,7 @@
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                   const widget = new ElevationProfile({ view });
                   
                   view.ui.add(widget, "top-right");
@@ -447,7 +440,7 @@
 
               <div data-fragment-id="set-profiles" class="code-snippet fragment">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                   widget.profiles.push(
                     new ElevationProfileLineView({
                       type: "view",
@@ -478,7 +471,7 @@
             <div class="left-column">
               <div class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim >
                   let abortController = null;
 
                   const button = document.createElement("calcite-button");
@@ -522,39 +515,6 @@
           </div>
         </section>
 
-        <section
-          class="align-left"
-          data-slideId="pass-analysis-to-widgets"
-          data-background="../reveal.js/img/2022/dev-summit/bg-3.png"
-        >
-          <h2>Passing analysis to widgets</h2>
-          <div class="code-snippet">
-            <pre style="margin: 0">
-              <code class="lang-ts" data-trim data-line-numbers>
-              const lineAnalysis = new DirectLineMeasurementAnalysis({ /* ... */ });
-              const lineWidget = new DirectLineMeasurement3D({ 
-                analysis: lineAnalysis
-              });
-              
-              const areaAnalysis = new AreaMeasurementAnalysis({ /* ... */ });
-              const areaWidget = new AreaMeasurement3D({ 
-                analysis: areaAnalysis
-              });
-
-              const sliceAnalysis = new SliceAnalysis({ /* ... */ });
-              const sliceWidget = new Slice({ 
-                analysis: sliceAnalysis
-              });
-
-              const lineOfSightAnalysis = new LineOfSightAnalysis({ /* ... */ });
-              const lineOfSightWidget = new LineOfSight({ 
-                analysis: lineOfSightAnalysis
-              });
-              </code>
-            </pre>
-          </div>
-        </section>
-
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
           <div style="width: 50%">
             <h1 style="font-size: 3rem">Querying and Filtering a SceneLayer</h1>
@@ -568,7 +528,7 @@
             <div class="left-column">
               <div class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     config.portalUrl = "http://jsapi.maps.arcgis.com/";
 
                     webscene = new WebScene({
@@ -584,7 +544,7 @@
               </div>
               <div class="code-snippet fragment">
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     let layer, layerView;
 
                     webscene.load().then(function() {
@@ -620,7 +580,7 @@
               <div class="code-snippet">
                 <button class="play" id="popup-1"></button>
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     layer.popupTemplate = {
                       title: `{address}`,
                       content: `This structure was built in {yearCompleted} 
@@ -632,7 +592,7 @@
               <div class="code-snippet fragment">
                 <button class="play" id="popup-2"></button>
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     content: [{
                       type: "text",
                       text: `This structure was built in {yearCompleted} 
@@ -678,7 +638,7 @@
               <div class="code-snippet">
                 <button class="play" id="filter-0"></button>
                 <pre>
-                  <code class="lang-ts"  data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                   layer.renderer = new ClassBreaksRenderer({
                     field: "yearCompleted",
                     classBreakInfos: [
@@ -696,7 +656,7 @@
               <div class="code-snippet fragment">
                 <button class="play" id="filter-1"></button>
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                   layer.outFields = ["yearCompleted"];
                   layerView.filter = new FeatureFilter({
                     where: `yearCompleted > 1950`
@@ -707,7 +667,7 @@
               <div class="code-snippet fragment">
                 <button class="play" id="filter-2"></button>
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                   layerView.filter = null;
                   </code>
                 </pre>
@@ -749,7 +709,7 @@
               <div class="code-snippet">
                 <button class="play" id="timeslider-1"></button>
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                   const start = new Date(1900, 0, 1);
                   const end = new Date(2021, 0, 1);
 
@@ -772,7 +732,7 @@
               <div class="code-snippet fragment">
                 <button class="play" id="timeslider-2"></button>
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                   timeSlider.watch("timeExtent", function(timeExtent) {
                     const maxYear = timeExtent.end.getFullYear();
 
@@ -810,7 +770,7 @@
             <div class="left-column">
               <div class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                   layer.outFields = ["solarAreaSuitableM2", "address"];
 
                   const query = layerView.createQuery();
@@ -821,7 +781,7 @@
               <div class="code-snippet fragment">
                 <button class="play" id="query-1"></button>
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                   query.outFields = ["address"];
 
                   layerView.queryFeatures(query).then(function(response) {
@@ -835,7 +795,7 @@
               <div class="code-snippet fragment">
                 <button class="play" id="query-2"></button>
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     layerView.queryObjectIds(query).then(function(response) {
                       highlightHandle = layerView.highlight(response);
                     }).catch(console.error);
@@ -844,7 +804,7 @@
               </div>
               <div class="code-snippet fragment">
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     highlightHandle.remove();
                   </code>
                 </pre>
@@ -867,7 +827,7 @@
               <div class="code-snippet">
                 <button class="play" id="query-3"></button>
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     layer.outFields = ["solarAreaSuitableM2", "usage"];
                     
                     const query = layerView.createQuery();
@@ -879,7 +839,7 @@
               <div class="code-snippet fragment">
                 <button class="play" id="query-4"></button>
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     query.returnDistinctValues = true;
                   </code>
                 </pre>
@@ -901,7 +861,7 @@
             <div class="left-column">
               <div class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     query.outStatistics = [
                       new StatisticDefinition({
                         outStatisticFieldName: "avg_area",
@@ -915,7 +875,7 @@
               <div class="code-snippet fragment">
                 <button class="play" id="statistic-1"></button>
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     layerView.queryFeatures(query).then(function(response) {
                       output("Average area: "
                         + response.features[0].attributes.avg_area);
@@ -941,7 +901,7 @@
               <div class="code-snippet">
                 <button class="play" id="statistic-2"></button>
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     query.outStatistics = [
                       /* ... */
                       {
@@ -979,7 +939,7 @@
             <div class="left-column">
               <div class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     const sketch = new Sketch({
                       layer: sketchLayer,
                       view: view
@@ -1003,7 +963,7 @@
               <div class="code-snippet fragment">
                 <button class="play" id="spatial-1"></button>
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     query.geometry = geometry;
                     query.spatialRelationship = "contains";
                     query.distance = 100;
@@ -1015,7 +975,7 @@
               </div>
               <div class="code-snippet fragment">
                 <pre>
-                  <code class="lang-ts" data-line-numbers data-trim>
+                  <code class="lang-ts" data-trim>
                     const debouncedQuery = promiseUtils.debounce(function () {
                       layerView.queryObjectIds(query).then(/*...*/);
                     });

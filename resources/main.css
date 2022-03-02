@@ -18,7 +18,7 @@
   --r-section-subhead-color: #00ec86;
 
   --spacing-half: calc(var(--r-block-margin) / 2);
-  --iframe-scale: 1;
+  --iframe-scale: 0.8;
   --play-btn-size: 32px;
 }
 
@@ -44,9 +44,9 @@
   font-size: 0.8rem;
 }
 
-.reveal .code-wrapper code {
+/* .reveal .code-wrapper code {
   min-height: calc(var(--play-btn-size) + var(--spacing-half));
-}
+} */
 
 .reveal .subtitle {
   font-size: 80%;

@@ -1,15 +1,18 @@
 // @ts-check
 import DirectLineMeasurementAnalysis from "@arcgis/core/analysis/DirectLineMeasurementAnalysis";
+import Color from "@arcgis/core/Color";
 import Point from "@arcgis/core/geometry/Point";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import SceneView from "@arcgis/core/views/SceneView";
 import { WORLD_CAPITALS } from "../../../common/scenes";
-import { initView, onInit, throwIfAborted } from "../../../common/utils";
+import { initView, onInit, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
 
 let view: SceneView;
 
 onInit("direct-line-measurement-analysis", () => {
   view = initView(WORLD_CAPITALS);
+
+  view.highlightOptions.color = new Color([255, 255, 0, 1]);
 
   const palmSprings = new Point({
     x: -116.563645,
@@ -17,26 +20,56 @@ onInit("direct-line-measurement-analysis", () => {
     spatialReference: SpatialReference.WGS84,
   });
 
-  let abortController: AbortController | null = null;
+  let clickAbortController: AbortController | null = null;
 
   view.on("click", async (event) => {
-    abortController?.abort();
-    const { signal } = (abortController = new AbortController());
+    clickAbortController?.abort();
+    const { signal } = (clickAbortController = new AbortController());
 
-    const { results } = await view.hitTest(event);
-    throwIfAborted(signal);
+    try {
+      const { results } = await view.hitTest(event);
+      throwIfAborted(signal);
 
-    const result = results.find((r) => r.graphic);
-    if (!result) {
-      return;
+      const result = results.find((r) => r.graphic);
+      if (!result) {
+        return;
+      }
+
+      const analysis = new DirectLineMeasurementAnalysis({
+        startPoint: result.graphic.geometry,
+        endPoint: palmSprings,
+      });
+
+      (view as any).analyses.removeAll();
+      (view as any).analyses.add(analysis);
+    } catch (e) {
+      throwIfNotAbortError(e);
     }
+  });
 
-    const analysis = new DirectLineMeasurementAnalysis({
-      startPoint: result.graphic.geometry,
-      endPoint: palmSprings,
-    });
+  let highlightAbortController: AbortController | null = null;
+  let highlightHandle: IHandle | null = null;
 
-    (view as any).analyses.removeAll();
-    (view as any).analyses.add(analysis);
+  view.on("pointer-move", async (e) => {
+    highlightAbortController?.abort();
+    const { signal } = (highlightAbortController = new AbortController());
+
+    try {
+      const { results } = await view.hitTest(e);
+      throwIfAborted(signal);
+
+      highlightHandle?.remove();
+      highlightHandle = null;
+
+      const graphic = results.length > 0 ? results[0].graphic : null;
+      if (graphic) {
+        const lv = (await view.whenLayerView(graphic.layer)) as any;
+        throwIfAborted(signal);
+
+        highlightHandle = lv.highlight(graphic);
+      }
+    } catch (e) {
+      throwIfNotAbortError(e);
+    }
   });
 });
