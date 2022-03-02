@@ -29,6 +29,9 @@
           </p>
         </section>
 
+        <!-- 
+          DirectLineMeasurement 
+        -->
         <section
           class="align-left"
           data-slideId="direct-line-measurement"
@@ -74,7 +77,7 @@
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-line-numbers="1|3|6-10|12-15|17-18" data-trim>
+                  <code class="lang-ts" data-line-numbers data-trim>
                   const palmSprings = new Point({ x: -116.563645, y: 33.772349 });
                   
                   view.on("click", async (event) => {
@@ -106,6 +109,9 @@
           </div>
         </section>
 
+        <!-- 
+          AreaMeasurement 
+        -->
         <section
           class="align-left"
           data-slideId="area-measurement"
@@ -154,7 +160,7 @@
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-line-numbers="1|3|6-10|12-17|19-21|22-23" data-trim > 
+                  <code class="lang-ts" data-line-numbers data-trim > 
                   const buildings = new SceneLayer({ /* config */ });
 
                   view.on("click", async (e) => {
@@ -191,77 +197,9 @@
           </div>
         </section>
 
-        <section class="align-left" data-slideId="slice" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2>Slice widget</h2>
-          <div class="two-columns">
-            <div class="left-column">
-              <div data-fragment-id="add-widget" class="code-snippet">
-                <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
-                    const widget = new Slice({ view });
-
-                    view.ui.add(widget, "top-right");
-                  </code>
-                </pre>
-              </div>
-            </div>
-            <div class="right-column">
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/slice/"></iframe>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section
-          class="align-left"
-          data-slideId="slice-analysis"
-          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
-        >
-          <h2>SliceAnalysis</h2>
-          <div class="two-columns">
-            <div class="left-column">
-              <div data-fragment-id="add-widget" class="code-snippet">
-                <pre>
-                  <code class="lang-ts" data-trim data-line-numbers="1-7|10-12|14-25|1-26">
-                  const slidesAndPlanes = [{
-                    title: "Front",
-                    shape: new SlicePlane({ /* ... */ }),
-                  }, {
-                    title: "Top",
-                    shape: new SlicePlane({ /* ... */ }),
-                  }];
-
-                  slidesAndPlanes.forEach(({ title, shape }) => {
-                    const slide = view.map.presentation.slides.find((s) => {
-                      return s.title.text === title;
-                    });
-
-                    const button = document.createElement("calcite-button");
-                    button.textContent = title;
-                    button.onclick = () => {
-                      // Cut through the building
-                      view.analyses.removeAll();
-                      view.analyses.add(new Slice({ shape }));
-
-                      // Move camera to the right position
-                      slide.applyTo(view);
-                    };
-
-                    view.ui.add(button, "bottom-left");
-                  });
-                  </code>
-                </pre>
-              </div>
-            </div>
-            <div class="right-column">
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/slice-analysis/"></iframe>
-              </div>
-            </div>
-          </div>
-        </section>
-
+        <!-- 
+          LineOfSight 
+        -->
         <section
           class="align-left"
           data-slideId="line-of-sight"
@@ -383,6 +321,83 @@
           </div>
         </section>
 
+        <!-- 
+          Slice 
+        -->
+        <section class="align-left" data-slideId="slice" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2>Slice widget</h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const widget = new Slice({ view });
+
+                    view.ui.add(widget, "top-right");
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/slice/"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="align-left"
+          data-slideId="slice-analysis"
+          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
+        >
+          <h2>SliceAnalysis</h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  const slidesAndPlanes = [{
+                    title: "Front",
+                    shape: new SlicePlane({ /* ... */ }),
+                  }, {
+                    title: "Top",
+                    shape: new SlicePlane({ /* ... */ }),
+                  }];
+
+                  slidesAndPlanes.forEach(({ title, shape }) => {
+                    const slide = view.map.presentation.slides.find((s) => {
+                      return s.title.text === title;
+                    });
+
+                    const button = document.createElement("calcite-button");
+                    button.textContent = title;
+                    button.onclick = () => {
+                      // Cut through the building
+                      view.analyses.removeAll();
+                      view.analyses.add(new Slice({ shape }));
+
+                      // Move camera to the right position
+                      slide.applyTo(view);
+                    };
+
+                    view.ui.add(button, "bottom-left");
+                  });
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/slice-analysis/"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 
+          ShadowCast 
+        -->
         <section
           class="align-left"
           data-slideId="shadow-cast"
@@ -463,7 +478,7 @@
             <div class="left-column">
               <div class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers="3-5,31|6|8-18|20-23|25-28|1-31">
+                  <code class="lang-ts" data-trim data-line-numbers>
                   let abortController = null;
 
                   const button = document.createElement("calcite-button");
