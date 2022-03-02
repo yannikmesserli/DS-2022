@@ -62,7 +62,7 @@ function setupPointerMove(view: SceneView, analysis: LineOfSightAnalysis): void 
       throwIfAborted(signal);
 
       // Set the observer to the map point under the pointer.
-      analysis.observer = results.length === 0 ? ground?.mapPoint : results[0].mapPoint;
+      analysis.observer.position = results.length === 0 ? ground?.mapPoint : results[0].mapPoint;
     } catch (e) {
       throwIfNotAbortError(e);
     }
@@ -78,7 +78,7 @@ function setupClick(view: SceneView, analysis: LineOfSightAnalysis): void {
       abortController = new AbortController();
       const { signal } = abortController;
 
-      const { results } = await (view as any).whenAnalysisView(analysis);
+      const { results } = await view.whenAnalysisView(analysis);
       throwIfAborted(signal);
 
       // Make a new static analysis which will display only rays which hit their
