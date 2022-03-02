@@ -47,7 +47,7 @@
           <div>
             <ul>
               <li>
-                Core concepts - 15 min
+                Core concepts <span style="opacity: 50%"> - 15 min</span>
                 <ul>
                   <li>Setting up a 3D application</li>
                   <li>Sources of data</li>
@@ -55,7 +55,7 @@
                 </ul>
               </li>
               <li>
-                Coding demos - 30 min
+                Coding demos <span style="opacity: 50%"> - 30 min</span>
                 <ul>
                   <li>Data-driven thematic visualizations</li>
                   <li>Realistic 3D data</li>
@@ -63,7 +63,7 @@
                 </ul>
               </li>
               <li>
-                Q & A - 15 min
+                Q & A <span style="opacity: 50%"> - 15 min</span>
                 <ul>
                   <li>Sli.do</li>
                 </ul>
@@ -158,7 +158,36 @@
           <iframe class="r-stretch" data-src="./samples/basic-global-basemap.html"></iframe>
         </section>
 
-        <!--------- 1.1 Core concepts: Setting up a 3D application: ELEVATION -------->
+        <!--------- 1.1 Core concepts: Setting up a 3D application: ELEVATION new -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Setting up a 3D application</h2>
+          <p class="slidetitle-sub">Elevation</p>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet fragment">
+                <button class="play" id="add-elevation"></button>
+                <pre>
+                      <code class="lang-ts" data-trim>
+                      
+                          const map = new Map({
+                              qualityProfile: &quot;high&quot;,
+                              basemap: &quot;oceans&quot;,
+                              ground: &quot;world-elevation&quot;,
+                          });
+                      
+                      </code>
+                    </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/basic-global-elevation.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!--------- 1.1 Core concepts: Setting up a 3D application: ELEVATION old -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2 class="slidetitle">Setting up a 3D application</h2>
           <p class="slidetitle-sub">Elevation</p>

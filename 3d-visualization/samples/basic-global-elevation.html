@@ -21,9 +21,11 @@
       require(["esri/Map", "esri/views/SceneView"], (Map, SceneView) => {
         const map = new Map({
           qualityProfile: "high",
-          basemap: "oceans", //"satellite",
-          ground: "world-topobathymetry",
+          basemap: "satellite",
+          //ground: "world-topobathymetry",
         });
+        const doc = parent.document;
+        doc.getElementById("add-elevation").onClick = addElevation;
 
         const view = new SceneView({
           container: "viewDiv",
@@ -34,14 +36,25 @@
                 latestWkid: 3857,
                 wkid: 102100,
               },
-              x: 15998850.307402883,
-              y: 3010420.3781521507,
-              z: 29869.044168940745,
+              x: 866149.3091230182,
+              y: 5785930.748008795,
+              z: 3190.2525032190606,
             },
-            heading: 342.7675239596545,
-            tilt: 73.72901932696922,
+            heading: 228.0300130679289,
+            tilt: 82.98624449078746,
           },
         });
+
+        function addElevation() {
+          console.log("adding elevation");
+          const elevatedMap = new Map({
+            qualityProfile: "high",
+            basemap: "satellite",
+            ground: "world-topobathymetry",
+          });
+          //map.ground = "world-elevation";
+          view.map = elevatedMap;
+        }
       });
     </script>
   </head>
