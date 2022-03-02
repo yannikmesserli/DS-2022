@@ -20,10 +20,10 @@
     <script>
       require(["esri/Map", "esri/views/SceneView", "esri/layers/FeatureLayer"], (Map, SceneView, FeatureLayer) => {
         const layer = new FeatureLayer({
-          //url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Flood_Hazard_Reduced_Set_gdb/FeatureServer",
-          url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Major_Cities/FeatureServer",
-          //url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Parks/FeatureServer"
-          //url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Railroads_1/FeatureServer"
+          portalItem: {
+            id: "85d0ca4ea1ca4b9abf0c51b9bd34de2e",
+          },
+          //url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Major_Cities/FeatureServer",
         });
 
         const map = new Map({

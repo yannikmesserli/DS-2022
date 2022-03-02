@@ -265,9 +265,9 @@
         <!--------- 1.2 Core concepts: Sources of Data : Living atlas -------->
 
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Sources of data</h2>
           <div class="two-columns">
             <div class="left-column">
-              <h2 class="slidetitle">Sources of data</h2>
               <ul>
                 <li>
                   ArcGIS Online
@@ -285,15 +285,37 @@
 
         <!--------- 1.2 Core concepts: Sources of Data : Living atlas ADD LAYER -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Sources of data</h2>
           <div class="two-columns">
             <div class="left-column">
-              <h2 class="slidetitle">Sources of data</h2>
               <div data-fragment-id="add-widget" class="code-snippet">
+                <p class="slidetitle-sub">Load layer from URL</p>
                 <pre>
                         <code class="lang-ts" data-line-numbers="1-3,8" data-trim>
                         
                             const layer = new FeatureLayer({
                                 url: &quot;https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Major_Cities/FeatureServer&quot;
+                            });
+                              
+                            const map = new Map({
+                                basemap: &quot;gray-vector&quot;,
+                                ground: &quot;world-elevation&quot;,
+                                layers: [layer]
+                            });
+                        
+                        </code>
+                      </pre>
+              </div>
+              <br />
+              <div data-fragment-id="add-widget" class="code-snippet fragment">
+                <p class="slidetitle-sub">Load layer as a portal item</p>
+                <pre>
+                        <code class="lang-ts" data-line-numbers="1-5,10" data-trim>
+                        
+                            const layer = new FeatureLayer({
+                                portalItem: {
+                                  id: &quot;85d0ca4ea1ca4b9abf0c51b9bd34de2e&quot;
+                                },
                             });
                               
                             const map = new Map({
@@ -317,9 +339,9 @@
         <!--------- 1.2 Core concepts: Sources of Data : Upload -------->
 
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Sources of data</h2>
           <div class="two-columns">
             <div class="left-column">
-              <h2 class="slidetitle">Sources of data</h2>
               <ul>
                 <li>
                   ArcGIS Online
@@ -339,9 +361,9 @@
         <!--------- 1.2 Core concepts: Sources of Data : Upload -------->
 
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Sources of data</h2>
           <div class="two-columns">
             <div class="left-column">
-              <h2 class="slidetitle">Sources of data</h2>
               <ul>
                 <li>
                   ArcGIS Online
@@ -361,9 +383,9 @@
         <!--------- 1.2 Core concepts: Sources of Data : other open sources -------->
 
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Sources of data</h2>
           <div class="two-columns">
             <div class="left-column">
-              <h2 class="slidetitle">Sources of data</h2>
               <ul>
                 <li>
                   ArcGIS Online
@@ -397,6 +419,15 @@
           <p style="text-align: left; font-size: 20px; margin-top: 0; color: var(--r-section-subhead-color)">
             Layer symbology
           </p>
+        </section>
+
+        <!--------- 1.3 Core concepts: Layer symbology: flat volumetric  -------->
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Layer symbology: Flat vs volumetric</h2>
+
+          <!--img src="./images/symbology-flat-volumetric.png" /-->
+          <iframe class="r-stretch" data-src="./samples/symbology-2d-3d/index.html"></iframe>
         </section>
 
         <!--------- 1.3 Core concepts: Layer symbology : ADD RENDERER -------->
@@ -453,11 +484,8 @@
           <h2></h2>
           <div class="two-columns">
             <div class="left-column">
-              <ul>
-                <br />
-                Flat
-              </ul>
               <div data-fragment-id="add-widget" class="code-snippet">
+                <p class="slidetitle-sub">Flat</p>
                 <pre>
                             <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
                                 let stripPath = {
@@ -474,11 +502,8 @@
                             </code>
                           </pre>
               </div>
-              <ul>
-                <br />
-                Volumetric
-              </ul>
-              <div data-fragment-id="add-widget" class="code-snippet">
+              <div data-fragment-id="add-widget" class="code-snippet fragment">
+                <p class="slidetitle-sub">Volumetric</p>
                 <pre>
                             <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
                                 const symbol = {
@@ -506,15 +531,6 @@
               </div>
             </div>
           </div>
-        </section>
-
-        <!--------- 1.3 Core concepts: Layer symbology: flat volumetric image -------->
-
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2 class="slidetitle">Layer symbology: Flat vs volumetric</h2>
-
-          <!--img src="./images/symbology-flat-volumetric.png" /-->
-          <iframe class="r-stretch" data-src="./samples/symbology-2d-3d/index.html"></iframe>
         </section>
 
         <!--------- Setting up a 3D application: 3D specific data -------->
