@@ -19,12 +19,10 @@
 
     <script>
       require(["esri/Map", "esri/views/SceneView"], (Map, SceneView) => {
-        const doc = parent.document;
-        doc.getElementById("add-elevation").onclick = addElevation;
         const map = new Map({
           qualityProfile: "high",
-          basemap: "satellite",
-          //ground: "world-topobathymetry",
+          basemap: "oceans",
+          ground: "world-topobathymetry",
         });
 
         const view = new SceneView({
@@ -36,18 +34,14 @@
                 latestWkid: 3857,
                 wkid: 102100,
               },
-              x: 866149.3091230182,
-              y: 5785930.748008795,
-              z: 3190.2525032190606,
+              x: 15998850.307402883,
+              y: 3010420.3781521507,
+              z: 29869.044168940745,
             },
-            heading: 228.0300130679289,
-            tilt: 82.98624449078746,
+            heading: 342.7675239596545,
+            tilt: 73.72901932696922,
           },
         });
-
-        function addElevation() {
-          map.ground = "world-elevation";
-        }
       });
     </script>
   </head>

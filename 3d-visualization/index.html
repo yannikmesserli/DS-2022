@@ -158,7 +158,7 @@
           <iframe class="r-stretch" data-src="./samples/basic-global-basemap.html"></iframe>
         </section>
 
-        <!--------- 1.1 Core concepts: Setting up a 3D application: ELEVATION new -------->
+        <!--------- 1.1 Core concepts: Setting up a 3D application: ELEVATION alps -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2 class="slidetitle">Setting up a 3D application</h2>
           <p class="slidetitle-sub">Elevation</p>
@@ -167,11 +167,10 @@
             <div class="left-column">
               <div class="code-snippet fragment">
                 <button class="play" id="add-elevation"></button>
-                <pre><code class="lang-js" data-trim>
+                <pre><code class="lang-js" data-line-numbers="3" data-trim>
 
                           const map = new Map({
-                              qualityProfile: &quot;high&quot;,
-                              basemap: &quot;oceans&quot;,
+                              basemap: &quot;satellite&quot;,
                               ground: &quot;world-elevation&quot;,
                           });
 
@@ -183,27 +182,29 @@
             </div>
           </div>
         </section>
-        <!--------- 1.1 Core concepts: Setting up a 3D application: ELEVATION old -------->
+
+        <!--------- 1.1 Core concepts: Setting up a 3D application: ELEVATION sea -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2 class="slidetitle">Setting up a 3D application</h2>
           <p class="slidetitle-sub">Elevation</p>
 
           <div class="two-columns">
             <div class="left-column">
-              <div data-fragment-id="add-widget" class="code-snippet">
-                <pre><code class="lang-js" data-trim>
+              <div class="code-snippet">
+                <button class="play" id="add-elevation"></button>
+                <pre><code class="lang-js" data-line-numbers="3" data-trim>
 
                           const map = new Map({
-                              qualityProfile: &quot;high&quot;,
                               basemap: &quot;oceans&quot;,
-                              //ground: &quot;world-elevation&quot;,
                               ground: &quot;world-topobathymetry&quot;,
                           });
 
                 </code></pre>
               </div>
             </div>
-            <div class="right-column"></div>
+            <div class="right-column">
+              <iframe data-src="./samples/basic-global-bathy.html"></iframe>
+            </div>
           </div>
         </section>
 
