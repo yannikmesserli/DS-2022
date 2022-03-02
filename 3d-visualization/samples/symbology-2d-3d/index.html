@@ -23,10 +23,11 @@
       require([
         "esri/Map",
         "esri/views/SceneView",
+        "esri/widgets/Expand",
         "esri/layers/GraphicsLayer",
         "esri/Graphic",
         "esri/widgets/Daylight",
-      ], function (Map, SceneView, GraphicsLayer, Graphic, Daylight) {
+      ], function (Map, SceneView, Expand, GraphicsLayer, Graphic, Daylight) {
         var map = new Map({
           basemap: "topo",
           ground: {
@@ -48,8 +49,15 @@
         view.environment.lighting.directShadowsEnabled = true;
         view.ui.empty("top-left");
 
-        const daylight = new Daylight({ view });
-        view.ui.add(daylight, "top-right");
+        const daylightExpand = new Expand({
+          view: view,
+          content: new Daylight({
+            view: view,
+          }),
+          group: "top-right",
+          expanded: false,
+        });
+        view.ui.add(daylightExpand, "top-right");
 
         var graphicsLayer = new GraphicsLayer();
         map.add(graphicsLayer);
