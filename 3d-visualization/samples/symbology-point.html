@@ -25,6 +25,8 @@
         "esri/symbols/PointSymbol3D",
         "esri/symbols/IconSymbol3DLayer",
         "esri/symbols/ObjectSymbol3DLayer",
+        "esri/widgets/Expand",
+        "esri/widgets/Legend",
         "esri/widgets/Fullscreen",
       ], (
         FeatureLayer,
@@ -34,6 +36,8 @@
         PointSymbol3D,
         IconSymbol3DLayer,
         ObjectSymbol3DLayer,
+        Expand,
+        Legend,
         Fullscreen
       ) => {
         const doc = parent.document;
@@ -181,11 +185,17 @@
           camera: initCam,
         });
 
-        /*const legend = new Legend({
-          view: view,
-        });*/
-
-        //view.ui.add(legend, "bottom-right");
+        hurricaneLayer.when(() => {
+          const legendExpand = new Expand({
+            view: view,
+            content: new Legend({
+              view: view,
+            }),
+            group: "bottom-right",
+            expanded: false,
+          });
+          view.ui.add(legendExpand, "bottom-right");
+        });
 
         function iconToObject() {
           symbol3D = !symbol3D;
