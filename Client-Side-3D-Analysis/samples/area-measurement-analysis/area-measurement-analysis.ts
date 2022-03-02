@@ -1,51 +1,57 @@
-// @ts-check
 import AreaMeasurementAnalysis from "@arcgis/core/analysis/AreaMeasurementAnalysis";
-import Extent from "@arcgis/core/geometry/Extent";
 import Polygon from "@arcgis/core/geometry/Polygon";
-import Graphic from "@arcgis/core/Graphic";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import SceneLayer from "@arcgis/core/layers/SceneLayer";
-import SceneView from "@arcgis/core/views/SceneView";
-import { SAN_FRANCISCO } from "../../../common/scenes";
-import { initView, onInit, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
+import { DENVER_PARCELS } from "../../../common/scenes";
+import { initView, onFragment, onInit, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
+import OAuthInfo from "@arcgis/core/identity/OAuthInfo";
+import IdentityManager from "@arcgis/core/identity/IdentityManager";
 
-let view: SceneView;
-let buildings: SceneLayer;
-let footprints: FeatureLayer;
+IdentityManager.registerOAuthInfos([
+  new OAuthInfo({
+    appId: "pZzd4uJ0gZddupQh",
+    popup: true,
+    popupCallbackUrl: `${document.location.origin}/oauth-callback-api.html`,
+  }),
+]);
+
+(window as any).setOAuthResponseHash = (responseHash: string) => {
+  IdentityManager.setOAuthResponseHash(responseHash);
+};
+
+let alignToGround = false;
 
 onInit("area-measurement-analysis", () => {
-  const view = initView(SAN_FRANCISCO);
+  const view = initView(DENVER_PARCELS);
+  view.popup.autoOpenEnabled = false;
 
   let abortController: AbortController | null = null;
 
-  view.on("click", async (e) => {
+  view.on("click", async (e: __esri.ViewClickEvent) => {
     abortController?.abort();
     const { signal } = (abortController = new AbortController());
 
     try {
-      const { results } = await view.hitTest(e, { include: [buildings] });
+      const { results, ground } = await view.hitTest(e);
       throwIfAborted(signal);
 
-      const building = results.find((r) => r.graphic)?.graphic;
-      if (!building) {
+      if (results.length === 0 || !ground) {
         return;
       }
 
-      const [footprint, extent] = await Promise.all([getFootprint(building, signal), getExtent(building, signal)]);
-      throwIfAborted(signal);
+      const geometry = (results[0].graphic.geometry as Polygon).clone();
 
-      if (!footprint || !extent) {
-        return;
+      // Our polygon don't have elevation values because the parent `FeatureLayer`
+      // uses `on-the-ground` elevation mode. Therefore, we need to modify all
+      // the vertices to so their Z corresponds to the the absolute elevation of
+      // the ground. Essentially, we manually align the geometry to the ground.
+      if (alignToGround) {
+        const groundZ = ground.mapPoint.z;
+        geometry.rings = geometry.rings.map((ring) => {
+          return ring.map(([x, y]) => [x, y, groundZ]);
+        });
+        geometry.hasZ = true;
       }
 
-      // Place the measurement above the building
-      footprint.rings = footprint.rings.map((ring) => ring.map(([x, y]) => [x, y, extent.zmax + 10]));
-      footprint.hasZ = true;
-
-      const analysis = new AreaMeasurementAnalysis({
-        geometry: footprint,
-        unit: "square-feet",
-      });
+      const analysis = new AreaMeasurementAnalysis({ geometry });
 
       (view as any).analyses.removeAll();
       (view as any).analyses.add(analysis);
@@ -55,28 +61,6 @@ onInit("area-measurement-analysis", () => {
   });
 });
 
-async function getFootprint(building: Graphic, signal: AbortSignal): Promise<Polygon | null> {
-  const query = footprints.createQuery();
-  query.objectIds = [building.getObjectId()];
-  query.outFields = ["*"];
-  query.multipatchOption = "xyFootprint";
-  query.returnGeometry = true;
-
-  const result = await footprints.queryFeatures(query);
-  throwIfAborted(signal);
-
-  return result.features.length === 0 ? null : (result.features[0].geometry as Polygon);
-}
-
-async function getExtent(building: Graphic, signal: AbortSignal): Promise<Extent | null> {
-  const buildingsLV = await view.whenLayerView(buildings);
-  throwIfAborted(signal);
-
-  const extentResult = await buildingsLV.queryExtent({
-    objectIds: [building.getObjectId()],
-    returnGeometry: true,
-  });
-  throwIfAborted(signal);
-
-  return extentResult.extent;
-}
+onFragment("align-to-ground", () => {
+  alignToGround = true;
+});
