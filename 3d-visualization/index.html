@@ -11,10 +11,22 @@
     <link rel="stylesheet" href="../reveal.js/dist/theme/black.css" />
     <link rel="stylesheet" href="../reveal.js/plugin/highlight/monokai.css" />
     <link rel="stylesheet" href="../resources/main.css" />
+    <style>
+      .slidetitle {
+        font-size: 28px !important;
+        margin-bottom: 8px !important;
+      }
+      .slidetitle-sub {
+        text-align: left;
+        margin-top: 0 !important;
+        font-size: 20px;
+      }
+    </style>
   </head>
   <body>
     <div class="reveal">
       <div class="slides">
+        <!--------- Intro: TITLE -------->
         <section data-background="../reveal.js/img/2022/dev-summit/bg-1.png" data-background-size="cover">
           <h1 style="text-align: left; font-size: 60px">
             ArcGIS JS API for JavaScript: <br />
@@ -29,19 +41,53 @@
           </p>
         </section>
 
-        <!--------- Setting up a 3D application: HTML -------->
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2>Setting up a 3D application</h2>
+        <!--------- Intro: OVERVIEW -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
+          <h2>Session outline</h2>
+          <div>
+            <ul>
+              <li>
+                Core concepts - 20 min
+                <ul>
+                  <li>Setting up a 3D application</li>
+                  <li>Sources of data</li>
+                  <li>Layer symbology</li>
+                </ul>
+              </li>
+              <li>
+                Coding demos - 25 min
+                <ul>
+                  <li>Data-driven thematic visualizations</li>
+                  <li>Realistic 3D data</li>
+                  <li>Combining realistic and data-driven visuals</li>
+                </ul>
+              </li>
+              <li>
+                Q & A - 15 min
+                <ul>
+                  <li>Sli.do</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <!--------- 1. Core concepts: TITLE -------->
+        <section data-background="../reveal.js/img/2022/dev-summit/bg-5.png" data-background-size="cover">
+          <h1 style="text-align: left; font-size: 50px; margin-bottom: 10px">Core concepts</h1>
+          <p style="text-align: left; font-size: 28px; margin-top: 0; color: var(--r-section-subhead-color)">
+            Getting started with 3D
+          </p>
+        </section>
 
+        <!--------- 1.1 Core concepts: Setting up a 3D application: HTML -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Setting up a 3D application</h2>
+          <p class="slidetitle-sub">HTML</p>
           <div class="two-columns">
             <div class="left-column">
-              <ul>
-                <li>HTML</li>
-                <br />
-              </ul>
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-line-numbers="1-15|17-18|22-24|26-29" data-trim>
+                  <code class="lang-ts" data-line-numbers="1-15,32-37|17-18|22-24|26-29" data-trim>
                     &lt;html&gt;
                     &lt;head&gt;
                       &lt;meta charset=&quot;utf-8&quot; /&gt;
@@ -85,10 +131,6 @@
               </div>
             </div>
             <div class="right-column">
-              <ul>
-                <br />
-                <br />
-              </ul>
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/basic-global.html"></iframe>
               </div>
@@ -96,52 +138,41 @@
           </div>
         </section>
 
-        <!--------- Setting up a 3D application: BASEMAP image -------->
+        <!--------- 1.1 Core concepts: Setting up a 3D application: BASEMAP image -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2>Setting up a 3D applications</h2>
+          <h2 class="slidetitle">Setting up a 3D application</h2>
+          <p class="slidetitle-sub">Basemap</p>
           <div class="two-columns">
-            <div class="left-column">
-              <ul>
-                <li>Basemap</li>
-              </ul>
-            </div>
+            <div class="left-column"></div>
             <div class="right-column">
-              <img src="./images/basemapgallery.png" width="800px" />
+              <img src="./images/basemapgallery.png" width="600px" />
             </div>
           </div>
         </section>
 
-        <!--------- Setting up a 3D application: BASEMAP app -------->
+        <!--------- 1.1 Core concepts: Setting up a 3D application: BASEMAP app -------->
+
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2>Setting up a 3D applications</h2>
-          <div class="two-columns">
-            <div class="left-column">
-              <ul>
-                <li>Basemap</li>
-              </ul>
-            </div>
-            <div class="right-column">
-              <iframe class="r-stretch" data-src="./samples/basic-global-basemap.html"></iframe>
-            </div>
-          </div>
+          <h2 class="slidetitle">Setting up a 3D application</h2>
+          <p class="slidetitle-sub">Basemap</p>
+          <iframe class="r-stretch" data-src="./samples/basic-global-basemap.html"></iframe>
         </section>
 
-        <!--------- Setting up a 3D application: ELEVATION -------->
+        <!--------- 1.1 Core concepts: Setting up a 3D application: ELEVATION -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2>Setting up a 3D application</h2>
+          <h2 class="slidetitle">Setting up a 3D application</h2>
+          <p class="slidetitle-sub">Elevation</p>
 
           <div class="two-columns">
             <div class="left-column">
-              <ul>
-                <li>Elevation</li>
-              </ul>
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
                       <code class="lang-ts" data-trim>
                       
                           const map = new Map({
                               qualityProfile: &quot;high&quot;,
-                              basemap: &quot;satellite&quot;,
+                              basemap: &quot;oceans&quot;,
+                              //ground: &quot;world-elevation&quot;,
                               ground: &quot;world-topobathymetry&quot;,
                           });
                       
@@ -150,9 +181,6 @@
               </div>
             </div>
             <div class="right-column">
-              <ul>
-                <br />
-              </ul>
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/basic-global-elevation.html"></iframe>
               </div>
@@ -160,39 +188,38 @@
           </div>
         </section>
 
-        <!--------- Setting up a 3D application: LOCAL -------->
+        <!--------- 1.1 Core concepts: Setting up a 3D application: LOCAL -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2>Setting up a 3D application</h2>
+          <h2 class="slidetitle">Setting up a 3D application</h2>
+          <p class="slidetitle-sub">Local</p>
 
           <div class="two-columns">
             <div class="left-column">
-              <ul>
-                <li>Local</li>
-              </ul>
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                      <code class="lang-ts" data-trim>
-                              const clippingExtent = new SceneView({
-                                container: &quot;viewDiv&quot;,
-                                viewingMode: &quot;local&quot;,
-                                map: map,
-                              });
+                      <code class="lang-ts" data-line-numbers="14|1-10,15" data-trim>
+                            const clippingExtent = {
+                                spatialReference: {
+                                latestWkid: 3857,
+                                wkid: 102100,
+                                },
+                                xmin: -13045241.329652093,
+                                ymin: 4036780.474001343,
+                                xmax: -13045119.666179948,
+                                ymax: 4036937.733336518,
+                            };
 
-                              const view = new SceneView({
+                            const view = new SceneView({
                                 container: &quot;viewDiv&quot;,
                                 viewingMode: &quot;local&quot;,
                                 clippingArea: clippingExtent,
                                 map: map,
-                              });
-                      
+                            });
                       </code>
                     </pre>
               </div>
             </div>
             <div class="right-column">
-              <ul>
-                <br />
-              </ul>
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/basic-local.html"></iframe>
               </div>
@@ -200,12 +227,20 @@
           </div>
         </section>
 
-        <!--------- Setting up a 3D application: ADD LAYER -------->
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2>Sources of data</h2>
+        <!--------- 1.2 Core concepts: Sources of Data : TITLE -------->
+        <section data-background="../reveal.js/img/2022/dev-summit/bg-5.png" data-background-size="cover">
+          <h1 style="text-align: left; font-size: 32px; margin-bottom: 10px">Core concepts</h1>
+          <p style="text-align: left; font-size: 20px; margin-top: 0; color: var(--r-section-subhead-color)">
+            Sources of data
+          </p>
+        </section>
 
+        <!--------- 1.2 Core concepts: Sources of Data : Living atlas -------->
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <div class="two-columns">
             <div class="left-column">
+              <h2 class="slidetitle">Sources of data</h2>
               <ul>
                 <li>
                   ArcGIS Online
@@ -214,9 +249,21 @@
                   </ul>
                 </li>
               </ul>
+            </div>
+            <div class="right-column">
+              <img src="./images/data-livingatlas.png" width="800px" />
+            </div>
+          </div>
+        </section>
+
+        <!--------- 1.2 Core concepts: Sources of Data : Living atlas ADD LAYER -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <div class="two-columns">
+            <div class="left-column">
+              <h2 class="slidetitle">Sources of data</h2>
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                        <code class="lang-ts" data-trim>
+                        <code class="lang-ts" data-line-numbers="1-3,8" data-trim>
                         
                             const layer = new FeatureLayer({
                                 url: &quot;https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Major_Cities/FeatureServer&quot;
@@ -233,36 +280,328 @@
               </div>
             </div>
             <div class="right-column">
-              <ul>
-                <br />
-              </ul>
               <div class="iframe-wrapper">
-                <iframe data-src="./samples/data-layer.html"></iframe>
+                <iframe data-src="./samples/data-layer.html" width="800px"></iframe>
               </div>
             </div>
           </div>
         </section>
 
-        <!--------- Setting up a 3D application: OTHERSTUFF -------->
+        <!--------- 1.2 Core concepts: Sources of Data : Upload -------->
+
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2>Setting up a 3D application</h2>
           <div class="two-columns">
             <div class="left-column">
+              <h2 class="slidetitle">Sources of data</h2>
               <ul>
-                <li>HTML</li>
-                <li>Basemaps</li>
-                <li>Elevation data</li>
-                <li>Global vs local viewing modes</li>
+                <li>
+                  ArcGIS Online
+                  <ul>
+                    <li>Living Atlas – worldwide data</li>
+                    <li>Upload your own</li>
+                  </ul>
+                </li>
               </ul>
             </div>
             <div class="right-column">
-              <img src="./images/filter_vs_query.png" width="800px" />
+              <img src="./images/data-upload.png" width="800px" />
             </div>
           </div>
         </section>
 
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
-          <h2>Header</h2>
+        <!--------- 1.2 Core concepts: Sources of Data : Upload -------->
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <div class="two-columns">
+            <div class="left-column">
+              <h2 class="slidetitle">Sources of data</h2>
+              <ul>
+                <li>
+                  ArcGIS Online
+                  <ul>
+                    <li>Living Atlas – worldwide data</li>
+                    <li>Upload your own</li>
+                    <li>Create your own data with the editing widget</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="right-column">
+              <img src="./images/data-editor.png" width="800px" />
+            </div>
+          </div>
+        </section>
+        <!--------- 1.2 Core concepts: Sources of Data : other open sources -------->
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <div class="two-columns">
+            <div class="left-column">
+              <h2 class="slidetitle">Sources of data</h2>
+              <ul>
+                <li>
+                  ArcGIS Online
+                  <ul>
+                    <li>Living Atlas – worldwide data</li>
+                    <li>Upload your own</li>
+                    <li>Create your own data with the editing widget</li>
+                  </ul>
+                </li>
+                <li>
+                  Other open data sources <br />
+                  in formats such as:
+                  <ul>
+                    <li>GeoJSON</li>
+                    <li>WFS</li>
+                    <li>CSV</li>
+                    <li>OGC features</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="right-column">
+              <img src="./images/data-open.png" width="800px" />
+            </div>
+          </div>
+        </section>
+
+        <!--------- 1.3 Core concepts: Layer symbology: TITLE -------->
+        <section data-background="../reveal.js/img/2022/dev-summit/bg-5.png" data-background-size="cover">
+          <h1 style="text-align: left; font-size: 32px; margin-bottom: 10px">Core concepts</h1>
+          <p style="text-align: left; font-size: 20px; margin-top: 0; color: var(--r-section-subhead-color)">
+            Layer symbology
+          </p>
+        </section>
+
+        <!--------- 1.3 Core concepts: Layer symbology : ADD RENDERER -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Layer symbology</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                          <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
+                            const layer = new FeatureLayer({
+                                url: &quot;https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Major_Cities/FeatureServer&quot;,
+                                renderer: new SimpleRenderer({
+                                  symbol: new PointSymbol3D({
+                                    symbolLayers: [
+                                      new ObjectSymbol3DLayer({
+                                        width: 10000,  // diameter of the object from east to west in meters
+                                        height: 50000,  // height of the object in meters
+                                        depth: 10000,  // diameter of the object from north to south in meters
+                                        resource: { primitive: &quot;cylinder&quot; },
+                                        material: { color: &quot;red&quot; }
+                                      })
+                                    ]
+                                  })
+                                })
+                              });
+                                
+                              const map = new Map({
+                                  basemap: &quot;gray-vector&quot;,
+                                  ground: &quot;world-elevation&quot;,
+                                  layers: [layer]
+                              });
+                          
+                          </code>
+                        </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <ul>
+                <br />
+              </ul>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/data-layer-renderer.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--------- 1.3 Core concepts: Layer symbology: SYMBOLOGY LINE  -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Layer symbology: Lines</h2>
+
+          <h2></h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <ul>
+                <br />
+                Flat
+              </ul>
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                            <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
+                                let stripPath = {
+                                    type: "line-3d",  // autocasts as new LineSymbol3D()
+                                    symbolLayers: [{
+                                      type: "path",  // autocasts as new PathSymbol3DLayer()
+                                      profile: "quad",  // creates a rectangular shape
+                                      width: 20,  // path width in meters
+                                      height: 5,  // path height in meters
+                                      material: { color: "#ff7380" },
+                                      cap: "square"
+                                    }]
+                                  };
+                            </code>
+                          </pre>
+              </div>
+              <ul>
+                <br />
+                Volumetric
+              </ul>
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                            <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
+                                const symbol = {
+                                    type: "point-3d",  // autocasts as new PointSymbol3D()
+                                    symbolLayers: [{
+                                      type: "object",  // autocasts as new ObjectSymbol3DLayer()
+                                      width: 5,  // diameter of the object from east to west in meters
+                                      height: 20,  // height of the object in meters
+                                      depth: 15,  // diameter of the object from north to south in meters
+                                      resource: { primitive: "cylinder" },
+                                      material: { color: "red" }
+                                    }]
+                                  };
+                            </code>
+                          </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <ul>
+                <br />
+              </ul>
+              <div class="iframe-wrapper">
+                <!--iframe data-src="./samples/data-layer-renderer.html"></iframe-->
+                <iframe data-src="./samples/symbology-line.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--------- 1.3 Core concepts: Layer symbology: flat volumetric image -------->
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Layer symbology: Flat vs volumetric</h2>
+
+          <!--img src="./images/symbology-flat-volumetric.png" /-->
+          <iframe class="r-stretch" data-src="./samples/symbology-2d-3d/index.html"></iframe>
+        </section>
+
+        <!--------- Setting up a 3D application: 3D specific data -------->
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Layer symbology: 3D-specific data types</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <ul>
+                <li>3D object scene layer</li>
+                <li>Building scene layer</li>
+                <li>Integrated mesh layer</li>
+                <li>Point cloud layer</li>
+              </ul>
+            </div>
+            <div class="right-column">
+              <!--img src="./images/symbology-3d.png" width="800px" /-->
+            </div>
+          </div>
+        </section>
+
+        <!--------- 1.3 Core concepts: Layer symbology: 3D object scene layer  -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">3D-specific data types: 3D object scene layer</h2>
+
+          <h2></h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <ul>
+                  <br />
+                  Add texture layer
+                </ul>
+                <pre>
+                            <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
+                            </code>
+                          </pre>
+              </div>
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <ul>
+                  <br />
+                  Add outlines
+                </ul>
+                <pre>
+                            <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
+                              const renderer = {
+                                type: "simple", // autocasts as new SimpleRenderer()
+                                symbol: {
+                                  type: "mesh-3d",
+                                  symbolLayers: [
+                                    {
+                                      type: "fill",
+                                      material: {
+                                        color: "#ffffff",
+                                        colorMixMode: "replace"
+                                      },
+                                      edges: solidEdges
+                                    }
+                                  ]
+                                }
+                              };
+                            </code>
+                          </pre>
+              </div>
+
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <ul>
+                  <br />
+                  Color by attributes instead
+                </ul>
+                <pre>
+                            <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
+                            </code>
+                          </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <ul>
+                <br /><br />
+              </ul>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/symbology-3dosl.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--------- 2. Coding demos: TITLE -------->
+        <section data-background="../reveal.js/img/2022/dev-summit/bg-5.png" data-background-size="cover">
+          <h1 style="text-align: left; font-size: 50px; margin-bottom: 10px">Coding demos</h1>
+          <p style="text-align: left; font-size: 28px; margin-top: 0; color: var(--r-section-subhead-color)">
+            3D visualization use cases
+          </p>
+        </section>
+
+        <!--------- 2.1 Coding demos: DATA DRIVEN -------->
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Data-driven thematic visualizations</h2>
+          <iframe class="r-stretch" data-src="./samples/demo-thematic.html"></iframe>
+        </section>
+        <!--------- 2.2 Coding demos: REALISTIC -------->
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Realistic 3D data</h2>
+          <iframe class="r-stretch" data-src="./samples/demo-realistic.html"></iframe>
+        </section>
+        <!--------- 2.3 Coding demos: COMBINED -------->
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Combining realistic and data-driven visuals</h2>
+          <img src="./images/placeholder-munich.png" width="1200px" />
+          <!--iframe class="r-stretch" data-src="./samples/demo-combined.html"></iframe-->
         </section>
 
         <!-- FEEDBACK SLIDE: -->

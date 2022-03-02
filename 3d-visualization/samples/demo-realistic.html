@@ -1,0 +1,101 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Weather visualization | Sample | ArcGIS API for JavaScript 4.23</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #button {
+        width: 100%;
+        margin: 20px 0 0 0;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://jsdev.arcgis.com/4.23/esri/themes/light/main.css" />
+    <script src="https://jsdev.arcgis.com/4.23/"></script>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/layers/SceneLayer",
+        "esri/views/SceneView",
+        "esri/widgets/Expand",
+        "esri/widgets/Weather",
+        "esri/widgets/Daylight",
+      ], (Map, SceneLayer, SceneView, Expand, Weather, Daylight) => {
+        /***********************************
+         * Create the SceneView
+         ***********************************/
+        // Create a new map
+        const map = new Map({
+          basemap: "satellite",
+          ground: "world-elevation",
+        });
+
+        // Load the sceneLayer with the 3D buildings from San Francisco
+        const sceneLayer = new SceneLayer({
+          url: "https://tiles.arcgis.com/tiles/z2tnIkrLQ2BRzr6P/arcgis/rest/services/SanFrancisco_Bldgs/SceneServer/layers/0",
+          title: "San Francisco Downtown",
+          popupEnabled: false,
+        });
+        map.add(sceneLayer);
+
+        // Create a new sceneView and set the weather to cloudy
+        const view = new SceneView({
+          container: "viewDiv",
+
+          map: map,
+          camera: {
+            position: {
+              longitude: -122.38907,
+              latitude: 37.7755,
+              z: 74.83047,
+            },
+            heading: 333.84,
+            tilt: 92.84,
+          },
+          qualityProfile: "high",
+          environment: {
+            atmosphere: {
+              quality: "high",
+            },
+            weather: { type: "cloudy", cloudCover: 0.6 }, // autocasts to new CloudyWeather({ cloudCover: 0.6 })
+          },
+        });
+
+        /***********************************
+         * Add the widgets' UI elements to the view
+         ***********************************/
+        const weatherExpand = new Expand({
+          view: view,
+          content: new Weather({
+            view: view,
+          }),
+          group: "top-right",
+          expanded: true,
+        });
+
+        const daylightExpand = new Expand({
+          view: view,
+          content: new Daylight({
+            view: view,
+          }),
+          group: "top-right",
+        });
+        view.ui.add([weatherExpand, daylightExpand], "top-right");
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
