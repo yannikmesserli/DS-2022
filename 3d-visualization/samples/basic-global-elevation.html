@@ -18,14 +18,16 @@
     <script src="https://jsdev.arcgis.com/4.23/"></script>
 
     <script>
+      const doc = parent.document;
+      doc.getElementById("add-elevation").onClick = function () {
+        alert("sdfsdf");
+      };
       require(["esri/Map", "esri/views/SceneView"], (Map, SceneView) => {
         const map = new Map({
           qualityProfile: "high",
           basemap: "satellite",
           //ground: "world-topobathymetry",
         });
-        const doc = parent.document;
-        doc.getElementById("add-elevation").onClick = addElevation;
 
         const view = new SceneView({
           container: "viewDiv",
