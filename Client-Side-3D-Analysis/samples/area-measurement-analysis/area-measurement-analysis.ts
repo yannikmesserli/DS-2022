@@ -6,18 +6,15 @@ import Graphic from "@arcgis/core/Graphic";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
 import SceneView from "@arcgis/core/views/SceneView";
-import { onInit, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
-import { initSanFrancisco } from "../../../common/scenes";
+import { SAN_FRANCISCO } from "../../../common/scenes";
+import { initView, onInit, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
 
 let view: SceneView;
 let buildings: SceneLayer;
 let footprints: FeatureLayer;
 
 onInit("area-measurement-analysis", () => {
-  const data = initSanFrancisco();
-  view = data.view;
-  buildings = data.buildings;
-  footprints = data.footprints;
+  const view = initView(SAN_FRANCISCO);
 
   let abortController: AbortController | null = null;
 
