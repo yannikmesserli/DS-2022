@@ -295,15 +295,84 @@
         >
           <h2>LineOfSightAnalysis</h2>
           <div class="two-columns">
-            <div class="left-column">
-              <div data-fragment-id="add-widget" class="code-snippet">
+            <div class="left-column r-stack no-margin">
+              <div data-fragment-index="0" class="code-snippet fragment fade-out">
                 <pre>
-                <code class="lang-ts" data-trim data-line-numbers>
-                  const analysis = new LineOfSightAnalysis();
-                
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  const landmarks = [
+                    {
+                      name: "Neues Rathaus",
+                      threshold: 5,
+                      position: new Point({ /* ... */ }),
+                    },
+                    {
+                      name: "St Peter's Church - Tower 1",
+                      threshold: 15,
+                      position: new Point({ /* ... */ }),
+                    },
+                    {
+                      name: "St Peter's Church - Tower 2",
+                      threshold: 15,
+                      position: new Point({ /* ... */ }),
+                    },
+                  ];
+
+                  // Make an analysis with a target for each of our landmarks.
+                  const targets = landmarks.map(({ position }) => {
+                    return new LineOfSightAnalysisTarget({ position })
+                  });
+                  const analysis = new LineOfSightAnalysis({ targets });
+
                   view.analyses.add(analysis);
-                </code>
-              </pre>
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-index="0" class="code-snippet fragment fade-in-then-out">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  view.on("pointer-move", async (e) => {   
+                    // Cancellation logic omitted for brevity
+                    
+                    const { ground, results } = await view.hitTest(e);
+
+                    analysis.observer = position
+                      ? new LineOfSightAnalysisObserver({ position })
+                      : null;
+                  });
+                  </code>
+                </pre>
+              </div>
+
+              <div class="code-snippet fragment fade-in-then-out">
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  view.on("immediate-click", async () => {
+                    // Cancellation logic omitted for brevity
+              
+                    const { results } = await view.whenAnalysisView(analysis);
+              
+                    const observer = analysis.observer;
+                    const staticAnalysis = new LineOfSightAnalysis({ observer });
+              
+                    for (let i = 0; i &lt; landmarks.length; ++i) {
+                      const landmark = landmarks[i];
+                      const intersection = results.getItemAt(i)?.intersectedLocation;
+                      const target = analysis.targets.getItemAt(i);
+              
+                      if (!intersection || !target) {
+                        continue;
+                      }
+              
+                      if (target.position.distance(intersection) &lt; landmark.threshold) {
+                        staticAnalysis.targets.push(target);
+                      }
+                    }
+              
+                    view.analyses.add(staticAnalysis);
+                  });
+                  </code>
+                </pre>
               </div>
             </div>
             <div class="right-column">
