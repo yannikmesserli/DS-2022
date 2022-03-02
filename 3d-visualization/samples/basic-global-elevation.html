@@ -28,6 +28,19 @@
         const view = new SceneView({
           container: "viewDiv",
           map: map,
+          camera: {
+            position: {
+              spatialReference: {
+                latestWkid: 3857,
+                wkid: 102100,
+              },
+              x: 15998850.307402883,
+              y: 3010420.3781521507,
+              z: 29869.044168940745,
+            },
+            heading: 342.7675239596545,
+            tilt: 73.72901932696922,
+          },
         });
       });
     </script>

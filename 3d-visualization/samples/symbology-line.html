@@ -1,0 +1,241 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Path visualization in 3D | Sample | ArcGIS API for JavaScript 4.22</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.22/"></script>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #menu {
+        padding: 1em;
+        display: none;
+      }
+
+      #menu > div {
+        padding: 0.4em;
+      }
+
+      select {
+        font-family: "Avenir Next W00", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+    </style>
+
+    <script>
+      require([
+        "esri/WebScene",
+        "esri/views/SceneView",
+        "esri/layers/FeatureLayer",
+        "esri/renderers/UniqueValueRenderer",
+      ], (WebScene, SceneView, FeatureLayer, UniqueValueRenderer) => {
+        // Create view and load an existing webscene into it
+        const webscene = new WebScene({
+          portalItem: {
+            // autocasts as new PortalItem()
+            id: "4a711462369c4334972dcd39b064d214",
+          },
+        });
+
+        const view = new SceneView({
+          container: "viewDiv",
+          map: webscene,
+          qualityProfile: "high",
+          environment: {
+            lighting: {
+              directShadowsEnabled: true,
+              ambientOcclusionEnabled: true,
+            },
+            atmosphere: {
+              quality: "high",
+            },
+          },
+        });
+
+        /*************************************************
+         * These options can be set on a PathSymbol3DLayer.
+         * `profile` changes the shape of the path to be either
+         * rectangular or round, `cap` styles the start and
+         * end vertices of the path and `join` styles the start
+         * and end vertices of the segments along the path.
+         * `profileRotation` controls the rotation of the profile
+         * along the path.
+         **************************************************/
+        const options = {
+          profile: "quad",
+          cap: "round",
+          join: "miter",
+          width: 5,
+          height: 30,
+          color: [200, 200, 200],
+          profileRotation: "all",
+        };
+
+        /* The colors used for the each transit line */
+        const colors = {
+          A: [255, 0, 16],
+          B: [0, 170, 227],
+          C: [248, 150, 29],
+          D: [0, 166, 63],
+          F1: [189, 239, 133],
+          F2: [189, 239, 133],
+        };
+
+        /* Create layer with the transit lines */
+        const transitLayer = new FeatureLayer({
+          url: "http://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/subway_tcl_stations_lines_wgs84/FeatureServer/0",
+          copyright:
+            "Data from <a href='https://data.beta.grandlyon.com/en/datasets/lignes-metro-funiculaire-reseau-transports-commun-lyonnais/info'>Data Grand Lyon - Sytral</a>",
+          elevationInfo: {
+            mode: "relative-to-ground",
+            offset: 10,
+          },
+          title: "Transit lines in Lyon",
+          definitionExpression: "sens='Aller'",
+        });
+        webscene.add(transitLayer);
+
+        /****************************************
+         * Function that sets a renderer with a
+         * unique path symbol for each transit line.
+         * The path symbol uses the properties from
+         * the options object, which are set everytime
+         * the user modifies the settings in the menu.
+         * **************************************/
+        function renderTransitLayer() {
+          const renderer = new UniqueValueRenderer({
+            field: "ligne",
+          });
+
+          for (let property in colors) {
+            if (colors.hasOwnProperty(property)) {
+              renderer.addUniqueValueInfo({
+                value: property,
+                symbol: {
+                  type: "line-3d",
+                  symbolLayers: [
+                    {
+                      type: "line",
+                      material: {
+                        color: colors[property],
+                      },
+                      size: options.width,
+                      join: options.join,
+                      cap: options.cap,
+                    },
+                  ],
+                },
+              });
+            }
+          }
+
+          transitLayer.renderer = renderer;
+        }
+
+        renderTransitLayer();
+
+        /*************************************************
+         * The rest of the sample adds event listeners
+         * on the input elements in the menu, to modify
+         * the path properties in the options object and
+         * rerender the layer.
+         *************************************************/
+
+        const styleSelect = document.getElementById("style");
+        styleSelect.addEventListener("change", (event) => {
+          const value = event.target.value;
+          switch (value) {
+            case "round-tube":
+              options.profile = "circle";
+              options.height = 30;
+              options.width = 30;
+              break;
+            case "square-tube":
+              options.profile = "quad";
+              options.height = 30;
+              options.width = 30;
+              break;
+            case "wall":
+              options.profile = "quad";
+              options.height = 30;
+              options.width = 5;
+              break;
+            case "strip":
+              options.profile = "quad";
+              options.height = 5;
+              options.width = 30;
+              break;
+          }
+          renderTransitLayer();
+        });
+
+        const capSelect = document.getElementById("cap");
+        capSelect.addEventListener("change", (event) => {
+          options.cap = event.target.value;
+          renderTransitLayer();
+        });
+
+        const joinSelect = document.getElementById("join");
+        joinSelect.addEventListener("change", (event) => {
+          options.join = event.target.value;
+          renderTransitLayer();
+        });
+
+        const rotationSelect = document.getElementById("profileRotation");
+        rotationSelect.addEventListener("change", (event) => {
+          options.profileRotation = event.target.value;
+          renderTransitLayer();
+        });
+
+        view.ui.add("menu", "top-right");
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv" class="esri-widget"></div>
+    <div id="menu" class="esri-widget">
+      <p>Choose path properties:</p>
+      <div>
+        <label for="style">Style</label>
+        <select id="style">
+          <option value="wall">Wall</option>
+          <option value="square-tube">Square tube</option>
+          <option value="round-tube">Round tube</option>
+          <option value="strip">Strip</option>
+        </select>
+      </div>
+      <div>
+        <label for="cap">Cap</label>
+        <select id="cap">
+          <option value="round">Round</option>
+          <option value="butt">Butt</option>
+          <option value="square">Square</option>
+          <option value="none">None</option>
+        </select>
+      </div>
+      <div>
+        <label for="join">Join</label>
+        <select id="join">
+          <option value="miter">Miter</option>
+          <option value="round">Round</option>
+          <option value="bevel">Bevel</option>
+        </select>
+      </div>
+      <div>
+        <label for="profileRotation">Profile rotation</label>
+        <select id="profileRotation">
+          <option value="all">All</option>
+          <option value="heading">Heading</option>
+        </select>
+      </div>
+    </div>
+  </body>
+</html>

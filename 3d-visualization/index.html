@@ -421,7 +421,9 @@
 
         <!--------- 1.3 Core concepts: Layer symbology: SYMBOLOGY LINE  -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2>Layer symbology: Lines</h2>
+          <h2 class="slidetitle">Layer symbology: Lines</h2>
+
+          <h2></h2>
           <div class="two-columns">
             <div class="left-column">
               <ul>
@@ -472,7 +474,8 @@
                 <br />
               </ul>
               <div class="iframe-wrapper">
-                <img src="./images/symbology-line-line.png" />
+                <!--iframe data-src="./samples/data-layer-renderer.html"></iframe-->
+                <iframe data-src="./samples/symbology-line.html"></iframe>
               </div>
             </div>
           </div>
@@ -481,48 +484,21 @@
         <!--------- 1.3 Core concepts: Layer symbology: flat volumetric image -------->
 
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2>Layer symbology: Flat vs volumetric</h2>
+          <h2 class="slidetitle">Layer symbology: Flat vs volumetric</h2>
+
           <!--img src="./images/symbology-flat-volumetric.png" /-->
           <iframe class="r-stretch" data-src="./samples/symbology-2d-3d/index.html"></iframe>
         </section>
 
-        <!--------- 1.3 Core concepts: Layer symbology: SYMBOLOGY LINE  -------->
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2>3D-specific data types: 3D object scene layer</h2>
-          <div class="two-columns">
-            <div class="left-column">
-              <div data-fragment-id="add-widget" class="code-snippet">
-                <pre>
-                            <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
-                            </code>
-                          </pre>
-              </div>
-              <div data-fragment-id="add-widget" class="code-snippet">
-                <pre>
-                            <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
-                            </code>
-                          </pre>
-              </div>
-            </div>
-            <div class="right-column">
-              <ul>
-                <br />
-              </ul>
-              <div class="iframe-wrapper">
-                <img src="./images/symbology-line-line.png" />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!--------- 1.3 Core concepts: Layer symbology: 3D specific data -------->
+        <!--------- Setting up a 3D application: 3D specific data -------->
 
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2>Layer symbology: 3D-specific data types</h2>
+          <h2 class="slidetitle">Layer symbology: 3D-specific data types</h2>
+
           <div class="two-columns">
             <div class="left-column">
               <ul>
-                <li>3D object SL</li>
+                <li>3D object scene layer</li>
                 <li>Building scene layer</li>
                 <li>Integrated mesh layer</li>
                 <li>Point cloud layer</li>
@@ -533,6 +509,73 @@
             </div>
           </div>
         </section>
+
+        <!--------- 1.3 Core concepts: Layer symbology: 3D object scene layer  -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">3D-specific data types: 3D object scene layer</h2>
+
+          <h2></h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <ul>
+                  <br />
+                  Add texture layer
+                </ul>
+                <pre>
+                            <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
+                            </code>
+                          </pre>
+              </div>
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <ul>
+                  <br />
+                  Add outlines
+                </ul>
+                <pre>
+                            <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
+                              const renderer = {
+                                type: "simple", // autocasts as new SimpleRenderer()
+                                symbol: {
+                                  type: "mesh-3d",
+                                  symbolLayers: [
+                                    {
+                                      type: "fill",
+                                      material: {
+                                        color: "#ffffff",
+                                        colorMixMode: "replace"
+                                      },
+                                      edges: solidEdges
+                                    }
+                                  ]
+                                }
+                              };
+                            </code>
+                          </pre>
+              </div>
+
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <ul>
+                  <br />
+                  Color by attributes instead
+                </ul>
+                <pre>
+                            <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
+                            </code>
+                          </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <ul>
+                <br /><br />
+              </ul>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/symbology-3dosl.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!--------- 2. Coding demos: TITLE -------->
         <section data-background="../reveal.js/img/2022/dev-summit/bg-5.png" data-background-size="cover">
           <h1 style="text-align: left; font-size: 50px; margin-bottom: 10px">Coding demos</h1>
@@ -559,11 +602,6 @@
           <h2 class="slidetitle">Combining realistic and data-driven visuals</h2>
           <img src="./images/placeholder-munich.png" width="1200px" />
           <!--iframe class="r-stretch" data-src="./samples/demo-combined.html"></iframe-->
-        </section>
-        <!--------- Setting up a 3D application: OTHERSTUFF -------->
-
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
-          <h2>Header</h2>
         </section>
 
         <!-- FEEDBACK SLIDE: -->

@@ -1,222 +1,224 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Flat/volumetric symbols</title>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>
-    Flat/volumetric symbols
-  </title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.17/"></script>
 
-  <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css" />
-  <script src="https://js.arcgis.com/4.17/"></script>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
 
-  <style>
-    html,
-    body,
-    #viewDiv {
-      padding: 0;
-      margin: 0;
-      height: 100%;
-      width: 100%;
-    }
-  </style>
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/SceneView",
+        "esri/layers/GraphicsLayer",
+        "esri/Graphic",
+        "esri/widgets/Daylight",
+      ], function (Map, SceneView, GraphicsLayer, Graphic, Daylight) {
+        var map = new Map({
+          basemap: "topo",
+          ground: {
+            surfaceColor: "white",
+          },
+        });
 
-  <script>
-    require([
-      "esri/Map",
-      "esri/views/SceneView",
-      "esri/layers/GraphicsLayer",
-      "esri/Graphic",
-      "esri/widgets/Daylight"
-    ], function (Map, SceneView, GraphicsLayer, Graphic, Daylight) {
-      var map = new Map({
-        basemap: "topo",
-        ground: {
-          surfaceColor: "white"
-        }
-      });
+        var view = new SceneView({
+          container: "viewDiv",
+          map: map,
+          qualityProfile: "high",
+          camera: {
+            position: [-0.17162553, 51.48422402, 171.46968],
+            heading: 331.12,
+            tilt: 74.0,
+          },
+        });
 
-      var view = new SceneView({
-        container: "viewDiv",
-        map: map,
-        qualityProfile: "high",
-        camera: {
-          position: [
-            -0.17162553,
-            51.48422402,
-            121.46968
+        view.environment.lighting.directShadowsEnabled = true;
+        view.ui.empty("top-left");
+
+        const daylight = new Daylight({ view });
+        view.ui.add(daylight, "top-right");
+
+        var graphicsLayer = new GraphicsLayer();
+        map.add(graphicsLayer);
+
+        const squarePoint = {
+          type: "point", // autocasts as new Point()
+          x: -0.178,
+          y: 51.48791,
+          z: 0,
+        };
+
+        const squareSymbol = {
+          type: "point-3d",
+          symbolLayers: [
+            {
+              type: "icon",
+              resource: { primitive: "square" },
+              material: { color: [255, 0, 0] },
+              anchor: "bottom",
+              size: 30,
+            },
           ],
-          heading: 331.12,
-          tilt: 74.00
-        }
+        };
+
+        const squareGraphic = new Graphic({
+          geometry: squarePoint,
+          symbol: squareSymbol,
+        });
+
+        graphicsLayer.add(squareGraphic);
+
+        const cubePoint = {
+          type: "point", // autocasts as new Point()
+          x: -0.177,
+          y: 51.48791,
+          z: 10,
+        };
+
+        const cubeSymbol = {
+          type: "point-3d",
+          symbolLayers: [
+            {
+              type: "object",
+              resource: { primitive: "cube" },
+              material: { color: [255, 0, 0] },
+              depth: 20,
+              height: 20,
+              width: 20,
+            },
+          ],
+        };
+
+        const cubeGraphic = new Graphic({
+          geometry: cubePoint,
+          symbol: cubeSymbol,
+        });
+
+        graphicsLayer.add(cubeGraphic);
+
+        const pin2DPoint = {
+          type: "point", // autocasts as new Point()
+          x: -0.176,
+          y: 51.48791,
+          z: 0,
+        };
+
+        const pin2DSymbol = {
+          type: "point-3d",
+          symbolLayers: [
+            {
+              type: "icon",
+              resource: { href: "pin.png" },
+              anchor: "bottom",
+              size: 30,
+            },
+          ],
+        };
+
+        const pin2DGraphic = new Graphic({
+          geometry: pin2DPoint,
+          symbol: pin2DSymbol,
+        });
+
+        graphicsLayer.add(pin2DGraphic);
+
+        const pin3DPoint = {
+          type: "point", // autocasts as new Point()
+          x: -0.175,
+          y: 51.4877,
+          z: -4,
+        };
+
+        const pin3DSymbol = {
+          type: "point-3d",
+          symbolLayers: [
+            {
+              type: "object",
+              resource: { href: "./pin/ubermapin.gltf" },
+              material: { color: [66, 126, 245] },
+              height: 20,
+            },
+          ],
+        };
+
+        const pin3DGraphic = new Graphic({
+          geometry: pin3DPoint,
+          symbol: pin3DSymbol,
+        });
+
+        graphicsLayer.add(pin3DGraphic);
+
+        const plane2DPoint = {
+          type: "point", // autocasts as new Point()
+          x: -0.174,
+          y: 51.48791,
+          z: 0,
+        };
+
+        const plane2DSymbol = {
+          type: "point-3d",
+          symbolLayers: [
+            {
+              type: "icon",
+              resource: { href: "plane.png" },
+              anchor: "bottom",
+              size: 40,
+            },
+          ],
+        };
+
+        const plane2DGraphic = new Graphic({
+          geometry: plane2DPoint,
+          symbol: plane2DSymbol,
+        });
+
+        graphicsLayer.add(plane2DGraphic);
+
+        const plane3DPoint = {
+          type: "point", // autocasts as new Point()
+          x: -0.1725,
+          y: 51.4879,
+          z: -4,
+        };
+
+        const plane3DSymbol = {
+          type: "point-3d",
+          symbolLayers: [
+            {
+              type: "object",
+              resource: { href: "./plane/model.gltf" },
+              material: { color: [255, 153, 0] },
+              tilt: -30,
+              heading: -90,
+              height: 10,
+            },
+          ],
+        };
+
+        const plane3DGraphic = new Graphic({
+          geometry: plane3DPoint,
+          symbol: plane3DSymbol,
+        });
+
+        graphicsLayer.add(plane3DGraphic);
       });
+    </script>
+  </head>
 
-      view.environment.lighting.directShadowsEnabled = true;
-      view.ui.empty("top-left");
-
-      const daylight = new Daylight({ view });
-      view.ui.add(daylight, "top-right");
-
-      var graphicsLayer = new GraphicsLayer();
-      map.add(graphicsLayer);
-
-      const squarePoint = {
-        type: "point", // autocasts as new Point()
-        x: -0.178,
-        y: 51.48791,
-        z: 0
-      };
-
-      const squareSymbol = {
-        type: "point-3d",
-        symbolLayers: [{
-          type: "icon",
-          resource: { primitive: "square" },
-          material: { color: [255, 0, 0] },
-          anchor: "bottom",
-          size: 30
-        }]
-      }
-
-      const squareGraphic = new Graphic({
-        geometry: squarePoint,
-        symbol: squareSymbol
-      });
-
-      graphicsLayer.add(squareGraphic);
-
-      const cubePoint = {
-        type: "point", // autocasts as new Point()
-        x: -0.177,
-        y: 51.48791,
-        z: 10
-      };
-
-      const cubeSymbol = {
-        type: "point-3d",
-        symbolLayers: [{
-          type: "object",
-          resource: { primitive: "cube" },
-          material: { color: [255, 0, 0] },
-          depth: 20,
-          height: 20,
-          width: 20
-        }]
-      }
-
-      const cubeGraphic = new Graphic({
-        geometry: cubePoint,
-        symbol: cubeSymbol
-      });
-
-      graphicsLayer.add(cubeGraphic);
-
-      const pin2DPoint = {
-        type: "point", // autocasts as new Point()
-        x: -0.176,
-        y: 51.48791,
-        z: 0
-      };
-
-      const pin2DSymbol = {
-        type: "point-3d",
-        symbolLayers: [{
-          type: "icon",
-          resource: { href: "pin.png" },
-          anchor: "bottom",
-          size: 30
-        }]
-      }
-
-      const pin2DGraphic = new Graphic({
-        geometry: pin2DPoint,
-        symbol: pin2DSymbol
-      });
-
-      graphicsLayer.add(pin2DGraphic);
-
-      const pin3DPoint = {
-        type: "point", // autocasts as new Point()
-        x: -0.175,
-        y: 51.4877,
-        z: -4
-      };
-
-      const pin3DSymbol = {
-        type: "point-3d",
-        symbolLayers: [{
-          type: "object",
-          resource: { href: "./pin/ubermapin.gltf" },
-          material: { color: [66, 126, 245] },
-          height: 20
-        }]
-      }
-
-      const pin3DGraphic = new Graphic({
-        geometry: pin3DPoint,
-        symbol: pin3DSymbol
-      });
-
-      graphicsLayer.add(pin3DGraphic);
-
-      const plane2DPoint = {
-        type: "point", // autocasts as new Point()
-        x: -0.174,
-        y: 51.48791,
-        z: 0
-      };
-
-      const plane2DSymbol = {
-        type: "point-3d",
-        symbolLayers: [{
-          type: "icon",
-          resource: { href: "plane.png" },
-          anchor: "bottom",
-          size: 40
-        }]
-      }
-
-      const plane2DGraphic = new Graphic({
-        geometry: plane2DPoint,
-        symbol: plane2DSymbol
-      });
-
-      graphicsLayer.add(plane2DGraphic);
-
-      const plane3DPoint = {
-        type: "point", // autocasts as new Point()
-        x: -0.1725,
-        y: 51.48790,
-        z: -4
-      };
-
-      const plane3DSymbol = {
-        type: "point-3d",
-        symbolLayers: [{
-          type: "object",
-          resource: { href: "./plane/model.gltf" },
-          material: { color: [255, 153, 0] },
-          tilt: -30,
-          heading: -90,
-          height: 10
-        }]
-      }
-
-      const plane3DGraphic = new Graphic({
-        geometry: plane3DPoint,
-        symbol: plane3DSymbol
-      });
-
-      graphicsLayer.add(plane3DGraphic);
-
-
-    });
-  </script>
-</head>
-
-<body>
-  <div id="viewDiv"></div>
-</body>
-
+  <body>
+    <div id="viewDiv"></div>
+  </body>
 </html>
