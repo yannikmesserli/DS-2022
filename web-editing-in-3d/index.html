@@ -297,10 +297,6 @@
           <iframe class="r-stretch" data-src="./samples/advanced-editing/index.html"></iframe>
         </section>
 
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
-          <h2>Header</h2>
-        </section>
-
         <!-- FEEDBACK SLIDE: -->
         <section data-markdown data-background="../reveal.js/img/2022/dev-summit/bg-7.png">
           <textarea data-template>
@@ -325,8 +321,10 @@
       // - https://revealjs.com/config/
       Reveal.initialize({
         hash: true,
+        center: true,
         width: 1280,
         height: 768,
+        margin: 0.1,
 
         // Learn about plugins: https://revealjs.com/plugins/
         plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
