@@ -18,7 +18,7 @@
     <script src="https://jsdev.arcgis.com/4.23/"></script>
 
     <script>
-      require(["esri/Map", "esri/views/SceneView"], (Map, SceneView) => {
+      require(["esri/Map", "esri/views/SceneView", "esri/widgets/Fullscreen"], (Map, SceneView, Fullscreen) => {
         const map = new Map({
           qualityProfile: "high",
           basemap: "oceans",
@@ -42,6 +42,10 @@
             tilt: 73.72901932696922,
           },
         });
+        const fullscreen = new Fullscreen({
+          view: view,
+        });
+        view.ui.add(fullscreen, "bottom-left");
       });
     </script>
   </head>

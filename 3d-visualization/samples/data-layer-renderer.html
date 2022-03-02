@@ -25,7 +25,8 @@
         "esri/renderers/SimpleRenderer",
         "esri/symbols/PointSymbol3D",
         "esri/symbols/ObjectSymbol3DLayer",
-      ], (Map, SceneView, FeatureLayer, SimpleRenderer, PointSymbol3D, ObjectSymbol3DLayer) => {
+        "esri/widgets/Fullscreen",
+      ], (Map, SceneView, FeatureLayer, SimpleRenderer, PointSymbol3D, ObjectSymbol3DLayer, Fullscreen) => {
         const layer = new FeatureLayer({
           url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Major_Cities/FeatureServer",
           renderer: new SimpleRenderer({
@@ -63,6 +64,10 @@
             ymax: 6531054.015654456,
           },
         });
+        const fullscreen = new Fullscreen({
+          view: view,
+        });
+        view.ui.add(fullscreen, "bottom-left");
       });
     </script>
   </head>

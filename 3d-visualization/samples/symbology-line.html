@@ -160,7 +160,7 @@
           transitLayer.elevationInfo.mode = symbol3D ? "relative-to-ground" : "on-the-ground";
           renderTransitLayer();
         }
-        fullscreen = new Fullscreen({
+        const fullscreen = new Fullscreen({
           view: view,
         });
         view.ui.add(fullscreen, "bottom-left");

@@ -27,7 +27,8 @@
         "esri/layers/GraphicsLayer",
         "esri/Graphic",
         "esri/widgets/Daylight",
-      ], function (Map, SceneView, Expand, GraphicsLayer, Graphic, Daylight) {
+        "esri/widgets/Fullscreen",
+      ], function (Map, SceneView, Expand, GraphicsLayer, Graphic, Daylight, Fullscreen) {
         var map = new Map({
           basemap: "topo",
           ground: {
@@ -222,6 +223,11 @@
         });
 
         graphicsLayer.add(plane3DGraphic);
+
+        const fullscreen = new Fullscreen({
+          view: view,
+        });
+        view.ui.add(fullscreen, "bottom-left");
       });
     </script>
   </head>

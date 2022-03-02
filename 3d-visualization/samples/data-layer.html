@@ -18,7 +18,12 @@
     <script src="https://jsdev.arcgis.com/4.23/"></script>
 
     <script>
-      require(["esri/Map", "esri/views/SceneView", "esri/layers/FeatureLayer"], (Map, SceneView, FeatureLayer) => {
+      require(["esri/Map", "esri/views/SceneView", "esri/layers/FeatureLayer", "esri/widgets/Fullscreen"], (
+        Map,
+        SceneView,
+        FeatureLayer,
+        Fullscreen
+      ) => {
         const layer = new FeatureLayer({
           portalItem: {
             id: "85d0ca4ea1ca4b9abf0c51b9bd34de2e",
@@ -46,6 +51,10 @@
             ymax: 6531054.015654456,
           },
         });
+        const fullscreen = new Fullscreen({
+          view: view,
+        });
+        view.ui.add(fullscreen, "bottom-left");
       });
     </script>
   </head>

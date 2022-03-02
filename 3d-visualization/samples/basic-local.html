@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>BuildingSceneLayer with Slice widget | Sample | ArcGIS API for JavaScript 4.23</title>
+    <title>Based on: BuildingSceneLayer with Slice widget | Sample | ArcGIS API for JavaScript 4.23</title>
 
     <style>
       html,
@@ -13,42 +13,18 @@
         height: 100%;
         width: 100%;
       }
-
-      #menu {
-        padding: 0.8em;
-        max-width: 250px;
-      }
-
-      #sliceContainer {
-        width: inherit;
-      }
-
-      #sliceOptions {
-        margin: 0 15px;
-      }
-
-      #sliceOptions > button {
-        margin-bottom: 15px;
-      }
-
-      #sliceContainer {
-        max-width: 228px;
-      }
     </style>
 
     <link href="https://jsdev.arcgis.com/4.23/esri/themes/light/main.css" rel="stylesheet" type="text/css" />
     <script src="https://jsdev.arcgis.com/4.23/"></script>
 
     <script>
-      require([
-        "esri/WebScene",
-        "esri/views/SceneView",
-        "esri/layers/BuildingSceneLayer",
-        "esri/widgets/Slice",
-        "esri/widgets/Slice/SlicePlane",
-        "esri/widgets/LayerList",
-        "esri/core/Collection",
-      ], (WebScene, SceneView, BuildingSceneLayer) => {
+      require(["esri/WebScene", "esri/views/SceneView", "esri/layers/BuildingSceneLayer", "esri/widgets/Fullscreen"], (
+        WebScene,
+        SceneView,
+        BuildingSceneLayer,
+        Fullscreen
+      ) => {
         const clippingExtent = {
           spatialReference: {
             latestWkid: 3857,
@@ -80,10 +56,10 @@
         });
         webscene.layers.add(buildingLayer);
 
-        window.addEventListener("keypress", onKeypress, false);
-        function onKeypress(event) {
-          console.log(view.extent);
-        }
+        const fullscreen = new Fullscreen({
+          view: view,
+        });
+        view.ui.add(fullscreen, "bottom-left");
       });
     </script>
   </head>
