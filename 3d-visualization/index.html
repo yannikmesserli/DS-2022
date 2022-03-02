@@ -286,6 +286,57 @@
           </p>
         </section>
 
+        <!--------- 1.2 Core concepts: Sources of Data : Data types -------->
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <div class="two-columns">
+            <div class="left-column" style="gap: 0">
+              <h2 class="slidetitle">Data types</h2>
+              <ul>
+                <li>
+                  Layers with features
+                  <ul>
+                    <li>Points</li>
+                    <li>Lines</li>
+                    <li>Polygons</li>
+                  </ul>
+                </li>
+                <li>
+                  3D specific layers
+                  <ul>
+                    <li>3D object scene layer</li>
+                    <li>Building scene layer</li>
+                    <li>Integrated mesh layer</li>
+                    <li>Point cloud layer</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="right-column">
+              <h2 class="slidetitle">Sources</h2>
+              <ul>
+                <li>
+                  ArcGIS Online
+                  <ul>
+                    <li>Living Atlas – worldwide data</li>
+                    <li>Upload your own</li>
+                    <li>Create your own data with the editing widget</li>
+                  </ul>
+                </li>
+                <li>
+                  Other open data in formats:
+                  <ul>
+                    <li>GeoJSON</li>
+                    <li>WFS</li>
+                    <li>CSV</li>
+                    <li>OGC features</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
         <!--------- 1.2 Core concepts: Sources of Data : Living atlas -------->
 
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
@@ -469,9 +520,9 @@
                                   symbol: new PointSymbol3D({
                                     symbolLayers: [
                                       new ObjectSymbol3DLayer({
-                                        width: 10000,  // diameter of the object from east to west in meters
-                                        height: 50000,  // height of the object in meters
-                                        depth: 10000,  // diameter of the object from north to south in meters
+                                        width: 10000,
+                                        height: 50000,
+                                        depth: 10000,
                                         resource: { primitive: &quot;cylinder&quot; },
                                         material: { color: &quot;red&quot; }
                                       })
@@ -510,39 +561,42 @@
             <div class="left-column">
               <div class="code-snippet">
                 <p class="slidetitle-sub">Flat</p>
-                <pre>
-                            <code class="lang-ts"  data-trim>
-                                let stripPath = {
-                                    type: "line-3d",  // autocasts as new LineSymbol3D()
-                                    symbolLayers: [{
-                                      type: "path",  // autocasts as new PathSymbol3DLayer()
-                                      profile: "quad",  // creates a rectangular shape
-                                      width: 20,  // path width in meters
-                                      height: 5,  // path height in meters
-                                      material: { color: "#ff7380" },
-                                      cap: "square"
-                                    }]
-                                  };
-                            </code>
-                          </pre>
+                <pre><code class="lang-ts"  data-trim>
+                  let symbol2D = new LineSymbol3D({
+                    symbolLayers: [
+                      new LineSymbol3DLayer({
+                        material: {
+                          color: colors[property],
+                        },
+                        size: 5,
+                        join: &quot;miter&quot;,
+                        cap: &quot;round&quot;,
+                      }),
+                    ],
+                  });
+                </code></pre>
               </div>
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Volumetric</p>
-                <pre>
-                            <code class="lang-ts" data-trim>
-                                const symbol = {
-                                    type: "point-3d",  // autocasts as new PointSymbol3D()
-                                    symbolLayers: [{
-                                      type: "object",  // autocasts as new ObjectSymbol3DLayer()
-                                      width: 5,  // diameter of the object from east to west in meters
-                                      height: 20,  // height of the object in meters
-                                      depth: 15,  // diameter of the object from north to south in meters
-                                      resource: { primitive: "cylinder" },
-                                      material: { color: "red" }
-                                    }]
-                                  };
-                            </code>
-                          </pre>
+                <button class="play" id="line-to-path"></button>
+                <pre><code class="lang-ts"  data-trim>
+                  let symbol3D = new LineSymbol3D({
+                    symbolLayers: [
+                      new PathSymbol3DLayer({
+                        profile: &quot;quad&quot;,
+                        material: {
+                          color: colors[property],
+                        },
+                        width: 5,
+                        height: 30,
+                        join: &quot;miter&quot;,
+                        cap: &quot;round&quot;,
+                        anchor: &quot;bottom&quot;,
+                        profileRotation: &quot;all&quot;,
+                      }),
+                    ],
+                  });
+                </code></pre>
               </div>
             </div>
             <div class="right-column">
@@ -600,8 +654,7 @@
                 </ul>
                 <pre>
                             <code class="lang-ts" data-trim>
-                              const renderer = {
-                                type: "simple", // autocasts as new SimpleRenderer()
+                              const renderer = new SimpleRenderer({
                                 symbol: {
                                   type: "mesh-3d",
                                   symbolLayers: [
@@ -615,7 +668,7 @@
                                     }
                                   ]
                                 }
-                              };
+                              });
                             </code>
                           </pre>
               </div>
