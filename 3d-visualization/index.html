@@ -41,7 +41,7 @@
               </ul>
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-line-numbers="1-15|17-18|22-24|26-29" data-trim>
+                  <code class="lang-ts" data-line-numbers="1-15,32-37|17-18|22-24|26-29" data-trim>
                     &lt;html&gt;
                     &lt;head&gt;
                       &lt;meta charset=&quot;utf-8&quot; /&gt;
@@ -112,18 +112,13 @@
         </section>
 
         <!--------- Setting up a 3D application: BASEMAP app -------->
+
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2>Setting up a 3D applications</h2>
-          <div class="two-columns">
-            <div class="left-column">
-              <ul>
-                <li>Basemap</li>
-              </ul>
-            </div>
-            <div class="right-column">
-              <iframe class="r-stretch" data-src="./samples/basic-global-basemap.html"></iframe>
-            </div>
-          </div>
+          <ul>
+            <li>Basemap</li>
+          </ul>
+          <iframe class="r-stretch" data-src="./samples/basic-global-basemap.html"></iframe>
         </section>
 
         <!--------- Setting up a 3D application: ELEVATION -------->
@@ -141,7 +136,8 @@
                       
                           const map = new Map({
                               qualityProfile: &quot;high&quot;,
-                              basemap: &quot;satellite&quot;,
+                              basemap: &quot;oceans&quot;,
+                              //ground: &quot;world-elevation&quot;,
                               ground: &quot;world-topobathymetry&quot;,
                           });
                       
@@ -171,20 +167,24 @@
               </ul>
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                      <code class="lang-ts" data-trim>
-                              const clippingExtent = new SceneView({
-                                container: &quot;viewDiv&quot;,
-                                viewingMode: &quot;local&quot;,
-                                map: map,
-                              });
+                      <code class="lang-ts" data-line-numbers="14|1-10,15" data-trim>
+                            const clippingExtent = {
+                                spatialReference: {
+                                latestWkid: 3857,
+                                wkid: 102100,
+                                },
+                                xmin: -13045241.329652093,
+                                ymin: 4036780.474001343,
+                                xmax: -13045119.666179948,
+                                ymax: 4036937.733336518,
+                            };
 
-                              const view = new SceneView({
+                            const view = new SceneView({
                                 container: &quot;viewDiv&quot;,
                                 viewingMode: &quot;local&quot;,
                                 clippingArea: clippingExtent,
                                 map: map,
-                              });
-                      
+                            });
                       </code>
                     </pre>
               </div>
@@ -216,7 +216,7 @@
               </ul>
               <div data-fragment-id="add-widget" class="code-snippet">
                 <pre>
-                        <code class="lang-ts" data-trim>
+                        <code class="lang-ts" data-line-numbers="1-3,8" data-trim>
                         
                             const layer = new FeatureLayer({
                                 url: &quot;https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Major_Cities/FeatureServer&quot;
@@ -239,6 +239,138 @@
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/data-layer.html"></iframe>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <!--------- Setting up a 3D application: ADD RENDERER -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2>Layer symbology</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                          <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
+                            const layer = new FeatureLayer({
+                                url: &quot;https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Major_Cities/FeatureServer&quot;,
+                                renderer: new SimpleRenderer({
+                                  symbol: new PointSymbol3D({
+                                    symbolLayers: [
+                                      new ObjectSymbol3DLayer({
+                                        width: 10000,  // diameter of the object from east to west in meters
+                                        height: 50000,  // height of the object in meters
+                                        depth: 10000,  // diameter of the object from north to south in meters
+                                        resource: { primitive: &quot;cylinder&quot; },
+                                        material: { color: &quot;red&quot; }
+                                      })
+                                    ]
+                                  })
+                                })
+                              });
+                                
+                              const map = new Map({
+                                  basemap: &quot;gray-vector&quot;,
+                                  ground: &quot;world-elevation&quot;,
+                                  layers: [layer]
+                              });
+                          
+                          </code>
+                        </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <ul>
+                <br />
+              </ul>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/data-layer-renderer.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--------- Setting up a 3D application: SYMBOLOGY LINE  -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2>Layer symbology: Lines</h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <ul>
+                <br />
+                Flat
+              </ul>
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                            <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
+                                let stripPath = {
+                                    type: "line-3d",  // autocasts as new LineSymbol3D()
+                                    symbolLayers: [{
+                                      type: "path",  // autocasts as new PathSymbol3DLayer()
+                                      profile: "quad",  // creates a rectangular shape
+                                      width: 20,  // path width in meters
+                                      height: 5,  // path height in meters
+                                      material: { color: "#ff7380" },
+                                      cap: "square"
+                                    }]
+                                  };
+                            </code>
+                          </pre>
+              </div>
+              <ul>
+                <br />
+                Volumetric
+              </ul>
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                            <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
+                                const symbol = {
+                                    type: "point-3d",  // autocasts as new PointSymbol3D()
+                                    symbolLayers: [{
+                                      type: "object",  // autocasts as new ObjectSymbol3DLayer()
+                                      width: 5,  // diameter of the object from east to west in meters
+                                      height: 20,  // height of the object in meters
+                                      depth: 15,  // diameter of the object from north to south in meters
+                                      resource: { primitive: "cylinder" },
+                                      material: { color: "red" }
+                                    }]
+                                  };
+                            </code>
+                          </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <ul>
+                <br />
+              </ul>
+              <div class="iframe-wrapper">
+                <img src="./images/symbology-line-line.png" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--------- Setting up a 3D application: flat volumetric image -------->
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2>Layer symbology: Flat vs volumetric</h2>
+          <img src="./images/symbology-flat-volumetric.png" />
+        </section>
+
+        <!--------- Setting up a 3D application: 3D specific data -------->
+
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2>Layer symbology: 3D-specific data types</h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <ul>
+                <li>3D object SL</li>
+                <li>Building scene layer</li>
+                <li>Integrated mesh layer</li>
+                <li>Point cloud layer</li>
+              </ul>
+            </div>
+            <div class="right-column">
+              <img src="./images/symbology-3d.png" width="800px" />
             </div>
           </div>
         </section>
