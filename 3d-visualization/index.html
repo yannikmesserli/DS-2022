@@ -47,7 +47,7 @@
           <div>
             <ul>
               <li>
-                Core concepts - 20 min
+                Core concepts - 15 min
                 <ul>
                   <li>Setting up a 3D application</li>
                   <li>Sources of data</li>
@@ -55,7 +55,7 @@
                 </ul>
               </li>
               <li>
-                Coding demos - 25 min
+                Coding demos - 30 min
                 <ul>
                   <li>Data-driven thematic visualizations</li>
                   <li>Realistic 3D data</li>
@@ -110,7 +110,7 @@
                       &lt;script&gt;
                         require([&quot;esri/Map&quot;, &quot;esri/views/SceneView&quot;], (Map, SceneView) =&gt; {
                           const map = new Map({
-                            basemap: &quot;satellite&quot;,
+                            basemap: &quot;topo-vector&quot;,
                           });
                   
                           const view = new SceneView({
@@ -188,7 +188,34 @@
           </div>
         </section>
 
-        <!--------- 1.1 Core concepts: Setting up a 3D application: LOCAL -------->
+        <!--------- 1.1 Core concepts: Setting up a 3D application: LOCAL 1 -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Setting up a 3D application</h2>
+          <p class="slidetitle-sub">Local</p>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <pre>
+                      <code class="lang-ts" data-line-numbers="3" data-trim>
+                            const view = new SceneView({
+                                container: &quot;viewDiv&quot;,
+                                viewingMode: &quot;local&quot;,
+                                map: map,
+                            });
+                      </code>
+                    </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/basic-local-world.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--------- 1.1 Core concepts: Setting up a 3D application: LOCAL 2 -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2 class="slidetitle">Setting up a 3D application</h2>
           <p class="slidetitle-sub">Local</p>
