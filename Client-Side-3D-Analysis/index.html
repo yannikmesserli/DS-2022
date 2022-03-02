@@ -561,18 +561,14 @@
           </div>
         </section>
 
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-2.png"
-          title="customizing-popups"
-        >
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2>Loading the WebScene</h2>
 
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet">
                 <pre>
-                  <code class="lang-ts"  data-line-numbers data-trim>
+                  <code class="lang-ts" data-line-numbers data-trim>
                     config.portalUrl = "http://jsapi.maps.arcgis.com/";
 
                     webscene = new WebScene({
@@ -605,7 +601,9 @@
             </div>
 
             <div class="right-column">
-              <iframe data-src="./samples/queries-and-filters/01-custom-popups/"></iframe>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/queries-and-filters/01-custom-popups/"></iframe>
+              </div>
             </div>
           </div>
         </section>
@@ -655,7 +653,9 @@
             </div>
 
             <div class="right-column">
-              <iframe data-src="./samples/queries-and-filters/01-custom-popups/"></iframe>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/queries-and-filters/01-custom-popups/"></iframe>
+              </div>
             </div>
           </div>
         </section>
@@ -715,7 +715,9 @@
             </div>
 
             <div class="right-column">
-              <iframe data-src="./samples/queries-and-filters/02-filter-attributes/"></iframe>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/queries-and-filters/02-filter-attributes/"></iframe>
+              </div>
             </div>
           </div>
         </section>
@@ -783,7 +785,9 @@
               </div>
             </div>
             <div class="right-column">
-              <iframe data-src="./samples/queries-and-filters/03-timeslider/"></iframe>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/queries-and-filters/03-timeslider/"></iframe>
+              </div>
             </div>
           </div>
         </section>
@@ -848,7 +852,9 @@
             </div>
 
             <div class="right-column">
-              <iframe data-src="./samples/queries-and-filters/04-query-attributes/"></iframe>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/queries-and-filters/04-query-attributes/"></iframe>
+              </div>
             </div>
           </div>
         </section>
@@ -881,7 +887,9 @@
             </div>
 
             <div class="right-column">
-              <iframe data-src="./samples/queries-and-filters/04-query-attributes/"></iframe>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/queries-and-filters/04-query-attributes/"></iframe>
+              </div>
             </div>
           </div>
         </section>
@@ -918,7 +926,9 @@
             </div>
 
             <div class="right-column">
-              <iframe data-src="./samples/queries-and-filters/05-query-statistic/"></iframe>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/queries-and-filters/05-query-statistic/"></iframe>
+              </div>
             </div>
           </div>
         </section>
@@ -955,7 +965,9 @@
             </div>
 
             <div class="right-column">
-              <iframe data-src="./samples/queries-and-filters/05-query-statistic/"></iframe>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/queries-and-filters/05-query-statistic/"></iframe>
+              </div>
             </div>
           </div>
         </section>
@@ -1014,7 +1026,9 @@
             </div>
 
             <div class="right-column">
-              <iframe data-src="./samples/queries-and-filters/06-query-geometry/"></iframe>
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/queries-and-filters/06-query-geometry/"></iframe>
+              </div>
             </div>
           </div>
         </section>
@@ -1074,6 +1088,8 @@
       // - https://revealjs.com/config/
       Reveal.initialize({
         hash: true,
+        width: 1280,
+        height: 768,
 
         // Learn about plugins: https://revealjs.com/plugins/
         plugins: [RevealMarkdown, RevealHighlight, RevealNotes],

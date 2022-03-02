@@ -98,14 +98,14 @@ iframe {
   width: calc(100% / var(--iframe-scale));
   max-width: unset;
   max-height: unset;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
   transform: translate(-50%, -50%) scale(var(--iframe-scale)) translate(50%, 50%);
 }
 
 .two-columns .iframe-wrapper {
   overflow: hidden;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
 }
 
 .two-columns pre {
@@ -115,7 +115,7 @@ iframe {
 
 .two-columns .left-column {
   position: relative;
-  width: 60%;
+  width: 50%;
 }
 
 .two-columns .left-column,
