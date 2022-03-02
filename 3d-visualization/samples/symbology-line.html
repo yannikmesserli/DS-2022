@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Path visualization in 3D | Sample | ArcGIS API for JavaScript 4.22</title>
+    <title>Based on: Path visualization in 3D | Sample | ArcGIS API for JavaScript 4.22</title>
     <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/4.22/"></script>
 
@@ -156,7 +156,6 @@
 
         function lineToPath() {
           symbol3D = !symbol3D;
-          console.log(symbol3D);
           transitLayer.elevationInfo.mode = symbol3D ? "relative-to-ground" : "on-the-ground";
           renderTransitLayer();
         }

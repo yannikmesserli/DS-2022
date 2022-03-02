@@ -21,6 +21,12 @@
         margin-top: 0 !important;
         font-size: 20px;
       }
+      .footnote {
+        text-align: right;
+        margin-top: 8px !important;
+        font-size: 13px;
+        opacity: 80%;
+      }
     </style>
   </head>
   <body>
@@ -552,6 +558,61 @@
           </div>
         </section>
 
+        <!--------- 1.3 Core concepts: Layer symbology: SYMBOLOGY POINT  -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">Layer symbology: Lines</h2>
+
+          <h2></h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <p class="slidetitle-sub">Flat</p>
+                <pre><code class="lang-ts"  data-trim>
+                  const renderer2D = new SimpleRenderer({
+                    symbol: new PointSymbol3D({
+                      symbolLayers: [
+                        new IconSymbol3DLayer({
+                          resource: { primitive: "circle" },
+                          size: 3, // in pt
+                        }),
+                      ],
+                    }),
+                  });
+                </code></pre>
+              </div>
+              <div class="code-snippet fragment">
+                <p class="slidetitle-sub">Volumetric</p>
+                <button class="play" id="icon-to-object"></button>
+                <pre><code class="lang-ts"  data-trim>
+                  const renderer3D = new SimpleRenderer({
+                    symbol: new PointSymbol3D({
+                      symbolLayers: [
+                        new ObjectSymbol3DLayer({
+                          resource: {
+                            primitive: "cone",
+                          },
+                          width: 50000, // in meters
+                        }),
+                      ],
+                    }),
+                  });
+                </code></pre>
+              </div>
+            </div>
+            <div class="right-column" style="margin-top: auto; margin-bottom: auto">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/symbology-point.html"></iframe>
+              </div>
+              <p class="footnote">
+                See more in a public sample:
+                <a href="https://developers.arcgis.com/javascript/latest/sample-code/visualization-multivariate-3d/"
+                  >Thematic multivariate visualization (3D)</a
+                >
+              </p>
+            </div>
+          </div>
+        </section>
+
         <!--------- 1.3 Core concepts: Layer symbology: SYMBOLOGY LINE  -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2 class="slidetitle">Layer symbology: Lines</h2>
@@ -568,7 +629,7 @@
                         material: {
                           color: colors[property],
                         },
-                        size: 5,
+                        size: 5, // in pt
                         join: &quot;miter&quot;,
                         cap: &quot;round&quot;,
                       }),
@@ -587,8 +648,8 @@
                         material: {
                           color: colors[property],
                         },
-                        width: 5,
-                        height: 30,
+                        width: 5, // in meters
+                        height: 30, // in meters
                         join: &quot;miter&quot;,
                         cap: &quot;round&quot;,
                         anchor: &quot;bottom&quot;,
@@ -599,13 +660,16 @@
                 </code></pre>
               </div>
             </div>
-            <div class="right-column">
-              <ul>
-                <br />
-              </ul>
+            <div class="right-column" style="margin-top: auto; margin-bottom: auto">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-line.html"></iframe>
               </div>
+              <p class="footnote">
+                See more in a public sample:
+                <a href="https://developers.arcgis.com/javascript/latest/sample-code/visualization-path-3d/"
+                  >Path visualization in 3D</a
+                >
+              </p>
             </div>
           </div>
         </section>
