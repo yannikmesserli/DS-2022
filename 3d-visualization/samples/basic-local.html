@@ -49,7 +49,7 @@
         "esri/widgets/LayerList",
         "esri/core/Collection",
       ], (WebScene, SceneView, BuildingSceneLayer) => {
-        const extent = {
+        const clippingExtent = {
           spatialReference: {
             latestWkid: 3857,
             wkid: 102100,
@@ -68,7 +68,7 @@
         webscene.basemap = "gray-vector";
         const view = new SceneView({
           container: "viewDiv",
-          clippingArea: extent,
+          clippingArea: clippingExtent,
           viewingMode: "local",
           map: webscene,
         });
