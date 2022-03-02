@@ -18,7 +18,7 @@
   --r-section-subhead-color: #00ec86;
 
   --spacing-half: calc(var(--r-block-margin) / 2);
-  --iframe-scale: 0.4;
+  --iframe-scale: 1;
   --play-btn-size: 32px;
 }
 
@@ -41,7 +41,7 @@
 }
 
 .reveal pre {
-  font-size: 0.6rem;
+  font-size: 0.8rem;
 }
 
 .reveal .code-wrapper code {
@@ -121,7 +121,7 @@ iframe {
 
 .two-columns .left-column {
   position: relative;
-  width: 50%;
+  width: 60%;
 }
 
 .two-columns .left-column,
