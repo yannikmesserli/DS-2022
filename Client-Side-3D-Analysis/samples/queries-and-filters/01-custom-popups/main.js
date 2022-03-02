@@ -1,13 +1,17 @@
 // @ts-check
 
-import WebScene from "esri/WebScene.js";
-import SceneView from "esri/views/SceneView.js";
-import config from "esri/config.js";
+import WebScene from "@arcgis/core/WebScene.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
+import config from "@arcgis/core/config.js";
 import appConfig from "../helpers/config.js";
 
 let view, layer;
 
-const slideTitle = parent.Reveal.getCurrentSlide().title;
+const slideTitle = parent.Reveal ? parent.Reveal.getCurrentSlide().title : null;
+
+if (slideTitle == null) {
+  init();
+}
 
 if (slideTitle === "customizing-popups") {
   init();

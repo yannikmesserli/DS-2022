@@ -1,17 +1,19 @@
-// @ts-nocheck
-
-import WebScene from "esri/WebScene.js";
-import SceneView from "esri/views/SceneView.js";
-import Sketch from "esri/widgets/Sketch.js";
-import GraphicsLayer from "esri/layers/GraphicsLayer.js";
-import * as promiseUtils from "esri/core/promiseUtils.js";
-import config from "esri/config.js";
+import WebScene from "@arcgis/core/WebScene.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
+import Sketch from "@arcgis/core/widgets/Sketch.js";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
+import * as promiseUtils from "@arcgis/core/core/promiseUtils.js";
+import config from "@arcgis/core/config.js";
 import appConfig from "../helpers/config.js";
 import * as renderers from "../helpers/renderers.js";
 
 let view, layer, layerView, sketch, geometry, filtering, highlightHandle;
 
-const slideTitle = parent.Reveal.getCurrentSlide().title;
+const slideTitle = parent.Reveal ? parent.Reveal.getCurrentSlide().title : null;
+
+if (slideTitle == null) {
+  init();
+}
 
 if (slideTitle === "spatial") {
   init();
@@ -33,9 +35,7 @@ function init() {
   });
 
   view.map.load().then(function () {
-    layer = view.map.layers.find(
-      (l) => l.title === appConfig.buildingLayerTitle
-    );
+    layer = view.map.layers.find((l) => l.title === appConfig.buildingLayerTitle);
 
     // Add all attributes used for querying here to make sure they are loaded!
     layer.outFields = [appConfig.usageField];

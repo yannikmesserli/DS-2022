@@ -1,6 +1,6 @@
 // @ts-check
 
-import TimeSlider from "esri/widgets/TimeSlider.js";
+import TimeSlider from "@arcgis/core/widgets/TimeSlider.js";
 import appConfig from "../helpers/config.js";
 
 export function createTimeSlider(view) {
@@ -10,16 +10,16 @@ export function createTimeSlider(view) {
     container: "timeContainer",
     view: view,
     mode: "cumulative-from-start",
-    fullTimeExtent: {start, end},
+    fullTimeExtent: { start, end },
     values: [end],
     playRate: 2000,
     stops: {
       interval: {
         value: appConfig.timeline.bin,
-        unit: "years"
+        unit: "years",
       },
-      timeExtent: { start, end }
-    }
+      timeExtent: { start, end },
+    },
   });
   return timeSlider;
 }

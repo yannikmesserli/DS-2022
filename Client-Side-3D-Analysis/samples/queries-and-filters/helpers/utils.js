@@ -1,6 +1,6 @@
 // @ts-check
 
-import Color from "esri/Color.js";
+import Color from "@arcgis/core/Color.js";
 import appConfig from "../helpers/config.js";
 
 function calculateSolarAreaBins() {
@@ -26,8 +26,8 @@ function calculateSolarAreaBins() {
       color: getColorFromValue(i, appConfig.solarAreaVariable.stops).toHex(),
       statsField: statsField,
       fieldName: fieldName,
-      label: label
-    })
+      label: label,
+    });
   }
   return bins;
 }
@@ -71,5 +71,5 @@ function getColorFromValue(value, stops) {
 }
 
 export default {
-  solarAreaBins
-}
+  solarAreaBins,
+};
