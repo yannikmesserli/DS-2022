@@ -1,4 +1,3 @@
-// @ts-check
 import SceneView from "@arcgis/core/views/SceneView";
 import ShadowCast from "@arcgis/core/widgets/ShadowCast";
 import { SHADOW_CAST } from "../../../common/scenes";

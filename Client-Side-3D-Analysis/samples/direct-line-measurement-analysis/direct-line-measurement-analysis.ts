@@ -1,4 +1,3 @@
-// @ts-check
 import DirectLineMeasurementAnalysis from "@arcgis/core/analysis/DirectLineMeasurementAnalysis";
 import Color from "@arcgis/core/Color";
 import Point from "@arcgis/core/geometry/Point";

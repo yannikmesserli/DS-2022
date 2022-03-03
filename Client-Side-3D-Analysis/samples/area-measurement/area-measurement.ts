@@ -1,4 +1,3 @@
-// @ts-check
 import AreaMeasurement3D from "@arcgis/core/widgets/AreaMeasurement3D";
 import { DENVER_PARCELS } from "../../../common/scenes";
 import { initView, onPlayClick } from "../../../common/utils";

@@ -1,4 +1,3 @@
-// @ts-check
 import SceneView from "@arcgis/core/views/SceneView";
 import DirectLineMeasurement3D from "@arcgis/core/widgets/DirectLineMeasurement3D";
 import { SAN_FRANCISCO } from "../../../common/scenes";

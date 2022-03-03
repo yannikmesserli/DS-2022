@@ -1,4 +1,3 @@
-// @ts-check
 import { whenOnce } from "@arcgis/core/core/reactiveUtils";
 import SceneView from "@arcgis/core/views/SceneView";
 import ElevationProfile from "@arcgis/core/widgets/ElevationProfile.js";
