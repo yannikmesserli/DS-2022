@@ -224,11 +224,13 @@
                 </pre>
               </div>
 
-              <div data-fragment-id="add-to-widget" class="code-snippet fragment play-container">
+              <div data-fragment-id="add-to-widget" class="code-snippet fragment">
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >                   
-                    widget = new AreaMeasurement3D({ view, analysis });
+                    const widget = new AreaMeasurement3D({ view, analysis });
+                    
+                    view.ui.add(widget, "top-right");
                   </code>
                 </pre>
               </div>
@@ -257,7 +259,7 @@
                 <pre>
                   <code class="lang-ts" data-trim >
                     const widget = new LineOfSight({ view });
-
+                    
                     view.ui.add(widget, "top-right");
                   </code>
                 </pre>
@@ -300,30 +302,46 @@
                 </pre>
               </div>
 
-              <div data-fragment-id="add-buttons" class="code-snippet fragment">
-                <button class="play"></button>
-                <pre>
-                  <code class="lang-ts" data-trim >
-                  const button = document.createElement("calcite-button");
-                  button.textContent = cafe.name;
-              
-                  button.addEventListener("click", () => {
-                    const analysis = new LineOfSightAnalysis({
-                      observer: new LineOfSightAnalysisObserver({ position: cafe.position }),
-                      targets: landmarks.map((landmark) => {
-                        return new LineOfSightAnalysisTarget({
-                          position: landmark.position
+              <div class="fragment">
+                <div data-fragment-id="add-buttons" class="code-snippet">
+                  <button class="play"></button>
+                  <pre>
+                    <code class="lang-ts" data-trim >
+                    const button = document.createElement("calcite-button");
+                    button.textContent = cafe.name;
+                    view.ui.add(button, "bottom-left");
+                
+                    button.addEventListener("click", () => {
+                      const analysis = new LineOfSightAnalysis({
+                        observer: new LineOfSightAnalysisObserver({ position: cafe.position }),
+                        targets: landmarks.map((landmark) => {
+                          return new LineOfSightAnalysisTarget({
+                            position: landmark.position
+                          })
                         })
-                      })
+                      });
+                
+                      view.analyses.removeAll();
+                      view.analyses.add(analysis);
                     });
-              
-                    view.analyses.removeAll();
-                    view.analyses.add(analysis);
-                  });
-              
-                  view.ui.add(button, "bottom-left");
-                  </code>
-                </pre>
+                    </code>
+                  </pre>
+                </div>
+
+                <div
+                  data-fragment-id="add-widget"
+                  class="code-snippet fragment"
+                  style="margin-top: var(--r-block-margin)"
+                >
+                  <button class="play"></button>
+                  <pre>
+                    <code class="lang-ts" data-trim >
+                      const widget = new LineOfSight({ view, analysis });
+                      
+                      view.ui.add(widget, "top-right");
+                    </code>
+                  </pre>
+                </div>
               </div>
             </div>
             <div class="right-column">

@@ -3,6 +3,7 @@ import LineOfSightAnalysisObserver from "@arcgis/core/analysis/LineOfSightAnalys
 import LineOfSightAnalysisTarget from "@arcgis/core/analysis/LineOfSightAnalysisTarget";
 import Point from "@arcgis/core/geometry/Point";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
+import LineOfSight from "@arcgis/core/widgets/LineOfSight";
 import "@esri/calcite-components";
 import "@esri/calcite-components/dist/components/button";
 import { MUNICH } from "../../../common/scenes";
@@ -45,6 +46,9 @@ const cafes: { name: string; position: Point }[] = [
 
 const view = initView(MUNICH);
 
+let analysis: LineOfSightAnalysis | null = null;
+let widget: LineOfSight | null = null;
+
 onPlayClick("add-buttons", () => {
   cafes.forEach(({ name, position }) => {
     const button = document.createElement("calcite-button");
@@ -53,7 +57,7 @@ onPlayClick("add-buttons", () => {
     button.textContent = name;
 
     button.addEventListener("click", () => {
-      const analysis = new LineOfSightAnalysis({
+      analysis = new LineOfSightAnalysis({
         observer: new LineOfSightAnalysisObserver({ position }),
         targets: landmarks.map((landmark) => {
           return new LineOfSightAnalysisTarget({ position: landmark.position });
@@ -62,8 +66,24 @@ onPlayClick("add-buttons", () => {
 
       (view as any).analyses.removeAll();
       (view as any).analyses.add(analysis);
+
+      if (widget) {
+        createWidget();
+      }
     });
 
     view.ui.add(button, "bottom-left");
   });
 });
+
+onPlayClick("add-widget", createWidget);
+
+function createWidget(): void {
+  if (widget) {
+    view.ui.remove(widget);
+    widget.destroy();
+  }
+
+  widget = new LineOfSight({ view, analysis } as any);
+  view.ui.add(widget, "top-right");
+}

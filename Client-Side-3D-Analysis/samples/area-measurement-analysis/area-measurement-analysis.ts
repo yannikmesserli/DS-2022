@@ -74,12 +74,12 @@ function setupClick(): void {
 
         (view as any).analyses.removeAll();
         (view as any).analyses.add(analysis);
+
+        if (widget) {
+          createWidget();
+        }
       } else {
         showAlert(`Clicked: ${clickedGraphic.getObjectId()}`);
-      }
-
-      if (widget) {
-        createWidget();
       }
     } catch (e) {
       throwIfNotAbortError(e);
