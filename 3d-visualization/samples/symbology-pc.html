@@ -1,0 +1,171 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Based on: PointCloudLayer - toggle renderers | Sample | ArcGIS API for JavaScript 4.23</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+      #paneDiv {
+        padding: 12px;
+        background-color: white;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://jsdev.arcgis.com/4.23/esri/themes/light/main.css" />
+    <script src="https://jsdev.arcgis.com/4.23/"></script>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/SceneView",
+        "esri/layers/PointCloudLayer",
+        "esri/smartMapping/renderers/color",
+        "esri/smartMapping/renderers/type",
+        "esri/widgets/Legend",
+        "esri/core/promiseUtils",
+      ], (Map, SceneView, PointCloudLayer, colorRendererCreator, typeRendererCreator, Legend, promiseUtils) => {
+        // Create Point Cloud Layer
+        const pcLayer = new PointCloudLayer({
+          url: "https://tiles.arcgis.com/tiles/V6ZHFr6zdgNZuVG0/arcgis/rest/services/BARNEGAT_BAY_LiDAR_UTM/SceneServer",
+        });
+
+        // Create Map and View
+        const map = new Map({
+          basemap: "gray-vector",
+          ground: "world-elevation",
+        });
+
+        const view = new SceneView({
+          container: "viewDiv",
+          map: map,
+          camera: {
+            heading: 210,
+            tilt: 78,
+            position: {
+              x: -8249335,
+              y: 4832005,
+              z: 50.7,
+              spatialReference: {
+                wkid: 3857,
+              },
+            },
+          },
+        });
+        view.ui.add("paneDiv", "bottom-left");
+        view.ui.add(
+          new Legend({
+            view: view,
+          }),
+          "bottom-right"
+        );
+
+        // stores generated renderers to avoid making service
+        // calls for the same renderer multiple times
+        const renderersByField = {
+          RGB: null,
+          CLASS_CODE: null,
+          ELEVATION: null,
+          INTENSITY: null,
+        };
+
+        /**
+         * Generates renderers based on the input field name. There are four
+         * valid input field names: RGB, CLASS_CODE, ELEVATION, and INTENSITY
+         */
+        function getRenderer(fieldName) {
+          // If the renderer is already generated, then return it
+          if (renderersByField[fieldName]) {
+            return promiseUtils.resolve(renderersByField[fieldName]);
+          }
+
+          // Store the generated renderer in a predefined object in
+          // case it is requested in the future and return the renderer
+          function responseCallback(response) {
+            renderersByField[fieldName] = response.renderer;
+            return response.renderer;
+          }
+
+          if (fieldName === "RGB") {
+            return colorRendererCreator
+              .createPCTrueColorRenderer({
+                layer: pcLayer,
+              })
+              .then(responseCallback);
+          }
+          if (fieldName === "CLASS_CODE") {
+            return typeRendererCreator
+              .createPCClassRenderer({
+                layer: pcLayer,
+                field: fieldName,
+              })
+              .then(responseCallback);
+          }
+          if (fieldName === "ELEVATION" || "INTENSITY") {
+            return colorRendererCreator
+              .createPCContinuousRenderer({
+                layer: pcLayer,
+                field: fieldName,
+              })
+              .then(responseCallback);
+          }
+        }
+
+        /******************************************************************
+         *
+         * Display point cloud layer using different renderers
+         *
+         ******************************************************************/
+
+        view.when(() => {
+          // Generate RGB renderer when view is ready and
+          // assign the renderer to the point cloud layer
+          getRenderer("RGB")
+            .then((renderer) => {
+              pcLayer.renderer = renderer;
+              map.add(pcLayer);
+            })
+            .catch(console.error);
+
+          const radios = document.getElementsByName("renderer");
+          // Handle change events on radio buttons to switch to the correct renderer
+          for (let i = 0; i < radios.length; i++) {
+            radios[i].addEventListener("change", (event) => {
+              const fieldName = event.target.value;
+              getRenderer(fieldName)
+                .then((renderer) => {
+                  pcLayer.renderer = renderer;
+                })
+                .catch(console.error);
+            });
+          }
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+    <div id="paneDiv" class="esri-widget">
+      <p>Visualize point cloud using:</p>
+      <input type="radio" name="renderer" value="RGB" id="RGB" checked /><label for="RGB">
+        Original point cloud scan color (Point Cloud RGB Renderer)</label
+      ><br />
+      <input type="radio" name="renderer" value="CLASS_CODE" id="CLASS_CODE" /><label for="CLASS_CODE">
+        LAS classification (Point Cloud Unique Values Renderer)</label
+      ><br />
+      <input type="radio" name="renderer" value="ELEVATION" id="ELEVATION" /><label for="ELEVATION">
+        Elevation mapped on a continuous color scheme (Point Cloud Stretch Renderer)</label
+      ><br />
+      <input type="radio" name="renderer" value="INTENSITY" id="INTENSITY" /><label for="INTENSITY">
+        A classification based on intensity values (Point Cloud Stretch Renderer)</label
+      ><br />
+    </div>
+  </body>
+</html>
