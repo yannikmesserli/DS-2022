@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>Coloring options for textured buildings | Sample | ArcGIS API for JavaScript 4.22</title>
+    <title>Based on: Coloring options for textured buildings | Sample | ArcGIS API for JavaScript 4.22</title>
     <style>
       html,
       body,
@@ -11,11 +11,6 @@
         margin: 0;
         height: 100%;
         width: 100%;
-      }
-
-      #colorMixMode {
-        background-color: white;
-        padding: 12px;
       }
     </style>
 
@@ -138,17 +133,14 @@
             });
           }
         }
-        //const thematicRenderer = ;
         function toggleOutlines() {
           outlines = !outlines;
           updateRenderer();
-          //layer.renderer = outlines ? outlinesRenderer : null;
         }
         function toggleTexture() {
           texture = !texture;
           console.log(outlines + " " + texture);
           updateRenderer();
-          //layer.renderer = texture ? null : thematicRenderer;
         }
 
         const fullscreen = new Fullscreen({
@@ -163,17 +155,5 @@
 
   <body>
     <div id="viewDiv"></div>
-    <div id="colorMixMode" class="esri-widget">
-      <input type="radio" id="original" name="mode" checked />
-      <label for="original">Buildings with original texture</label> <br />
-      <input type="radio" id="select" name="mode" />
-      <label for="select">Show commercial buildings</label> <br />
-      <input type="radio" id="emphasize" name="mode" />
-      <label for="emphasize">Emphasize commercial buildings</label> <br />
-      <input type="radio" id="desaturate" name="mode" />
-      <label for="desaturate">Desaturate texture</label> <br />
-      <input type="radio" id="replace" name="mode" />
-      <label for="replace">Remove texture</label>
-    </div>
   </body>
 </html>

@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>Based on: PointCloudLayer - toggle renderers | Sample | ArcGIS API for JavaScript 4.23</title>
+    <title>Based on: PointCloudLayer - intensity color modulation | Sample | ArcGIS API for JavaScript 4.22</title>
     <style>
       html,
       body,
@@ -12,160 +12,127 @@
         height: 100%;
         width: 100%;
       }
-      #paneDiv {
-        padding: 12px;
-        background-color: white;
-      }
     </style>
 
-    <link rel="stylesheet" href="https://jsdev.arcgis.com/4.23/esri/themes/light/main.css" />
-    <script src="https://jsdev.arcgis.com/4.23/"></script>
+    <link rel="stylesheet" href="https://jsdev.arcgis.com/4.22/esri/themes/light/main.css" />
+    <script src="https://jsdev.arcgis.com/4.22/"></script>
 
     <script>
       require([
         "esri/Map",
         "esri/views/SceneView",
         "esri/layers/PointCloudLayer",
-        "esri/smartMapping/renderers/color",
-        "esri/smartMapping/renderers/type",
-        "esri/widgets/Legend",
-        "esri/core/promiseUtils",
-      ], (Map, SceneView, PointCloudLayer, colorRendererCreator, typeRendererCreator, Legend, promiseUtils) => {
-        // Create Point Cloud Layer
+        "esri/renderers/PointCloudRGBRenderer",
+        "esri/renderers/PointCloudUniqueValueRenderer",
+        "esri/widgets/Fullscreen",
+      ], (Map, SceneView, PointCloudLayer, PointCloudRGBRenderer, PointCloudUniqueValueRenderer, Fullscreen) => {
+        const doc = parent.document;
+        doc.getElementById("pc-toggle-size").onclick = toggleSize;
+        doc.getElementById("pc-toggle-color").onclick = toggleTexture;
+        let biggerPoints = false;
+        let texture = true;
+
         const pcLayer = new PointCloudLayer({
-          url: "https://tiles.arcgis.com/tiles/V6ZHFr6zdgNZuVG0/arcgis/rest/services/BARNEGAT_BAY_LiDAR_UTM/SceneServer",
+          url: "https://tiles.arcgis.com/tiles/Imiq6naek6ZWdour/arcgis/rest/services/PointCloud_urban/SceneServer",
         });
 
         // Create Map and View
         const map = new Map({
           basemap: "gray-vector",
           ground: "world-elevation",
+          layers: [pcLayer],
         });
 
         const view = new SceneView({
           container: "viewDiv",
           map: map,
           camera: {
-            heading: 210,
-            tilt: 78,
+            heading: 321,
+            tilt: 65,
             position: {
-              x: -8249335,
-              y: 4832005,
-              z: 50.7,
+              x: -13660884.75182009,
+              y: 4641370.954907834,
+              z: 174.2508678585291,
               spatialReference: {
                 wkid: 3857,
               },
             },
           },
         });
-        view.ui.add("paneDiv", "bottom-left");
-        view.ui.add(
-          new Legend({
-            view: view,
-          }),
-          "bottom-right"
-        );
 
-        // stores generated renderers to avoid making service
-        // calls for the same renderer multiple times
-        const renderersByField = {
-          RGB: null,
-          CLASS_CODE: null,
-          ELEVATION: null,
-          INTENSITY: null,
-        };
-
-        /**
-         * Generates renderers based on the input field name. There are four
-         * valid input field names: RGB, CLASS_CODE, ELEVATION, and INTENSITY
-         */
-        function getRenderer(fieldName) {
-          // If the renderer is already generated, then return it
-          if (renderersByField[fieldName]) {
-            return promiseUtils.resolve(renderersByField[fieldName]);
+        function updateRenderer() {
+          let pointSizeAlgorithm;
+          if (biggerPoints) {
+            pointSizeAlgorithm = {
+              type: "fixed-size",
+              useRealWorldSymbolSizes: false,
+              size: 3,
+            };
+          } else {
+            pointSizeAlgorithm = {
+              type: "splat",
+              scaleFactor: 0.418757,
+            };
           }
-
-          // Store the generated renderer in a predefined object in
-          // case it is requested in the future and return the renderer
-          function responseCallback(response) {
-            renderersByField[fieldName] = response.renderer;
-            return response.renderer;
-          }
-
-          if (fieldName === "RGB") {
-            return colorRendererCreator
-              .createPCTrueColorRenderer({
-                layer: pcLayer,
-              })
-              .then(responseCallback);
-          }
-          if (fieldName === "CLASS_CODE") {
-            return typeRendererCreator
-              .createPCClassRenderer({
-                layer: pcLayer,
-                field: fieldName,
-              })
-              .then(responseCallback);
-          }
-          if (fieldName === "ELEVATION" || "INTENSITY") {
-            return colorRendererCreator
-              .createPCContinuousRenderer({
-                layer: pcLayer,
-                field: fieldName,
-              })
-              .then(responseCallback);
-          }
-        }
-
-        /******************************************************************
-         *
-         * Display point cloud layer using different renderers
-         *
-         ******************************************************************/
-
-        view.when(() => {
-          // Generate RGB renderer when view is ready and
-          // assign the renderer to the point cloud layer
-          getRenderer("RGB")
-            .then((renderer) => {
-              pcLayer.renderer = renderer;
-              map.add(pcLayer);
-            })
-            .catch(console.error);
-
-          const radios = document.getElementsByName("renderer");
-          // Handle change events on radio buttons to switch to the correct renderer
-          for (let i = 0; i < radios.length; i++) {
-            radios[i].addEventListener("change", (event) => {
-              const fieldName = event.target.value;
-              getRenderer(fieldName)
-                .then((renderer) => {
-                  pcLayer.renderer = renderer;
-                })
-                .catch(console.error);
+          if (texture) {
+            pcLayer.renderer = new PointCloudRGBRenderer({
+              field: "RGB",
+              pointSizeAlgorithm: pointSizeAlgorithm,
+              pointsPerInch: 35,
+            });
+          } else {
+            pcLayer.renderer = new PointCloudUniqueValueRenderer({
+              field: "CLASS_CODE", // field containing data for standard LAS classification
+              pointSizeAlgorithm: pointSizeAlgorithm,
+              pointsPerInch: 25,
+              colorUniqueValueInfos: [
+                {
+                  values: ["1"],
+                  label: "Unassigned",
+                  color: [178, 178, 178],
+                },
+                {
+                  values: ["2"],
+                  label: "Ground",
+                  color: [168, 112, 0],
+                },
+                {
+                  values: ["5"],
+                  label: "High vegetation",
+                  color: [205, 245, 121],
+                },
+                {
+                  values: ["6"],
+                  label: "Building",
+                  color: [229, 75, 65],
+                },
+                {
+                  values: ["7"],
+                  label: "Low Point",
+                  color: [229, 0, 0],
+                },
+              ],
             });
           }
+        }
+        function toggleSize() {
+          biggerPoints = !biggerPoints;
+          updateRenderer();
+        }
+        function toggleTexture() {
+          texture = !texture;
+          updateRenderer();
+        }
+
+        const fullscreen = new Fullscreen({
+          view: view,
         });
+        view.ui.add(fullscreen, "bottom-left");
       });
     </script>
   </head>
 
   <body>
     <div id="viewDiv"></div>
-    <div id="paneDiv" class="esri-widget">
-      <p>Visualize point cloud using:</p>
-      <input type="radio" name="renderer" value="RGB" id="RGB" checked /><label for="RGB">
-        Original point cloud scan color (Point Cloud RGB Renderer)</label
-      ><br />
-      <input type="radio" name="renderer" value="CLASS_CODE" id="CLASS_CODE" /><label for="CLASS_CODE">
-        LAS classification (Point Cloud Unique Values Renderer)</label
-      ><br />
-      <input type="radio" name="renderer" value="ELEVATION" id="ELEVATION" /><label for="ELEVATION">
-        Elevation mapped on a continuous color scheme (Point Cloud Stretch Renderer)</label
-      ><br />
-      <input type="radio" name="renderer" value="INTENSITY" id="INTENSITY" /><label for="INTENSITY">
-        A classification based on intensity values (Point Cloud Stretch Renderer)</label
-      ><br />
-    </div>
   </body>
 </html>
