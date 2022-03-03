@@ -51,6 +51,7 @@
       ) => {
         const doc = parent.document;
         doc.getElementById("line-to-path").onclick = lineToPath;
+        let symbol3D = false;
 
         // Create view and load an existing webscene into it
         const webscene = new WebScene({
@@ -84,8 +85,6 @@
           F1: [189, 239, 133],
           F2: [189, 239, 133],
         };
-
-        let symbol3D = false;
 
         function getSymbol(property) {
           if (symbol3D) {

@@ -23,10 +23,29 @@
         "esri/Map",
         "esri/views/SceneView",
         "esri/layers/FeatureLayer",
+        "esri/renderers/SimpleRenderer",
+        "esri/symbols/PolygonSymbol3D",
+        "esri/symbols/FillSymbol3DLayer",
+        "esri/symbols/ExtrudeSymbol3DLayer",
         "esri/widgets/Expand",
         "esri/widgets/Legend",
         "esri/widgets/Fullscreen",
-      ], (Map, SceneView, FeatureLayer, Expand, Legend, Fullscreen) => {
+      ], (
+        Map,
+        SceneView,
+        FeatureLayer,
+        SimpleRenderer,
+        PolygonSymbol3D,
+        FillSymbol3DLayer,
+        ExtrudeSymbol3DLayer,
+        Expand,
+        Legend,
+        Fullscreen
+      ) => {
+        const doc = parent.document;
+        doc.getElementById("polygon-to-extrusion").onclick = polygonToExtrusion;
+        let symbol3D = false;
+
         // limit visualization to southeast U.S. counties
         const defExp = [
           "STATE = 'LA'",
@@ -58,19 +77,10 @@
          * color.
          *****************************************************************/
 
-        const renderer = {
-          type: "simple", // autocasts as new SimpleRenderer()
-          symbol: {
-            type: "polygon-3d", // autocasts as new PolygonSymbol3D()
-            symbolLayers: [
-              /*{
-                type: "extrude" // autocasts as new ExtrudeSymbol3DLayer()
-              }*/
-              {
-                type: "fill",
-              },
-            ],
-          },
+        const renderer2D = new SimpleRenderer({
+          symbol: new PolygonSymbol3D({
+            symbolLayers: [new FillSymbol3DLayer()],
+          }),
           visualVariables: [
             {
               type: "size",
@@ -109,11 +119,55 @@
               ],
             },
           ],
-        };
+        });
+
+        const renderer3D = new SimpleRenderer({
+          symbol: new PolygonSymbol3D({
+            symbolLayers: [new ExtrudeSymbol3DLayer()],
+          }),
+          visualVariables: [
+            {
+              type: "size",
+              field: "POP_POVERTY",
+              stops: [
+                {
+                  value: 1000,
+                  size: 10000,
+                  label: "1,000",
+                },
+                {
+                  value: 150000,
+                  size: 300000,
+                  label: ">150,000",
+                },
+              ],
+            },
+            {
+              type: "color",
+              field: "POP_POVERTY",
+              normalizationField: "TOTPOP_CY",
+              legendOptions: {
+                title: "% population with income below poverty level",
+              },
+              stops: [
+                {
+                  value: 0.1,
+                  color: "#FFFCD4",
+                  label: "<15%",
+                },
+                {
+                  value: 0.35,
+                  color: [153, 83, 41],
+                  label: ">35%",
+                },
+              ],
+            },
+          ],
+        });
 
         const povLayer = new FeatureLayer({
           url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/counties_politics_poverty/FeatureServer/0",
-          renderer: renderer,
+          renderer: symbol3D ? renderer3D : renderer2D,
           title: "Population living in poverty by county",
           outFields: ["*"],
           popupTemplate: {
@@ -175,6 +229,12 @@
           view: view,
         });
         view.ui.add(fullscreen, "bottom-left");
+
+        function polygonToExtrusion() {
+          symbol3D = !symbol3D;
+          //transitLayer.elevationInfo.mode = symbol3D ? "relative-to-ground" : "on-the-ground";
+          povLayer.renderer = symbol3D ? renderer3D : renderer2D;
+        }
       });
     </script>
   </head>
