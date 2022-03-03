@@ -151,33 +151,37 @@
           <h2>AreaMeasurementAnalysis</h2>
           <div class="two-columns">
             <div class="left-column">
-              <div data-fragment-id="add-widget" class="code-snippet">
+              <div class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim > 
-                  const buildings = new SceneLayer({ /* config */ });
+                  <code class="lang-ts" data-trim >                   
+                    view.on("click", async (event) => {
+                      const response = await view.hitTest(e);
 
-                  view.on("click", async (e) => {
-                    // Error handling / cancellation omitted for brevity
-
-                    const { results } = await view.hitTest(e, { 
-                      include: [buildings]
+                      const geometry = response?.results?[0]?.graphic?.geometry;
+                      if (!geometry) {
+                        return;
+                      }
+  
+                      const analysis = new AreaMeasurementAnalysis({ geometry });
+  
+                      view.analyses.add(analysis);
                     });
+                  </code>
+                </pre>
+              </div>
 
-                    const building = results.find((r) => r.graphic)?.graphic;
+              <div data-fragment-id="align-to-ground" class="code-snippet fragment">
+                <pre>
+                  <code class="lang-ts" data-trim >                   
+                    const alignedGeometry = geometry.clone();
+                    geometry.hasZ = true;
 
-                    const query = footprints.createQuery();
-                    query.objectIds = [building.getObjectId()];
-                    query.outFields = ["*"];
-                    query.multipatchOption = "xyFootprint";
-                    query.returnGeometry = true;
-                    const result = await footprints.queryFeatures(query);
-
-                    const geometry = result.features[0].geometry;
-                    const analysis = new AreaMeasurementAnalysis({ geometry })
-
-                    view.analyses.removeAll();
-                    view.analyses.add(analysis);
-                  });
+                    const groundZ = response.ground.mapPoint.z;
+                    for (const ring of alignedGeometry.rings) {
+                      for (const coord of ring) {
+                        coord[3] = groundZ;
+                      }
+                    }
                   </code>
                 </pre>
               </div>
