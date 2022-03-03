@@ -684,12 +684,22 @@
               <div class="code-snippet">
                 <p class="slidetitle-sub">Flat</p>
                 <pre><code class="lang-ts"  data-trim>
+                  const renderer2D = new SimpleRenderer({
+                    symbol: new PolygonSymbol3D({
+                      symbolLayers: [new FillSymbol3DLayer()],
+                    }),
+                  });
                 </code></pre>
               </div>
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Volumetric</p>
-                <button class="play" id="line-to-path"></button>
+                <button class="play" id="polygon-to-extrusion"></button>
                 <pre><code class="lang-ts"  data-trim>
+                  const renderer3D = new SimpleRenderer({
+                    symbol: new PolygonSymbol3D({
+                      symbolLayers: [new ExtrudeSymbol3DLayer()],
+                    }),
+                  });
                 </code></pre>
               </div>
             </div>
@@ -734,59 +744,62 @@
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet">
-                <ul>
-                  <br />
-                  Add texture layer
-                </ul>
-                <pre>
-                            <code class="lang-ts" data-trim>
-                            </code>
-                          </pre>
+                <p class="slidetitle-sub">Add texture layer</p>
+                <pre><code class="lang-ts" data-trim>
+                  const layer = new SceneLayer({
+                    portalItem: {
+                      id: &quot;fdfa7e3168e74bf5b846fc701180930b&quot;,
+                    }
+                  });
+                  webscene.add(layer);
+                </code></pre>
               </div>
-              <div class="code-snippet">
-                <ul>
-                  <br />
-                  Add outlines
-                </ul>
-                <pre>
-                            <code class="lang-ts" data-trim>
-                              const renderer = new SimpleRenderer({
-                                symbol: {
-                                  type: "mesh-3d",
-                                  symbolLayers: [
-                                    {
-                                      type: "fill",
-                                      material: {
-                                        color: "#ffffff",
-                                        colorMixMode: "replace"
-                                      },
-                                      edges: solidEdges
-                                    }
-                                  ]
-                                }
-                              });
-                            </code>
-                          </pre>
+              <div class="code-snippet fragment">
+                <p class="slidetitle-sub">Add outlines</p>
+                <button class="play" id="sl-toggle-outlines"></button>
+                <pre><code class="lang-ts" data-trim>
+                  const solidEdges = new SolidEdges3D({
+                    color: [0, 0, 0, 0.6],
+                    size: 1
+                  });
+                </code></pre>
               </div>
 
-              <div class="code-snippet">
-                <ul>
-                  <br />
-                  Color by attributes instead
-                </ul>
-                <pre>
-                            <code class="lang-ts" data-trim>
-                            </code>
-                          </pre>
+              <div class="code-snippet fragment">
+                <p class="slidetitle-sub">Color by attributes instead</p>
+                <button class="play" id="sl-toggle-color"></button>
+                <pre><code class="lang-ts" data-trim>
+                  const thematicRenderer = new SimpleRenderer({
+                    symbol: new MeshSymbol3D({
+                      symbolLayers: [
+                        new FillSymbol3DLayer({
+                          material: {
+                            color: "#ffffff",
+                            colorMixMode: "replace",
+                          },
+                          edges: solidEdges,
+                        }),
+                      ],
+                    }),
+                  });
+                  layer.renderer = thematicRenderer;
+                </code></pre>
               </div>
             </div>
-            <div class="right-column">
-              <ul>
-                <br /><br />
-              </ul>
+            <div class="right-column" style="margin-top: auto; margin-bottom: auto">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-3dosl.html"></iframe>
               </div>
+              <p class="footnote">
+                See more in public samples:<br />
+                <a href="https://developers.arcgis.com/javascript/latest/sample-code/layers-scenelayer-color-mix-mode/"
+                  >Coloring options for textured buildings</a
+                >
+                and
+                <a href="https://developers.arcgis.com/javascript/latest/sample-code/layers-scenelayer-edges/"
+                  >Add edges to a SceneLayer</a
+                >
+              </p>
             </div>
           </div>
         </section>
