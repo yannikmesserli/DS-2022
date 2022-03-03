@@ -4,7 +4,8 @@
   "description": "Repository of presentations for Esri's DevSummit 2022 in Palm Springs",
   "scripts": {
     "start": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "types": "tsc --noEmit"
   },
   "repository": {
     "type": "git",

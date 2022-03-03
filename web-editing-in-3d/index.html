@@ -15,7 +15,7 @@
   <body>
     <div class="reveal">
       <div class="slides">
-        <section data-background="../reveal.js/img/2022/dev-summit/bg-1.png" data-background-size="cover">
+        <section data-background="../img/2022/dev-summit/bg-1.png" data-background-size="cover">
           <h1 style="text-align: left; font-size: 60px">
             ArcGIS JS API for JavaScript: <br />
             Web editing in 3D
@@ -29,7 +29,7 @@
           </p>
         </section>
 
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+        <section class="align-left" data-background="../img/2022/dev-summit/bg-2.png">
           <h2>From editing in 2D to editing in 3D</h2>
           <div class="two-columns">
             <div class="left-column">
@@ -57,7 +57,7 @@
           </div>
         </section>
 
-        <section data-slideId="airport" class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+        <section data-slideId="airport" class="align-left" data-background="../img/2022/dev-summit/bg-2.png">
           <h2 class="header">Placing trees on the ground</h2>
 
           <div class="two-columns">
@@ -226,7 +226,7 @@
           </div>
         </section>
 
-        <section data-slideId="airport" class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+        <section data-slideId="airport" class="align-left" data-background="../img/2022/dev-summit/bg-2.png">
           <h2 class="header">FeatureLayer and Editor widget</h2>
 
           <div class="two-columns">
@@ -292,43 +292,25 @@
           </div>
         </section>
 
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+        <section class="align-left" data-background="../img/2022/dev-summit/bg-2.png">
           <h2>Building proposal planning app</h2>
           <iframe class="r-stretch" data-src="./samples/advanced-editing/index.html"></iframe>
         </section>
 
         <!-- FEEDBACK SLIDE: -->
-        <section data-markdown data-background="../reveal.js/img/2022/dev-summit/bg-7.png">
+        <section data-markdown data-background="../img/2022/dev-summit/bg-7.png">
           <textarea data-template>
             Please provide your feedback for this session by clicking on the session survey link directly below the video.
           </textarea>
         </section>
 
         <!-- ESRI LOGO SLIDE: -->
-        <section data-background="../reveal.js/img/2022/dev-summit/bg-8.png">
+        <section data-background="../img/2022/dev-summit/bg-8.png">
           <!-- <img src="img/esri-science-logo-white.png" /> -->
         </section>
       </div>
     </div>
 
-    <script src="../reveal.js/dist/reveal.js"></script>
-    <script src="../reveal.js/plugin/notes/notes.js"></script>
-    <script src="../reveal.js/plugin/markdown/markdown.js"></script>
-    <script src="../reveal.js/plugin/highlight/highlight.js"></script>
-    <script>
-      // More info about initialization & config:
-      // - https://revealjs.com/initialization/
-      // - https://revealjs.com/config/
-      Reveal.initialize({
-        hash: true,
-        center: true,
-        width: 1366,
-        height: 768,
-        margin: 0.05,
-
-        // Learn about plugins: https://revealjs.com/plugins/
-        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
-      });
-    </script>
+    <script src="./main.js" type="module"></script>
   </body>
 </html>
