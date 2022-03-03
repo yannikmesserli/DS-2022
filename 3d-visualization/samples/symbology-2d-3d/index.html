@@ -5,8 +5,8 @@
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <title>Flat/volumetric symbols</title>
 
-    <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css" />
-    <script src="https://js.arcgis.com/4.17/"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.22/"></script>
 
     <style>
       html,
@@ -16,6 +16,10 @@
         margin: 0;
         height: 100%;
         width: 100%;
+      }
+      #paneDiv {
+        padding: 12px;
+        background-color: white;
       }
     </style>
 
@@ -29,14 +33,14 @@
         "esri/widgets/Daylight",
         "esri/widgets/Fullscreen",
       ], function (Map, SceneView, Expand, GraphicsLayer, Graphic, Daylight, Fullscreen) {
-        var map = new Map({
-          basemap: "topo",
+        let map = new Map({
+          basemap: "topo-vector",
           ground: {
             surfaceColor: "white",
           },
         });
 
-        var view = new SceneView({
+        let view = new SceneView({
           container: "viewDiv",
           map: map,
           qualityProfile: "high",
@@ -60,8 +64,35 @@
         });
         view.ui.add(daylightExpand, "top-right");
 
-        var graphicsLayer = new GraphicsLayer();
+        let graphicsLayerPlaceholders = new GraphicsLayer();
+        graphicsLayerPlaceholders.elevationInfo = { mode: "on-the-ground" };
+        map.add(graphicsLayerPlaceholders);
+
+        let graphicsLayerDraped = new GraphicsLayer();
+        graphicsLayerDraped.elevationInfo = { mode: "on-the-ground" };
+        graphicsLayerDraped.visible = false;
+        map.add(graphicsLayerDraped);
+
+        let graphicsLayer = new GraphicsLayer();
+        graphicsLayer.visible = false;
         map.add(graphicsLayer);
+
+        const placeholderSymbol = {
+          type: "point-3d",
+          symbolLayers: [
+            {
+              type: "icon",
+              resource: { primitive: "circle" },
+              material: { color: "red" },
+              //anchor: "bottom",
+              outline: {
+                color: "brown",
+                size: "1px",
+              },
+              size: 3,
+            },
+          ],
+        };
 
         const squarePoint = {
           type: "point", // autocasts as new Point()
@@ -69,7 +100,6 @@
           y: 51.48791,
           z: 0,
         };
-
         const squareSymbol = {
           type: "point-3d",
           symbolLayers: [
@@ -87,8 +117,13 @@
           geometry: squarePoint,
           symbol: squareSymbol,
         });
+        graphicsLayerDraped.add(squareGraphic);
 
-        graphicsLayer.add(squareGraphic);
+        const squarePlaceholder = new Graphic({
+          geometry: squarePoint,
+          symbol: placeholderSymbol,
+        });
+        graphicsLayerPlaceholders.add(squarePlaceholder);
 
         const cubePoint = {
           type: "point", // autocasts as new Point()
@@ -115,8 +150,13 @@
           geometry: cubePoint,
           symbol: cubeSymbol,
         });
-
         graphicsLayer.add(cubeGraphic);
+
+        const cubePlaceholder = new Graphic({
+          geometry: cubePoint,
+          symbol: placeholderSymbol,
+        });
+        graphicsLayerPlaceholders.add(cubePlaceholder);
 
         const pin2DPoint = {
           type: "point", // autocasts as new Point()
@@ -141,8 +181,13 @@
           geometry: pin2DPoint,
           symbol: pin2DSymbol,
         });
-
         graphicsLayer.add(pin2DGraphic);
+
+        const pin2DPlaceholder = new Graphic({
+          geometry: pin2DPoint,
+          symbol: placeholderSymbol,
+        });
+        graphicsLayerPlaceholders.add(pin2DPlaceholder);
 
         const pin3DPoint = {
           type: "point", // autocasts as new Point()
@@ -150,7 +195,12 @@
           y: 51.4877,
           z: -4,
         };
-
+        const pin3DPointPlaceholder = {
+          type: "point", // autocasts as new Point()
+          x: -0.175 + 0.000037,
+          y: 51.4877 + 0.000125,
+          z: -4,
+        };
         const pin3DSymbol = {
           type: "point-3d",
           symbolLayers: [
@@ -167,8 +217,13 @@
           geometry: pin3DPoint,
           symbol: pin3DSymbol,
         });
-
         graphicsLayer.add(pin3DGraphic);
+
+        const pin3DPlaceholder = new Graphic({
+          geometry: pin3DPointPlaceholder,
+          symbol: placeholderSymbol,
+        });
+        graphicsLayerPlaceholders.add(pin3DPlaceholder);
 
         const plane2DPoint = {
           type: "point", // autocasts as new Point()
@@ -193,8 +248,13 @@
           geometry: plane2DPoint,
           symbol: plane2DSymbol,
         });
-
         graphicsLayer.add(plane2DGraphic);
+
+        const plane2DPlaceholder = new Graphic({
+          geometry: plane2DPoint,
+          symbol: placeholderSymbol,
+        });
+        graphicsLayerPlaceholders.add(plane2DPlaceholder);
 
         const plane3DPoint = {
           type: "point", // autocasts as new Point()
@@ -221,8 +281,23 @@
           geometry: plane3DPoint,
           symbol: plane3DSymbol,
         });
-
         graphicsLayer.add(plane3DGraphic);
+
+        const plane3DPlaceholder = new Graphic({
+          geometry: plane3DPoint,
+          symbol: placeholderSymbol,
+        });
+        graphicsLayerPlaceholders.add(plane3DPlaceholder);
+
+        function toggleSymbology() {
+          graphicsLayerPlaceholders.visible = !graphicsLayerPlaceholders.visible;
+          graphicsLayerDraped.visible = !graphicsLayerDraped.visible;
+          graphicsLayer.visible = !graphicsLayer.visible;
+        }
+
+        document.getElementById("toggle-symbology").onclick = toggleSymbology;
+
+        view.ui.add("paneDiv", "bottom-right");
 
         const fullscreen = new Fullscreen({
           view: view,
@@ -234,5 +309,9 @@
 
   <body>
     <div id="viewDiv"></div>
+    <div id="paneDiv" class="esri-widget">
+      <label>Show points with symbology</label>
+      <input type="checkbox" name="toggle-symbology" id="toggle-symbology" />
+    </div>
   </body>
 </html>
