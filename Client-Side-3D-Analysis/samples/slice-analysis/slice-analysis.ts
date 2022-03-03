@@ -65,9 +65,8 @@ function addSlideButton({ title, shape }: SlideInfo) {
 
   // Create a button which applies the slide when clicked.
   const button = document.createElement("calcite-button");
-  button.color = "blue";
+  button.color = "neutral";
   button.appearance = "solid";
-  button.scale = "m";
   button.textContent = title;
 
   button.onclick = () => {

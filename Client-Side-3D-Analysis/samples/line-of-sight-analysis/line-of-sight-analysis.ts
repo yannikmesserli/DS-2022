@@ -1,113 +1,69 @@
 import LineOfSightAnalysis from "@arcgis/core/analysis/LineOfSightAnalysis";
 import LineOfSightAnalysisObserver from "@arcgis/core/analysis/LineOfSightAnalysisObserver";
 import LineOfSightAnalysisTarget from "@arcgis/core/analysis/LineOfSightAnalysisTarget";
-import Collection from "@arcgis/core/core/Collection";
 import Point from "@arcgis/core/geometry/Point";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import SceneView from "@arcgis/core/views/SceneView";
+import "@esri/calcite-components";
+import "@esri/calcite-components/dist/components/button";
 import { MUNICH } from "../../../common/scenes";
-import { initView, onInit, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
+import { initView, onPlayClick } from "../../../common/utils";
+
+const spatialReference = SpatialReference.WebMercator;
 
 const landmarks: { name: string; threshold: number; position: Point }[] = [
   {
     name: "Neues Rathaus",
     threshold: 5,
-    position: new Point({
-      spatialReference: SpatialReference.WebMercator,
-      x: 1288578.8301545328,
-      y: 6129760.9954138035,
-      z: 590,
-    }),
+    position: new Point({ spatialReference, x: 1288578.8301545328, y: 6129760.9954138035, z: 590 }),
   },
   {
     name: "St Peter's Church - Tower 1",
     threshold: 15,
-    position: new Point({
-      spatialReference: SpatialReference.WebMercator,
-      x: 1288301.6231510378,
-      y: 6129918.859183111,
-      z: 610,
-    }),
+    position: new Point({ spatialReference, x: 1288301.6231510378, y: 6129918.859183111, z: 610 }),
   },
   {
     name: "St Peter's Church - Tower 2",
     threshold: 15,
-    position: new Point({
-      spatialReference: SpatialReference.WebMercator,
-      x: 1288300.8203933963,
-      y: 6129956.649379852,
-      z: 610,
-    }),
+    position: new Point({ spatialReference, x: 1288300.8203933963, y: 6129956.649379852, z: 610 }),
   },
 ];
 
-onInit("line-of-sight-analysis", () => {
-  const view = initView(MUNICH);
+const cafes: { name: string; position: Point }[] = [
+  {
+    name: "Cafe 1",
+    position: new Point({ spatialReference, x: 1288546.8915676193, y: 6129701.308535944, z: 518.4979617614299 }),
+  },
+  {
+    name: "Cafe 2",
+    position: new Point({ spatialReference, x: 1288569.1527418362, y: 6129695.921143464, z: 518.1832591928542 }),
+  },
+  {
+    name: "Cafe 3",
+    position: new Point({ spatialReference, x: 1288655.002978257, y: 6129675.878388246, z: 514.9744711806998 }),
+  },
+];
 
-  const analysis = new LineOfSightAnalysis({
-    targets: new Collection(landmarks.map(({ position }) => new LineOfSightAnalysisTarget({ position }))),
+const view = initView(MUNICH);
+
+onPlayClick("add-buttons", () => {
+  cafes.forEach(({ name, position }) => {
+    const button = document.createElement("calcite-button");
+    button.color = "neutral";
+    button.appearance = "solid";
+    button.textContent = name;
+
+    button.addEventListener("click", () => {
+      const analysis = new LineOfSightAnalysis({
+        observer: new LineOfSightAnalysisObserver({ position }),
+        targets: landmarks.map((landmark) => {
+          return new LineOfSightAnalysisTarget({ position: landmark.position });
+        }),
+      });
+
+      (view as any).analyses.removeAll();
+      (view as any).analyses.add(analysis);
+    });
+
+    view.ui.add(button, "bottom-left");
   });
-  (view as any).analyses.add(analysis);
-
-  setupPointerMove(view, analysis);
-  setupClick(view, analysis);
 });
-
-function setupPointerMove(view: SceneView, analysis: LineOfSightAnalysis): void {
-  let abortController: AbortController | null = null;
-
-  view.on("pointer-move", async (e: __esri.ViewPointerMoveEvent) => {
-    try {
-      abortController?.abort();
-      abortController = new AbortController();
-      const { signal } = abortController;
-
-      const { ground, results } = await view.hitTest(e);
-      throwIfAborted(signal);
-
-      const position = results.length === 0 ? ground?.mapPoint : results[0].mapPoint;
-      analysis.observer = new LineOfSightAnalysisObserver({ position });
-    } catch (e) {
-      throwIfNotAbortError(e);
-    }
-  });
-}
-
-function setupClick(view: SceneView, analysis: LineOfSightAnalysis): void {
-  let abortController: AbortController | null = null;
-
-  view.on("immediate-click", async () => {
-    try {
-      abortController?.abort();
-      abortController = new AbortController();
-      const { signal } = abortController;
-
-      const { results } = (await view.whenAnalysisView(analysis)) as __esri.LineOfSightAnalysisView3D;
-      throwIfAborted(signal);
-
-      // Make a new analysis which will display only "hits"
-      const staticAnalysis = new LineOfSightAnalysis({ observer: analysis.observer });
-
-      // Add all the landmarks which were "hit" to the new analysis.
-      for (let i = 0; i < landmarks.length; ++i) {
-        const intersection = results.getItemAt(i)?.intersectedLocation;
-        const target = analysis.targets.getItemAt(i);
-        const landmark = landmarks[i];
-
-        if (!intersection || !target) {
-          continue;
-        }
-
-        if ((target as any).position.distance(intersection) < landmark.threshold) {
-          staticAnalysis.targets.push(target);
-          console.log(`${landmark.name} is visible from clicked point.`);
-        }
-      }
-
-      // Show the new analysis.
-      (view as any).analyses.add(staticAnalysis);
-    } catch (e) {
-      throwIfNotAbortError(e);
-    }
-  });
-}
