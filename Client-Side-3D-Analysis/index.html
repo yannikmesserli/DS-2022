@@ -29,6 +29,24 @@
           </p>
         </section>
 
+        <section data-background="../reveal.js/img/2022/dev-summit/bg-3.png">
+          <h2 id="agenda">Agenda</h2>
+          <ul>
+            <li>
+              Analysis
+              <ul>
+                <li>Direct Measurement</li>
+                <li>Area Measurement</li>
+                <li>Line Of Sight</li>
+                <li>Slice</li>
+                <li>Shadow Cast</li>
+                <li>Elevation Profile</li>
+              </ul>
+            </li>
+            <li>Filtering &amp; Querying</li>
+          </ul>
+        </section>
+
         <!-- 
           DirectLineMeasurement 
         -->
@@ -564,74 +582,6 @@
                   </code>
                 </pre>
               </div>
-              <div class="code-snippet fragment">
-                <pre>
-                  <code class="lang-ts" data-trim>
-                    let layer, layerView;
-
-                    webscene.load().then(function() {
-                      layer = webscene.layers.find(
-                        (l) => l.title === "Helsinki_buildings"
-                      );
-                      view.whenLayerView(layer).then(function (lV) {
-                        layerView = lV;
-                      });
-                    });
-                  </code>
-                </pre>
-              </div>
-            </div>
-
-            <div class="right-column">
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/queries-and-filters/01-custom-popups/"></iframe>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section
-          class="align-left"
-          data-background="../reveal.js/img/2022/dev-summit/bg-3.png"
-          title="customizing-popups"
-        >
-          <h2>Customizing Popups</h2>
-
-          <div class="two-columns">
-            <div class="left-column">
-              <div class="code-snippet">
-                <button class="play" id="popup-1"></button>
-                <pre>
-                  <code class="lang-ts" data-trim>
-                    layer.popupTemplate = {
-                      title: `{address}`,
-                      content: `This structure was built in {yearCompleted} 
-                                and has a {usage} use.`
-                    };
-                  </code>
-                </pre>
-              </div>
-              <div class="code-snippet fragment">
-                <button class="play" id="popup-2"></button>
-                <pre>
-                  <code class="lang-ts" data-trim>
-                    content: [{
-                      type: "text",
-                      text: `This structure was built in {yearCompleted} 
-                              and has a {usage} use.`
-                    },{
-                      type: "fields",
-                      fieldInfos: [{
-                        fieldName: "solarAreaSuitableM2",
-                        label: "Area suitable for solar panels (m&lt;sup&gt;2&lt;/sup&gt;)"
-                      },{
-                        fieldName: "solarElectricitGenPotYearlyKWh",
-                        label: "Yearly solar electricity potential (KWh)"
-                      }]
-                    }]
-                  </code>
-                </pre>
-              </div>
             </div>
 
             <div class="right-column">
@@ -718,68 +668,6 @@
                 href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-SceneLayerView.html#filter"
               >
                 https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-SceneLayerView.html#filter</a
-              >
-            </li>
-          </ul>
-        </section>
-
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-3.png" title="timeslider">
-          <h2>Adding a Time Slider</h2>
-
-          <div class="two-columns">
-            <div class="left-column">
-              <div class="code-snippet">
-                <button class="play" id="timeslider-1"></button>
-                <pre>
-                  <code class="lang-ts" data-trim>
-                  const start = new Date(1900, 0, 1);
-                  const end = new Date(2021, 0, 1);
-
-                  const timeSlider = new TimeSlider({
-                    container: "timeContainer",
-                    mode: "cumulative-from-start",
-                    fullTimeExtent: { start, end },
-                    values: [end],
-                    stops: {
-                      interval: {
-                        value: 5,
-                        unit: "years"
-                      },
-                      timeExtent: { start, end }
-                    }
-                  });
-                  </code>
-                </pre>
-              </div>
-              <div class="code-snippet fragment">
-                <button class="play" id="timeslider-2"></button>
-                <pre>
-                  <code class="lang-ts" data-trim>
-                  timeSlider.watch("timeExtent", function(timeExtent) {
-                    const maxYear = timeExtent.end.getFullYear();
-
-                    layerView.filter = new FeatureFilter({
-                      where: `yearCompleted &lt;= ${maxYear}`
-                    });
-                  });
-                  </code>
-                </pre>
-              </div>
-            </div>
-            <div class="right-column">
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/queries-and-filters/03-timeslider/"></iframe>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-3.png">
-          <h2>Documentation</h2>
-          <ul>
-            <li>
-              <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html"
-                >https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html</a
               >
             </li>
           </ul>
