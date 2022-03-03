@@ -1,12 +1,13 @@
-// @ts-check
-import WebScene from "@arcgis/core/WebScene";
 import SceneView from "@arcgis/core/views/SceneView";
+import WebScene from "@arcgis/core/WebScene";
 import Fullscreen from "@arcgis/core/widgets/Fullscreen";
+import "@esri/calcite-components";
+import "@esri/calcite-components/dist/components/calcite-alert";
 
 const Reveal = (parent as any).Reveal as RevealStatic;
 
 export function onInit(title: string, cb: () => void) {
-  if (Reveal.getCurrentSlide().getAttribute("data-slideId") === title) {
+  if (getCurrentSlide().getAttribute("data-slideId") === title) {
     cb();
   }
 }
@@ -23,8 +24,16 @@ export function onFragment(id: string, cb: () => void) {
   run();
 }
 
-function getCurrentFragment(): HTMLElement | null {
-  return Reveal.getCurrentSlide()?.querySelector(".current-fragment") ?? null;
+export function onPlayClick(name: string, cb: () => void): void {
+  getCurrentSlide().querySelector(`[data-fragment-id="${name}"] > .play`)?.addEventListener("click", cb);
+}
+
+export function getCurrentSlide(): HTMLElement {
+  return Reveal.getCurrentSlide() as HTMLElement;
+}
+
+export function getCurrentFragment(): HTMLElement | null {
+  return getCurrentSlide().querySelector(".current-fragment") ?? null;
 }
 
 function getCurrentFragmentId(): string | null {
@@ -35,7 +44,7 @@ export function initView(itemId?: string) {
   const view = new SceneView({
     map: itemId ? new WebScene({ portalItem: { id: itemId } }) : new WebScene({ basemap: "topo" }),
     container: "viewDiv",
-    qualityProfile: "high",
+    qualityProfile: "medium",
     popup: { defaultPopupTemplateEnabled: false },
   });
 
@@ -45,12 +54,23 @@ export function initView(itemId?: string) {
 }
 
 export function setHeader(header: string, selector: string = ".header"): void {
-  const headerElement = Reveal.getCurrentSlide().querySelector(selector);
+  const headerElement = getCurrentSlide().querySelector(selector);
   if (!headerElement) {
     return;
   }
 
   headerElement.textContent = header;
+}
+
+export function showAlert(msg: string): void {
+  const alertElement = document.createElement("calcite-alert");
+  alertElement.active = true;
+
+  const msgElement = alertElement.appendChild(document.createElement("div"));
+  msgElement.slot = "message";
+  msgElement.textContent = msg;
+
+  document.body.appendChild(alertElement);
 }
 
 export function throwIfAborted(signal: AbortSignal): void {

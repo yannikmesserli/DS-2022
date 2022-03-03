@@ -3,23 +3,28 @@ import DirectLineMeasurementAnalysis from "@arcgis/core/analysis/DirectLineMeasu
 import Color from "@arcgis/core/Color";
 import Point from "@arcgis/core/geometry/Point";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import SceneView from "@arcgis/core/views/SceneView";
 import { WORLD_CAPITALS } from "../../../common/scenes";
-import { initView, onInit, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
+import { initView, onPlayClick, showAlert, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
 
-let view: SceneView;
+const palmSpringsPoint = new Point({
+  x: -116.563645,
+  y: 33.772349,
+  spatialReference: SpatialReference.WGS84,
+});
 
-onInit("direct-line-measurement-analysis", () => {
-  view = initView(WORLD_CAPITALS);
+let shouldAddAnalysis = false;
 
-  view.highlightOptions.color = new Color([255, 255, 0, 1]);
+const view = initView(WORLD_CAPITALS);
+view.highlightOptions.color = new Color([255, 255, 0, 1]);
 
-  const palmSprings = new Point({
-    x: -116.563645,
-    y: 33.772349,
-    spatialReference: SpatialReference.WGS84,
-  });
+registerHover();
 
+onPlayClick("click-event", registerClick);
+onPlayClick("add-analysis", () => {
+  shouldAddAnalysis = true;
+});
+
+function registerClick(): void {
   let clickAbortController: AbortController | null = null;
 
   view.on("click", async (event) => {
@@ -30,23 +35,30 @@ onInit("direct-line-measurement-analysis", () => {
       const { results } = await view.hitTest(event);
       throwIfAborted(signal);
 
-      const result = results.find((r) => r.graphic);
-      if (!result) {
+      const clickedPoint = results.find((r) => r.graphic)?.graphic?.geometry as Point | null | undefined;
+      if (!clickedPoint) {
         return;
       }
 
-      const analysis = new DirectLineMeasurementAnalysis({
-        startPoint: result.graphic.geometry,
-        endPoint: palmSprings,
-      });
+      if (shouldAddAnalysis) {
+        const analysis = new DirectLineMeasurementAnalysis({
+          startPoint: clickedPoint,
+          endPoint: palmSpringsPoint,
+        });
 
-      (view as any).analyses.removeAll();
-      (view as any).analyses.add(analysis);
+        (view as any).analyses.removeAll();
+        (view as any).analyses.add(analysis);
+      } else {
+        const { x, y, z } = clickedPoint;
+        showAlert(`Clicked ${[x, y, z]}`);
+      }
     } catch (e) {
       throwIfNotAbortError(e);
     }
   });
+}
 
+function registerHover(): void {
   let highlightAbortController: AbortController | null = null;
   let highlightHandle: IHandle | null = null;
 
@@ -72,4 +84,4 @@ onInit("direct-line-measurement-analysis", () => {
       throwIfNotAbortError(e);
     }
   });
-});
+}

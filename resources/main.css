@@ -44,9 +44,9 @@
   font-size: 0.8rem;
 }
 
-/* .reveal .code-wrapper code {
+.reveal .code-snippet.play-container code {
   min-height: calc(var(--play-btn-size) + var(--spacing-half));
-} */
+}
 
 .reveal .subtitle {
   font-size: 80%;

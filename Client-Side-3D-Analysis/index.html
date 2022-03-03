@@ -58,7 +58,8 @@
           <h2>DirectLineMeasurement3D widget</h2>
           <div class="two-columns">
             <div class="left-column">
-              <div data-fragment-id="add-widget" class="code-snippet">
+              <div data-fragment-id="add-widget" class="code-snippet play-container">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >
                     const widget = new DirectLineMeasurement3D({ view });
@@ -68,7 +69,8 @@
                 </pre>
               </div>
 
-              <div data-fragment-id="set-units" class="code-snippet fragment">
+              <div data-fragment-id="set-units" class="code-snippet fragment play-container" min-height>
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >
                     widget.viewModel.unit = "kilometers";
@@ -93,21 +95,32 @@
           <h2>DirectLineMeasurementAnalysis</h2>
           <div class="two-columns">
             <div class="left-column">
-              <div data-fragment-id="add-widget" class="code-snippet">
+              <div data-fragment-id="click-event" class="code-snippet">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>                  
+                  view.on("click", async (event) => {
+                    const clickedPoint = /* hit test... */
+
+                    const { x, y, z } = clickedPoint;
+                    showAlert(`Clicked ${[x, y, z]}`);
+                  });
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="add-analysis" class="code-snippet fragment">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
                   const palmSpringsPoint = new Point({ x: -116.563645, y: 33.772349 });
                   
-                  view.on("click", async (event) => {
-                    const clickedMapPoint = /* hit test, etc */
-
-                    const analysis = new DirectLineMeasurementAnalysis({ 
-                      startPoint: clickedMapPoint,
-                      endPoint: palmSpringsPoint
-                    });
-
-                    view.analyses.add(analysis);
+                  const analysis = new DirectLineMeasurementAnalysis({ 
+                    startPoint: clickedPoint,
+                    endPoint: palmSpringsPoint
                   });
+
+                  view.analyses.add(analysis);
                   </code>
                 </pre>
               </div>
@@ -132,6 +145,7 @@
           <div class="two-columns">
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >
                     const widget = new AreaMeasurement3D({ view });
@@ -142,6 +156,7 @@
               </div>
 
               <div data-fragment-id="set-units" class="code-snippet fragment">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >
                     widget.viewModel.unit = "square-meters";
@@ -169,21 +184,28 @@
           <h2>AreaMeasurementAnalysis</h2>
           <div class="two-columns">
             <div class="left-column">
-              <div class="code-snippet">
+              <div data-fragment-id="click-event" class="code-snippet">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >                   
                     view.on("click", async (event) => {
-                      const response = await view.hitTest(e);
-
-                      const geometry = response?.results?[0]?.graphic?.geometry;
-                      if (!geometry) {
-                        return;
-                      }
+                      const clickedGraphic = /* hit test... */
   
-                      const analysis = new AreaMeasurementAnalysis({ geometry });
-  
-                      view.analyses.add(analysis);
+                      showAlert(`Clicked ${clickedGraphic.getObjectId()}`);
                     });
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="add-analysis" class="code-snippet fragment">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim >                  
+                    const analysis = new AreaMeasurementAnalysis({
+                      geometry: clickedGraphic.geometry
+                    });
+
+                    view.analyses.add(analysis);
                   </code>
                 </pre>
               </div>
@@ -192,32 +214,21 @@
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >                   
-                    const alignedGeometry = geometry.clone();
-                    geometry.hasZ = true;
-
                     const groundZ = response.ground.mapPoint.z;
-                    for (const ring of alignedGeometry.rings) {
-                      for (const coord of ring) {
-                        coord[3] = groundZ;
-                      }
-                    }
+                    
+                    geometry = geometry.clone();
+                    geometry.rings = geometry.rings.map((ring) => {
+                      return ring.map(([x, y]) => [x, y, groundZ]);
+                    });
                   </code>
                 </pre>
               </div>
 
-              <div data-fragment-id="add-to-widget" class="code-snippet fragment">
+              <div data-fragment-id="add-to-widget" class="code-snippet fragment play-container">
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >                   
-                    const alignedGeometry = geometry.clone();
-                    geometry.hasZ = true;
-
-                    const groundZ = response.ground.mapPoint.z;
-                    for (const ring of alignedGeometry.rings) {
-                      for (const coord of ring) {
-                        coord[3] = groundZ;
-                      }
-                    }
+                    widget = new AreaMeasurement3D({ view, analysis });
                   </code>
                 </pre>
               </div>
@@ -242,6 +253,7 @@
           <div class="two-columns">
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >
                     const widget = new LineOfSight({ view });

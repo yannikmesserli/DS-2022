@@ -1,17 +1,18 @@
 // @ts-check
 import AreaMeasurement3D from "@arcgis/core/widgets/AreaMeasurement3D";
-import { SAN_FRANCISCO } from "../../../common/scenes";
-import { initView, onFragment, onInit } from "../../../common/utils";
+import { DENVER_PARCELS } from "../../../common/scenes";
+import { initView, onPlayClick } from "../../../common/utils";
+
+const view = initView(DENVER_PARCELS);
 
 let widget: AreaMeasurement3D;
 
-onInit("area-measurement", () => {
-  const view = initView(SAN_FRANCISCO);
+onPlayClick("add-widget", () => {
   widget = new AreaMeasurement3D({ view });
   view.ui.add(widget, "top-right");
 });
 
-onFragment("set-units", () => {
+onPlayClick("set-units", () => {
   widget.viewModel.unit = "square-kilometers";
   widget.viewModel.unitOptions = ["square-meters", "square-kilometers"];
 });
