@@ -493,6 +493,7 @@
           <div class="two-columns">
             <div class="left-column">
               <div data-fragment-id="add-widget" class="code-snippet">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >
                   const widget = new ElevationProfile({ view });
@@ -503,6 +504,7 @@
               </div>
 
               <div data-fragment-id="set-profiles" class="code-snippet fragment">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >
                   widget.profiles.push(
@@ -536,37 +538,31 @@
               <div class="code-snippet">
                 <pre>
                   <code class="lang-ts" data-trim >
-                  let abortController = null;
-
-                  const button = document.createElement("calcite-button");
-                  button.textContent = "Download as CSV";
-                  button.onclick = async () => {
+                  async function downloadCSV() {
                     const groundProfileLine = widget.profiles.getItemAt(0);
-                    
-                    // Abort any previous operations.
-                    abortController?.abort();
-                    const { signal } = (abortController = new AbortController());
 
-                    try {
-                      // Make sure the profile is fully generated/refined
-                      await reactiveUtils.whenOnce(() => groundProfileLine.progress === 1, signal);
-                      throwIfAborted(signal);
-                    } catch (e) {
-                      throwIfNotAbortError(e);
-                    }
+                    // Wait for the profile to be fully generated. Cancellation
+                    // and error handling omitted for brevity
+                    await reactiveUtils.whenOnce(() => groundProfileLine.progress === 1);
                     
-                    // Generate CSV data
-                    const fields = ["distance", "elevation", "x", "y", "z"];
-                    const parser = new json2csv.Parser({ field });
-                    const csv = parser.parse(groundProfileLine.samples);
-                    
-                    // Save file with FileSaver.js
-                    const type "text/csv;charset=utf-8";
-                    const blob = new Blob([csv], { type });
-                    saveAs(blob, "profile-data.csv");
+                    exportToCSV(groundProfileLine.samples);
                   }
+                  </code>
+                </pre>
+              </div>
 
-                  view.ui.add(button, "bottom-left");
+              <div data-fragment-id="add-export-button" class="code-snippet fragment">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim >    
+                    function exportToCSV(samples) {                
+                      const fields = ["distance", "elevation", "x", "y", "z"];
+                      const csv = new json2csv.Parser({ fields }).parse(samples);
+                      
+                      // Offer file for download with FileSaver.js
+                      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+                      saveAs(blob, "profile-data.csv");
+                    }
                   </code>
                 </pre>
               </div>
