@@ -814,6 +814,52 @@
           </div>
         </section>
 
+        <!--------- 1.3 Core concepts: Layer symbology: Integrated mesh layer  -------->
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+          <h2 class="slidetitle">3D-specific data types: Integrated mesh layer</h2>
+
+          <h2></h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <p class="slidetitle-sub">Add layer</p>
+                <pre><code class="lang-ts" data-trim>
+                  const layer = new SceneLayer({
+                      url: &quot;https://tiles.arcgis.com/tiles/cFEFS0EWrhfDeVw9/arcgis/rest/services/Buildings_Frankfurt_2021/SceneServer&quot;,
+                  });
+                  map.add(layer);
+                </code></pre>
+              </div>
+
+              <div class="code-snippet fragment">
+                <p class="slidetitle-sub">Color IM with a feature layer</p>
+                <button class="play" id="im-toggle-distances"></button>
+                <pre><code class="lang-ts" data-trim>
+                  const walkingLayer = new FeatureLayer({
+                    url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Walking_time_Frankfurt_Cathedral/FeatureServer",
+                    elevationInfo: {
+                      mode: "on-the-ground",
+                    },
+                  });
+                </code></pre>
+              </div>
+            </div>
+            <div class="right-column" style="margin-top: auto; margin-bottom: auto">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/symbology-im.html"></iframe>
+              </div>
+              <p class="footnote">
+                See more in a public sample:
+                <a
+                  href="https://developers.arcgis.com/javascript/latest/sample-code/layers-integratedmeshlayer/"
+                  target="_blank"
+                  >IntegratedMeshLayer</a
+                >
+              </p>
+            </div>
+          </div>
+        </section>
+
         <!--------- 1.3 Core concepts: Layer symbology: Point cloud layer  -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2 class="slidetitle">3D-specific data types: Point cloud layer</h2>
@@ -897,51 +943,6 @@
                   href="https://developers.arcgis.com/javascript/latest/sample-code/layers-pointcloud-color-modulation/"
                   target="_blank"
                   >PointCloudLayer - intensity color modulation</a
-                >
-              </p>
-            </div>
-          </div>
-        </section>
-        <!--------- 1.3 Core concepts: Layer symbology: Integrated mesh layer  -------->
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2 class="slidetitle">3D-specific data types: Integrated mesh layer</h2>
-
-          <h2></h2>
-          <div class="two-columns">
-            <div class="left-column">
-              <div class="code-snippet">
-                <p class="slidetitle-sub">Add layer</p>
-                <pre><code class="lang-ts" data-trim>
-                  const layer = new SceneLayer({
-                      url: &quot;https://tiles.arcgis.com/tiles/cFEFS0EWrhfDeVw9/arcgis/rest/services/Buildings_Frankfurt_2021/SceneServer&quot;,
-                  });
-                  map.add(layer);
-                </code></pre>
-              </div>
-
-              <div class="code-snippet fragment">
-                <p class="slidetitle-sub">Color IM with a feature layer</p>
-                <button class="play" id="im-toggle-distances"></button>
-                <pre><code class="lang-ts" data-trim>
-                  const walkingLayer = new FeatureLayer({
-                    url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Walking_time_Frankfurt_Cathedral/FeatureServer",
-                    elevationInfo: {
-                      mode: "on-the-ground",
-                    },
-                  });
-                </code></pre>
-              </div>
-            </div>
-            <div class="right-column" style="margin-top: auto; margin-bottom: auto">
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/symbology-im.html"></iframe>
-              </div>
-              <p class="footnote">
-                See more in a public sample:
-                <a
-                  href="https://developers.arcgis.com/javascript/latest/sample-code/layers-integratedmeshlayer/"
-                  target="_blank"
-                  >IntegratedMeshLayer</a
                 >
               </p>
             </div>
