@@ -2,7 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
     <title>Esri Dev Summit 2022 - ArcGIS JS API for JavaScript: Web editing in 3D</title>
 
@@ -34,14 +37,19 @@
           <div class="two-columns">
             <div class="left-column">
               <ul>
-                <li>Using the <code>Editor</code> widget in a <code>SceneView</code> works out of the box.</li>
+                <li>
+                  Using the <code>Editor</code> widget in a <code>SceneView</code> works out of the
+                  box.
+                </li>
                 <li>Using the <code>SketchViewModel</code> also works 3D.</li>
-                <li><code>FeatureForm</code> and <code>Editor</code> widget is the same in 2D and 3D.</li>
+                <li>
+                  <code>FeatureForm</code> and <code>Editor</code> widget is the same in 2D and 3D.
+                </li>
                 <li>No need to prepare data specifically for 3D.</li>
               </ul>
 
               <pre class="code-snippet fragment">
-                <code class="lang-ts" data-trim data-line-numbers>
+                <code class="lang-ts">
                   const view = new SceneView({ /* ... */ });
                   // const view = new MapView({ /* ... */ });
 
@@ -57,7 +65,11 @@
           </div>
         </section>
 
-        <section data-slideId="airport" class="align-left" data-background="../img/2022/dev-summit/bg-2.png">
+        <section
+          data-slideId="airport"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
           <h2 class="header">Placing trees on the ground</h2>
 
           <div class="two-columns">
@@ -65,9 +77,13 @@
               <!--
                 Init
               -->
-              <div data-fragment-index="0" data-fragment-id="on-the-ground" class="code-snippet fragment fade-out">
+              <div
+                data-fragment-index="0"
+                data-fragment-id="on-the-ground"
+                class="code-snippet fragment fade-out"
+              >
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts">
                   const view = new SceneView(/* ... */);
 
                   const sketchViewModel = new SketchViewModel({
@@ -99,7 +115,7 @@
                 class="code-snippet fragment fade-in-then-out"
               >
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts">
                   const trees = new GraphicsLayer({ 
                     elevationInfo: { mode: "on-the-ground" }
                   });
@@ -126,9 +142,12 @@
               <!--
                 Relative to ground (or absolute-height)
               -->
-              <div data-fragment-id="relative-to-ground" class="code-snippet fragment fade-in-then-out">
+              <div
+                data-fragment-id="relative-to-ground"
+                class="code-snippet fragment fade-in-then-out"
+              >
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts">
                   const airplanes = new GraphicsLayer({ 
                     elevationInfo: { mode: "relative-to-ground" }
                     // elevationInfo: { mode: "absolute-height" }
@@ -156,9 +175,12 @@
               <!--
                 Relative to scene
               -->
-              <div data-fragment-id="relative-to-scene" class="code-snippet fragment fade-in-then-out">
+              <div
+                data-fragment-id="relative-to-scene"
+                class="code-snippet fragment fade-in-then-out"
+              >
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts">
                   const antennas = new GraphicsLayer({ 
                     elevationInfo: { mode: "relative-to-scene" }
                   });
@@ -187,7 +209,7 @@
               -->
               <div data-fragment-id="polygons" class="code-snippet fragment fade-in-then-out">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts">
                   const terminals = new GraphicsLayer({ 
                     elevationInfo: { mode: "relative-to-scene" }
                   });
@@ -226,14 +248,18 @@
           </div>
         </section>
 
-        <section data-slideId="airport" class="align-left" data-background="../img/2022/dev-summit/bg-2.png">
+        <section
+          data-slideId="feature-layer"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
           <h2 class="header">FeatureLayer and Editor widget</h2>
 
           <div class="two-columns">
             <div class="left-column r-stack no-margin">
               <div data-fragment-index="0" class="code-snippet fragment fade-out">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts">
                   const pointLayer = new FeatureLayer({
                     title: "Airplanes",
                     url: "https://services.arcgis ...",
@@ -266,7 +292,7 @@
 
               <div data-fragment-index="0" class="code-snippet fragment fade-in-then-out">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>                
+                  <code class="lang-ts">                
                   const formTemplate = new FormTemplate({
                     elements: [
                       new FieldElement({ fieldName: "ROTATION", label: "Rotation" }),
@@ -287,6 +313,30 @@
             <div class="right-column">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/feature-layer/index.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          data-slideId="scene-layer"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
+          <h2 class="header">SceneLayer editing</h2>
+
+          <div class="two-columns">
+            <div class="left-column r-stack no-margin">
+              <div data-fragment-index="0" class="code-snippet fragment fade-out">
+                <pre>
+                  <code class="lang-ts">
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/scene-layer/index.html"></iframe>
               </div>
             </div>
           </div>
