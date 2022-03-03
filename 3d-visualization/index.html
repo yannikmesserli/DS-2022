@@ -913,18 +913,22 @@
                 <p class="slidetitle-sub">Add layer</p>
                 <pre><code class="lang-ts" data-trim>
                   const layer = new SceneLayer({
-                    portalItem: {
-                      id: &quot;xx&quot;,
-                    }
+                      url: &quot;https://tiles.arcgis.com/tiles/cFEFS0EWrhfDeVw9/arcgis/rest/services/Buildings_Frankfurt_2021/SceneServer&quot;,
                   });
                   map.add(layer);
                 </code></pre>
               </div>
 
               <div class="code-snippet fragment">
-                <p class="slidetitle-sub">Color by attributes instead</p>
-                <button class="play" id="im-drape-polygon"></button>
+                <p class="slidetitle-sub">Color IM with a feature layer</p>
+                <button class="play" id="im-toggle-distances"></button>
                 <pre><code class="lang-ts" data-trim>
+                  const walkingLayer = new FeatureLayer({
+                    url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Walking_time_Frankfurt_Cathedral/FeatureServer",
+                    elevationInfo: {
+                      mode: "on-the-ground",
+                    },
+                  });
                 </code></pre>
               </div>
             </div>
@@ -932,7 +936,14 @@
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-im.html"></iframe>
               </div>
-              <p class="footnote">See more in public samples:</p>
+              <p class="footnote">
+                See more in a public sample:
+                <a
+                  href="https://developers.arcgis.com/javascript/latest/sample-code/layers-integratedmeshlayer/"
+                  target="_blank"
+                  >IntegratedMeshLayer</a
+                >
+              </p>
             </div>
           </div>
         </section>

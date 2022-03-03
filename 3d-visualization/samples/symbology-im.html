@@ -1,0 +1,119 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Based on: IntegratedMeshLayer | Sample | ArcGIS API for JavaScript 4.22</title>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.22/"></script>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <script>
+      require([
+        "esri/WebScene",
+        "esri/views/SceneView",
+        "esri/layers/IntegratedMeshLayer",
+        "esri/layers/FeatureLayer",
+        "esri/widgets/Expand",
+        "esri/widgets/Legend",
+        "esri/widgets/Fullscreen",
+      ], (WebScene, SceneView, IntegratedMeshLayer, FeatureLayer, Expand, Legend, Fullscreen) => {
+        const doc = parent.document;
+        doc.getElementById("im-toggle-distances").onclick = toggleDistances;
+
+        /*************************************
+         * Load webscene with other layers
+         * (lakes, points of interest, roads)
+         *************************************/
+        const webscene = new WebScene({
+          portalItem: {
+            id: "95d51825f62b4b738a3a12d5e518dea3",
+          },
+        });
+
+        /*************************************
+         * Create IntegratedMeshLayer layer
+         * and add it to the webscene
+         ***********************************/
+        const layer = new IntegratedMeshLayer({
+          url: "https://tiles.arcgis.com/tiles/cFEFS0EWrhfDeVw9/arcgis/rest/services/Buildings_Frankfurt_2021/SceneServer",
+          // Frankfurt integrated mesh data provided by nFrames and Aerowest
+          copyright: "nFrames - Aerowest",
+          title: "Integrated Mesh Frankfurt",
+        });
+
+        webscene.add(layer);
+
+        // As the Webscene already includes the walkingLayer, it is not needed to create it from a service
+        /*const walkingLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Walking_time_Frankfurt_Cathedral/FeatureServer",
+          elevationInfo: {
+            mode: "on-the-ground",
+          },
+        });
+        webscene.add(walkingLayer);
+        */
+
+        // Getting the walkingLayer from the webscene and making it invisible on initial load.
+        let walkingLayer;
+        webscene.when(function () {
+          webscene.allLayers.find(function (layer) {
+            if (layer.title === "Walking Time to Frankfurt Cathedral") {
+              walkingLayer = layer;
+              walkingLayer.visible = false;
+            } else {
+              layer.visible = true;
+            }
+          });
+        });
+
+        const view = new SceneView({
+          container: "viewDiv",
+          map: webscene,
+          qualityProfile: "high",
+        });
+
+        layer.when(() => {
+          const legendExpand = new Expand({
+            view: view,
+            content: new Legend({
+              view: view,
+              style: {
+                type: "card",
+                layout: "side-by-side",
+              },
+            }),
+            group: "bottom-right",
+            expanded: false,
+          });
+          view.ui.add(legendExpand, "bottom-right");
+        });
+
+        function toggleDistances() {
+          walkingLayer.visible = !walkingLayer.visible;
+        }
+
+        const fullscreen = new Fullscreen({
+          view: view,
+        });
+        view.ui.add(fullscreen, "bottom-left");
+
+        view.popup = null;
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
