@@ -450,16 +450,28 @@
         >
           <h2>ShadowCast widget</h2>
           <div class="two-columns">
-            <div class="left-column">
-              <div data-fragment-id="add-widget" class="code-snippet">
+            <div class="left-column r-stack no-margin">
+              <div data-fragment-index="0" data-fragment-id="add-daylight" class="code-snippet fragment fade-out">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim >
+                    const widget = new Daylight({ view });
+
+                    view.ui.add(widget, "top-right");
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-index="0" data-fragment-id="add-shadow-cast" class="code-snippet fragment">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >
                     const widget = new ShadowCast({ view });
 
+                    view.ui.add(widget, "top-right");
+
                     // Show only accumulated shadows
                     view.environment.lighting.directShadowsEnabled = false;
-
-                    view.ui.add(widget, "top-right");
                   </code>
                 </pre>
               </div>
