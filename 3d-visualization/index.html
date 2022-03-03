@@ -253,8 +253,8 @@
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet">
-                <pre>
-                      <code class="lang-ts" data-line-numbers="14|1-10,15" data-trim>
+                <button class="play" id="local-clipping"></button>
+                <pre><code class="lang-ts" data-line-numbers="14|1-10,15" data-trim>
                             const clippingExtent = {
                                 spatialReference: {
                                 latestWkid: 3857,
@@ -272,8 +272,7 @@
                                 clippingArea: clippingExtent,
                                 map: map,
                             });
-                      </code>
-                    </pre>
+                </code></pre>
               </div>
             </div>
             <div class="right-column">
@@ -456,8 +455,22 @@
                 </li>
               </ul>
             </div>
-            <div class="right-column">
-              <img src="./images/data-editor.png" width="800px" />
+            <div class="right-column r-stack">
+              <img id="data-editor" src="./images/data-editor.png" width="800px" />
+              <img class="fragment" id="data-editor-sketch" src="./images/data-editor-sketch.png" width="800px" />
+              <!--script>
+              <img id="data-editor-sketch" src="./images/data-editor-sketch.png" width="800px" style="display: none" />
+                const imgDataEditor = document.getElementById("data-editor");
+                const imgDataEditorSketch = document.getElementById("data-editor-sketch");
+                imgDataEditor.onclick = function () {
+                  imgDataEditor.style.display = "none";
+                  imgDataEditorSketch.style.display = "inline";
+                };
+                imgDataEditorSketch.onclick = function () {
+                  imgDataEditorSketch.style.display = "none";
+                  imgDataEditor.style.display = "inline";
+                };
+              </script-->
             </div>
           </div>
         </section>

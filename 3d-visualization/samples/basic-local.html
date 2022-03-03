@@ -25,6 +25,10 @@
         BuildingSceneLayer,
         Fullscreen
       ) => {
+        const doc = parent.document;
+        doc.getElementById("local-clipping").onclick = toggleClipping;
+        let clipped = false;
+
         const clippingExtent = {
           spatialReference: {
             latestWkid: 3857,
@@ -44,9 +48,30 @@
         webscene.basemap = "gray-vector";
         const view = new SceneView({
           container: "viewDiv",
-          clippingArea: clippingExtent,
+          //clippingArea: clippingExtent,
           viewingMode: "local",
           map: webscene,
+          environment: {
+            background: {
+              type: "color",
+              color: [255, 255, 255, 1],
+            },
+            starsEnabled: false,
+            atmosphereEnabled: false,
+          },
+          camera: {
+            position: {
+              spatialReference: {
+                latestWkid: 3857,
+                wkid: 102100,
+              },
+              x: -13044954.22171991,
+              y: 4036737.1566524818,
+              z: 476.21285493123094,
+            },
+            heading: 298.6239313109147,
+            tilt: 74.77588016827869,
+          },
         });
 
         // Create the BuildingSceneLayer and add it to the webscene
@@ -55,6 +80,15 @@
           title: "Administration Building, Redlands - Building Scene Layer",
         });
         webscene.layers.add(buildingLayer);
+
+        function toggleClipping() {
+          clipped = !clipped;
+          if (clipped) {
+            view.clippingArea = clippingExtent;
+          } else {
+            view.clippingArea = null;
+          }
+        }
 
         const fullscreen = new Fullscreen({
           view: view,
