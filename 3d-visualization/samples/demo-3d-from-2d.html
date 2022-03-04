@@ -2,7 +2,6 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>BuildingSceneLayer with Slice widget | Sample | ArcGIS API for JavaScript 4.23</title>
 
     <style>
       html,
@@ -37,11 +36,11 @@
     </style>
 
     <link
-      href="https://jsdev.arcgis.com/4.23/esri/themes/light/main.css"
+      href="https://jsdev.arcgis.com/4.22/esri/themes/light/main.css"
       rel="stylesheet"
       type="text/css"
     />
-    <script src="https://jsdev.arcgis.com/4.23/"></script>
+    <script src="https://jsdev.arcgis.com/4.22/"></script>
 
     <script>
       require([
@@ -53,6 +52,7 @@
         "esri/symbols/ExtrudeSymbol3DLayer",
         "esri/widgets/Expand",
         "esri/widgets/Legend",
+        "esri/widgets/LayerList",
         "esri/widgets/Fullscreen",
       ], (
         Map,
@@ -63,6 +63,7 @@
         ExtrudeSymbol3DLayer,
         Expand,
         Legend,
+        LayerList,
         Fullscreen
       ) => {
         // The building footprints used in this example don't have information about the building height.
@@ -72,13 +73,13 @@
               var randomness = (8 * Random() -4);
               var height;
               if (area < 500) {
-                height = 7;
+                height = 5;
               } else if (area < 1000) {
-                height = 10;
+                height = 6;
               } else if (area < 2000) {
-                height = 25;
+                height = 16;
               } else {
-                height = 35;
+                height = 12;
               }
               return height + randomness;
             `;
@@ -125,13 +126,17 @@
           visualVariables: [
             {
               type: "size",
-              field: "HEIGHT",
+              // In case your dataset doesn't have a building height saved in an attribute,
+              //you can use a value expression to extrude the footprint by a guessed value based on geometry area.
+              //field: "HEIGHT",
+              valueExpression: expresion,
             },
           ],
         };
 
         const buildings = new FeatureLayer({
           url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Building_Footprints/FeatureServer",
+          title: "Buildings",
           renderer: buildingsRenderer,
         });
 
@@ -158,25 +163,6 @@
               //field: "DiameterEsri"
               valueExpression: `$feature.DiameterEsri*0.0254`, //*39.3701
             },
-            /*{
-              type: "size",
-              //field: "DiameterEsri"
-              valueExpression: `$feature.DiameterEsri/100*3`,
-            },*/
-            /*{
-              type: "color",
-              field: "InstallYearEsri",
-              stops: [
-                {
-                  value: 1900,
-                  color: "#ff0000",
-                },
-                {
-                  value: 2000,
-                  color: "#ffff00",
-                },
-              ],
-            },*/
           ],
         };
 
@@ -190,7 +176,7 @@
                 profile: "circle",
                 join: "bevel",
                 material: {
-                  color: "#51b9b8", //[0, 115, 76],
+                  color: "#3bc7e5", //"#51b9b8", //[0, 115, 76],
                 },
                 width: 1,
                 height: 1,
@@ -203,31 +189,12 @@
               //field: "DiameterEsri"
               valueExpression: `$feature.DiameterEsri*0.0254`, //*39.3701
             },
-            /*{
-              type: "color",
-              field: "InstallYearEsri",
-              stops: [
-                {
-                  value: 1900,
-                  color: "#ff0000",
-                },
-                {
-                  value: 2000,
-                  color: "#ffff00",
-                },
-              ],
-            },*/
           ],
         };
         const collector = new FeatureLayer({
           url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
+          title: "Storm Collector",
           definitionExpression: "ProfileType IN ('Box','') OR ProfileType IS NULL",
-          /*elevationInfo: {
-                  mode: "relative-to-ground",
-                  //mode: "absolute-height",
-                  unit: "meters",
-                  offset: -10,
-                },*/
           elevationInfo: {
             mode: "relative-to-ground",
             offset: -4,
@@ -237,6 +204,7 @@
 
         const tubes = new FeatureLayer({
           url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
+          title: "Storm Drains",
           definitionExpression: "ProfileType IN ('Tube','') OR ProfileType IS NULL",
           elevationInfo: {
             mode: "relative-to-ground",
@@ -274,25 +242,37 @@
           view.map.ground.navigationConstraint = {
             type: "none",
           };
-          // the webscene has no basemap, so set a surfaceColor on the ground
-          view.map.ground.surfaceColor = "#fff";
+          //view.map.ground.surfaceColor = "#fff";
           // to see through the ground, set the ground opacity to 0.4
           view.map.ground.opacity = 0.6;
         });
 
-        buildings.when(() => {
-          const legendExpand = new Expand({
+        const layerExpand = new Expand({
+          view: view,
+          content: new LayerList({
             view: view,
-            content: new Legend({
-              view: view,
-            }),
-            group: "bottom-right",
-            expanded: false,
-          });
-          view.ui.add(legendExpand, "bottom-right");
+          }),
+          group: "top-right",
+          expanded: false,
         });
+        view.ui.add(layerExpand, "top-right");
+
+        const legendExpand = new Expand({
+          view: view,
+          content: new Legend({
+            view: view,
+          }),
+          group: "top-right",
+          expanded: false,
+        });
+        view.ui.add(legendExpand, "top-right");
 
         view.popup.defaultPopupTemplateEnabled = true;
+
+        const fullscreen = new Fullscreen({
+          view: view,
+        });
+        view.ui.add(fullscreen, "bottom-left");
       });
     </script>
   </head>
