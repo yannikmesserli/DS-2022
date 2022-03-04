@@ -1,10 +1,9 @@
 import AreaMeasurementAnalysis from "@arcgis/core/analysis/AreaMeasurementAnalysis";
 import Polygon from "@arcgis/core/geometry/Polygon";
-import IdentityManager from "@arcgis/core/identity/IdentityManager";
-import OAuthInfo from "@arcgis/core/identity/OAuthInfo";
 import AreaMeasurement3D from "@arcgis/core/widgets/AreaMeasurement3D";
 import { DENVER_PARCELS } from "../../../common/scenes";
 import {
+  addOAuthSupport,
   initView,
   onPlayClick,
   showAlert,
@@ -12,17 +11,7 @@ import {
   throwIfNotAbortError,
 } from "../../../common/utils";
 
-IdentityManager.registerOAuthInfos([
-  new OAuthInfo({
-    appId: "pZzd4uJ0gZddupQh",
-    popup: true,
-    popupCallbackUrl: `${document.location.origin}/oauth-callback-api.html`,
-  }),
-]);
-
-(window as any).setOAuthResponseHash = (responseHash: string) => {
-  IdentityManager.setOAuthResponseHash(responseHash);
-};
+addOAuthSupport();
 
 let shouldAddAnalysis = false;
 let analysis: AreaMeasurementAnalysis | null = null;

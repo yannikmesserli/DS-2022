@@ -1,3 +1,5 @@
+import IdentityManager from "@arcgis/core/identity/IdentityManager";
+import OAuthInfo from "@arcgis/core/identity/OAuthInfo";
 import SceneView from "@arcgis/core/views/SceneView";
 import WebScene from "@arcgis/core/WebScene";
 import Fullscreen from "@arcgis/core/widgets/Fullscreen";
@@ -25,7 +27,9 @@ export function onFragment(id: string, cb: () => void) {
 }
 
 export function onPlayClick(name: string, cb: () => void): void {
-  getCurrentSlide().querySelector(`[data-fragment-id="${name}"] > .play`)?.addEventListener("click", cb);
+  getCurrentSlide()
+    .querySelector(`[data-fragment-id="${name}"] > .play`)
+    ?.addEventListener("click", cb);
 }
 
 export function getCurrentSlide(): HTMLElement {
@@ -71,6 +75,20 @@ export function showAlert(msg: string): void {
   msgElement.textContent = msg;
 
   document.body.appendChild(alertElement);
+}
+
+export function addOAuthSupport(): void {
+  IdentityManager.registerOAuthInfos([
+    new OAuthInfo({
+      appId: "pZzd4uJ0gZddupQh",
+      popup: true,
+      popupCallbackUrl: `${document.location.origin}/oauth-callback-api.html`,
+    }),
+  ]);
+
+  (window as any).setOAuthResponseHash = (responseHash: string) => {
+    IdentityManager.setOAuthResponseHash(responseHash);
+  };
 }
 
 export function throwIfAborted(signal: AbortSignal): void {

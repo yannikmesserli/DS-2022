@@ -6,5 +6,5 @@ export const MUNICH = "cfddaf892c4b477bbc42a662acc4e88a";
 export const SAMEDAN_AIRPORT = "3ef242366dc24c2d98e3f8a0f253ae12";
 export const SAN_FRANCISCO = "c7adc0ed4c124c72ad7bc79bddada094";
 export const SAN_FRANCISCO_EDITABLE = "2e38f798f3124f2dae84217839cc43dc";
-export const SHADOW_CAST = "f2220db76c6448b4be8083d19ef4cf8d";
+export const SHADOW_CAST = "8d7de23cd45f4b3fa4932c57272bacf1";
 export const WORLD_CAPITALS = "c025297bbf004abc863773858add4058";
