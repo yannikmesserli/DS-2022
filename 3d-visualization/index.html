@@ -63,12 +63,6 @@
         content: "-";
         font-weight: normal;
       }
-      .r-stack.revert-r-stack-grid {
-        display: flex !important;
-      }
-      .fragment.revert-r-stack-grid {
-        margin: 0;
-      }
     </style>
   </head>
   <body>
@@ -954,20 +948,6 @@
                     url: &quot;https://tiles.arcgis.com/tiles/Imiq6naek6ZWdour/arcgis/rest/services/PointCloud_urban/SceneServer&quot;
                   });
                   map.add(pcLayer);
-                </code></pre>
-              </div>
-              <div class="code-snippet fragment">
-                <p class="slidetitle-sub">Change point size</p>
-                <button class="play" id="pc-toggle-size"></button>
-                <pre><code class="lang-ts" data-line-numbers="6" data-trim>
-                  pcLayer.renderer = new PointCloudRGBRenderer({
-                    field: "RGB",
-                    pointSizeAlgorithm: {
-                      type: "fixed-size",
-                      useRealWorldSymbolSizes: false,
-                      size: 3,
-                    },
-                  });
                 </code></pre>
               </div>
               <div class="code-snippet fragment">
