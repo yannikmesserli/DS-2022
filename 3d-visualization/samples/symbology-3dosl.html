@@ -2,7 +2,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>Based on: Coloring options for textured buildings | Sample | ArcGIS API for JavaScript 4.22</title>
+    <title>
+      Based on: Coloring options for textured buildings | Sample | ArcGIS API for JavaScript 4.22
+    </title>
     <style>
       html,
       body,
@@ -40,9 +42,9 @@
         Fullscreen
       ) => {
         const doc = parent.document;
-        doc.getElementById("sl-toggle-outlines").onclick = toggleOutlines;
+        doc.getElementById("sl-toggle-edges").onclick = toggleedges;
         doc.getElementById("sl-toggle-color").onclick = toggleTexture;
-        let outlines = false;
+        let edges = false;
         let texture = true;
 
         // Load a webscene and add it to the view
@@ -88,7 +90,7 @@
 
         function updateRenderer() {
           if (texture) {
-            if (outlines) {
+            if (edges) {
               layer.renderer = new SimpleRenderer({
                 symbol: new MeshSymbol3D({
                   symbolLayers: [
@@ -110,14 +112,14 @@
                       color: "#ffffff",
                       colorMixMode: "replace",
                     },
-                    edges: outlines ? solidEdges : null,
+                    edges: edges ? solidEdges : null,
                   }),
                 ],
               }),
               visualVariables: [
                 {
                   type: "color",
-                  field: "solarAreaSuitableM2",
+                  field: "solarElectricitGenPotYearlyKWh",
                   stops: [
                     {
                       value: 1,
@@ -133,22 +135,64 @@
             });
           }
         }
-        function toggleOutlines() {
-          outlines = !outlines;
+        function toggleedges() {
+          edges = !edges;
           updateRenderer();
         }
         function toggleTexture() {
           texture = !texture;
-          console.log(outlines + " " + texture);
           updateRenderer();
         }
+
+        const template = {
+          // autocasts as new PopupTemplate()
+          title: "Helsinki buildings",
+          content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                {
+                  fieldName: "usage",
+                  label: "Usage",
+                },
+                {
+                  fieldName: "highestRoof",
+                  label: "Roof elevation, m",
+                  format: {
+                    digitSeparator: true,
+                    places: 0,
+                  },
+                },
+                /*{
+                  fieldName: "solarElectricitGenPotYearlyKWh",
+                  label: "Yearly solar potential, KWh",
+                  format: {
+                    digitSeparator: true,
+                    places: 0,
+                  },
+                },*/
+                {
+                  fieldName: "solarAreaSuitableM2",
+                  label: "Roof area for PV panels, m2",
+                  format: {
+                    digitSeparator: true,
+                    places: 0,
+                  },
+                },
+              ],
+            },
+          ],
+        };
+        layer.popupTemplate = template;
 
         const fullscreen = new Fullscreen({
           view: view,
         });
         view.ui.add(fullscreen, "bottom-left");
 
-        view.popup = null;
+        view.popup.dockEnabled = true;
+        view.popup.dockOptions = { position: "top-right", buttonEnabled: false, actions: null };
+        view.popup.actions = [];
       });
     </script>
   </head>
