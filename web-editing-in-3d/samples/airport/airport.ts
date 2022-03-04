@@ -8,7 +8,7 @@ import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 import "@esri/calcite-components";
 import "@esri/calcite-components/dist/components/calcite-button";
 import { SAMEDAN_AIRPORT } from "../../../common/scenes";
-import { initView, onFragment, setHeader } from "../../../common/utils";
+import { initView, onFragment, onPlayClick, setHeader } from "../../../common/utils";
 
 const GOTO_DURATION = 1000;
 
@@ -20,7 +20,6 @@ widget.style.display = "flex";
 widget.style.flexDirection = "column";
 widget.style.gap = "10px";
 widget.style.padding = "10px";
-widget.textContent = "No buttons";
 view.ui.add(widget, "top-right");
 
 const treeSymbolPromise = new WebStyleSymbol({
@@ -63,13 +62,17 @@ svm.on("create", (event) => {
 
 onFragment("init", async () => {
   setHeader("Placing trees on the ground");
+  resetWidget();
 });
 
 onFragment("on-the-ground", async () => {
   setHeader("Placing trees on the ground");
+  resetWidget();
 
-  widget.innerHTML = "";
-  addTreeButton();
+  onPlayClick("on-the-ground", () => {
+    widget.innerHTML = "";
+    addTreeButton();
+  });
 
   await view.when();
   view.goTo(
@@ -88,11 +91,11 @@ onFragment("on-the-ground", async () => {
 });
 
 onFragment("relative-to-ground", async () => {
-  setHeader("Placing airplanes relative to the ground or sea level");
-
+  setHeader("Placing airplanes in the air");
   widget.innerHTML = "";
+
   addTreeButton();
-  addAirplaneButton();
+  onPlayClick("relative-to-ground", addAirplaneButton);
 
   await view.when();
   view.goTo(
@@ -112,11 +115,11 @@ onFragment("relative-to-ground", async () => {
 
 onFragment("relative-to-scene", async () => {
   setHeader("Placing antennas relative to the scene");
-
   widget.innerHTML = "";
+
   addTreeButton();
   addAirplaneButton();
-  addAntennaButton();
+  onPlayClick("relative-to-scene", addAntennaButton);
 
   await view.when();
   view.goTo(
@@ -136,12 +139,12 @@ onFragment("relative-to-scene", async () => {
 
 onFragment("polygons", async () => {
   setHeader("Sketching a new terminal");
-
   widget.innerHTML = "";
+
   addTreeButton();
   addAirplaneButton();
   addAntennaButton();
-  addTerminalButton();
+  onPlayClick("polygons", addTerminalButton);
 
   await view.when();
   view.goTo(
@@ -215,4 +218,8 @@ function addButton(label: string, onClick: () => void): void {
   };
 
   widget.appendChild(addPlaneBtn);
+}
+
+function resetWidget(): void {
+  widget.textContent = "No buttons";
 }
