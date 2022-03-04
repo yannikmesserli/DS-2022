@@ -51,56 +51,85 @@
         "esri/renderers/SimpleRenderer",
         "esri/symbols/PolygonSymbol3D",
         "esri/symbols/ExtrudeSymbol3DLayer",
-      ], (Map, SceneView, FeatureLayer, SimpleRenderer, PolygonSymbol3D, ExtrudeSymbol3DLayer) => {
+        "esri/widgets/Expand",
+        "esri/widgets/Legend",
+        "esri/widgets/Fullscreen",
+      ], (
+        Map,
+        SceneView,
+        FeatureLayer,
+        SimpleRenderer,
+        PolygonSymbol3D,
+        ExtrudeSymbol3DLayer,
+        Expand,
+        Legend,
+        Fullscreen
+      ) => {
+        // The building footprints used in this example don't have information about the building height.
+        // We are using Arcade expressions to extrude footprints dependant on their area:
         var expresion = `
-        var area = Area($feature, 'square-meters'); //square-feet
-        var randomness = (8 * Random() -4);
-        var height;
-        if (area < 500) {
-          height = 7;
-        } else if (area < 1000) {
-          height = 10;
-        } else if (area < 2000) {
-          height = 25;
-        } else {
-          height = 35;
-        }
-        return height + randomness;
-      `;
+              var area = Area($feature, 'square-meters'); //square-feet
+              var randomness = (8 * Random() -4);
+              var height;
+              if (area < 500) {
+                height = 7;
+              } else if (area < 1000) {
+                height = 10;
+              } else if (area < 2000) {
+                height = 25;
+              } else {
+                height = 35;
+              }
+              return height + randomness;
+            `;
 
-        const buildingsRenderer = {
-          type: "simple", // autocasts as new SimpleRenderer()
-          symbol: {
+        function getBuildingSymbol(color) {
+          return {
             type: "polygon-3d", // autocasts as new PolygonSymbol3D()
             symbolLayers: [
               {
                 type: "extrude", // autocasts as new ExtrudeSymbol3DLayer()
+                material: { color: color },
               },
             ],
-          },
+          };
+        }
+        const buildingsRenderer = {
+          type: "unique-value", // autocasts as new UniqueValueRenderer()
+          defaultSymbol: getBuildingSymbol("#fff8eb"),
+          defaultLabel: "Building General",
+          field: "FEATURECODE",
+          uniqueValueInfos: [
+            {
+              //const colors = ["#524834", "#715b38", "#8f6e3c", "#ae8140", "#cc9444", "#eba748", "#eeb664", "#f0c47f", "#f9e0b7", "#fff8eb"];
+              value: "Education Facility",
+              symbol: getBuildingSymbol("#f9e0b7"), //"#A7C636"),
+              label: "Education Facility",
+            },
+            {
+              value: "Industrial Facility",
+              symbol: getBuildingSymbol("#f0c47f"), //"#FC921F"),
+              label: "Industrial Facility",
+            },
+            {
+              value: "Commercial or Retail Facility",
+              symbol: getBuildingSymbol("#eeb664"), //"#ED5151"),
+              label: "Commercial or Retail Facility",
+            },
+            {
+              value: "Government or Military Facility",
+              symbol: getBuildingSymbol("#eba748"), //"#149ECE"),
+              label: "Government or Military Facility",
+            },
+          ],
           visualVariables: [
             {
               type: "size",
-              valueExpression: expresion,
-            },
-            {
-              type: "color",
-              field: "RAHSHeritageAward_BuildingAge",
-              stops: [
-                {
-                  value: 1900,
-                  color: "#FFFCD4",
-                  label: "<15%",
-                },
-                {
-                  value: 2000,
-                  color: [153, 83, 41],
-                  label: ">35%",
-                },
-              ],
+              field: "HEIGHT",
             },
           ],
         };
+
         const buildings = new FeatureLayer({
           url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Building_Footprints/FeatureServer",
           renderer: buildingsRenderer,
@@ -114,29 +143,27 @@
               {
                 type: "path",
                 profile: "quad",
+                join: "bevel",
                 material: {
-                  color: "blue",
+                  color: "#3bc7e5", //34c7b4", //51b9b8", //[0, 115, 76],
                 },
-                //width: 2,
-                //height: 2,
+                width: 3,
+                height: 3,
               },
             ],
           },
           visualVariables: [
-            /*{
-            type: "height",
-            field: "DiameterEsri"
-          },
-          {
-            type: "width",
-            field: "DiameterEsri"
-          },*/
             {
               type: "size",
               //field: "DiameterEsri"
-              valueExpression: `$feature.DiameterEsri/100*3`,
+              valueExpression: `$feature.DiameterEsri*0.0254`, //*39.3701
             },
-            {
+            /*{
+              type: "size",
+              //field: "DiameterEsri"
+              valueExpression: `$feature.DiameterEsri/100*3`,
+            },*/
+            /*{
               type: "color",
               field: "InstallYearEsri",
               stops: [
@@ -149,74 +176,73 @@
                   color: "#ffff00",
                 },
               ],
-            },
+            },*/
           ],
         };
 
-        const collector = new FeatureLayer({
-          url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
-          /*elevationInfo: {
-          mode: "relative-to-ground",
-          mode: "absolute-height",
-          unit: "meters"
-        },*/
-          renderer: collectorRenderer,
-        });
-
-        const pipesRenderer = {
+        const tubesRenderer = {
           type: "simple", // autocasts as new SimpleRenderer()
           symbol: {
             type: "line-3d",
             symbolLayers: [
               {
                 type: "path",
-                profile: "quad",
+                profile: "circle",
+                join: "bevel",
                 material: {
-                  color: "blue",
+                  color: "#51b9b8", //[0, 115, 76],
                 },
-                //width: 2,
-                //height: 2,
+                width: 1,
+                height: 1,
               },
             ],
           },
           visualVariables: [
-            /*{
-            type: "height",
-            field: "DiameterEsri"
-          },
-          {
-            type: "width",
-            field: "DiameterEsri"
-          },*/
             {
               type: "size",
               //field: "DiameterEsri"
-              valueExpression: `$feature.DiameterEsri/100*3`,
+              valueExpression: `$feature.DiameterEsri*0.0254`, //*39.3701
             },
-            {
+            /*{
               type: "color",
               field: "InstallYearEsri",
               stops: [
                 {
                   value: 1900,
-                  color: "#00ff00",
+                  color: "#ff0000",
                 },
                 {
                   value: 2000,
                   color: "#ffff00",
                 },
               ],
-            },
+            },*/
           ],
         };
-        const pipes = new FeatureLayer({
+        const collector = new FeatureLayer({
           url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
+          definitionExpression: "ProfileType IN ('Box','') OR ProfileType IS NULL",
           /*elevationInfo: {
-          mode: "relative-to-ground",
-          mode: "absolute-height",
-          unit: "meters"
-        },*/
-          renderer: pipesRenderer,
+                  mode: "relative-to-ground",
+                  //mode: "absolute-height",
+                  unit: "meters",
+                  offset: -10,
+                },*/
+          elevationInfo: {
+            mode: "relative-to-ground",
+            offset: -4,
+          },
+          renderer: collectorRenderer,
+        });
+
+        const tubes = new FeatureLayer({
+          url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
+          definitionExpression: "ProfileType IN ('Tube','') OR ProfileType IS NULL",
+          elevationInfo: {
+            mode: "relative-to-ground",
+            offset: -4,
+          },
+          renderer: tubesRenderer,
         });
 
         const view = new SceneView({
@@ -225,7 +251,7 @@
           map: new Map({
             basemap: "dark-gray-vector",
             ground: "world-elevation",
-            layers: [buildings, collector, pipes],
+            layers: [buildings, collector, tubes],
           }),
           camera: {
             position: {
@@ -251,7 +277,19 @@
           // the webscene has no basemap, so set a surfaceColor on the ground
           view.map.ground.surfaceColor = "#fff";
           // to see through the ground, set the ground opacity to 0.4
-          view.map.ground.opacity = 0.8;
+          view.map.ground.opacity = 0.6;
+        });
+
+        buildings.when(() => {
+          const legendExpand = new Expand({
+            view: view,
+            content: new Legend({
+              view: view,
+            }),
+            group: "bottom-right",
+            expanded: false,
+          });
+          view.ui.add(legendExpand, "bottom-right");
         });
 
         view.popup.defaultPopupTemplateEnabled = true;
