@@ -27,26 +27,62 @@
         "esri/Map",
         "esri/layers/SceneLayer",
         "esri/views/SceneView",
+        "esri/layers/FeatureLayer",
+        "esri/layers/IntegratedMeshLayer",
         "esri/widgets/Expand",
         "esri/widgets/Weather",
         "esri/widgets/Daylight",
-      ], (Map, SceneLayer, SceneView, Expand, Weather, Daylight) => {
+      ], (
+        Map,
+        SceneLayer,
+        SceneView,
+        FeatureLayer,
+        IntegratedMeshLayer,
+        Expand,
+        Weather,
+        Daylight
+      ) => {
         /***********************************
          * Create the SceneView
          ***********************************/
         // Create a new map
         const map = new Map({
           basemap: "satellite",
-          ground: "world-elevation",
+          //ground: "world-elevation",
         });
 
-        // Load the sceneLayer with the 3D buildings from San Francisco
-        const sceneLayer = new SceneLayer({
-          url: "https://tiles.arcgis.com/tiles/z2tnIkrLQ2BRzr6P/arcgis/rest/services/SanFrancisco_Bldgs/SceneServer/layers/0",
-          title: "San Francisco Downtown",
-          popupEnabled: false,
+        const layer = new IntegratedMeshLayer({
+          url: "https://tiles.arcgis.com/tiles/cFEFS0EWrhfDeVw9/arcgis/rest/services/Buildings_Frankfurt_2021/SceneServer",
+          // Frankfurt integrated mesh data provided by nFrames and Aerowest
+          copyright: "nFrames - Aerowest",
+          title: "Integrated Mesh Frankfurt",
         });
-        map.add(sceneLayer);
+        map.add(layer);
+
+        const waterLayer = new FeatureLayer({
+          url: "https://services7.arcgis.com/wdgKFvvZvYZ3Biji/arcgis/rest/services/Frankfurt_water2/FeatureServer",
+          elevationInfo: {
+            //mode: "on-the-ground",
+            mode: "relative-to-scene",
+            offset: -85,
+          },
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "polygon-3d",
+              symbolLayers: [
+                {
+                  type: "water",
+                  waveDirection: 125, //170, //260,
+                  color: "#454b3b", //3e4b3b", //3b4b47", //1d6152", //25427c",
+                  waveStrength: "moderate", //"rippled"
+                  waterbodySize: "medium",
+                },
+              ],
+            },
+          },
+        });
+        map.add(waterLayer);
 
         // Create a new sceneView and set the weather to cloudy
         const view = new SceneView({
@@ -55,19 +91,25 @@
           map: map,
           camera: {
             position: {
-              longitude: -122.38907,
-              latitude: 37.7755,
-              z: 74.83047,
+              spatialReference: {
+                latestWkid: 3857,
+                wkid: 102100,
+              },
+              x: 966656.222569399,
+              y: 6464220.886886281,
+              z: 127.02253505121917,
             },
-            heading: 333.84,
-            tilt: 92.84,
+            heading: 313.141756179622,
+            tilt: 88.50567036168142,
           },
           qualityProfile: "high",
           environment: {
+            lighting: { waterReflectionEnabled: true },
             atmosphere: {
               quality: "high",
             },
-            weather: { type: "cloudy", cloudCover: 0.6 }, // autocasts to new CloudyWeather({ cloudCover: 0.6 })
+            //weather: { type: "foggy", fogDensity: 0.4 },
+            weather: { type: "cloudy", cloudCover: 0.3 }, // autocasts to new CloudyWeather({ cloudCover: 0.6 })
           },
         });
 
@@ -91,6 +133,11 @@
           group: "top-right",
         });
         view.ui.add([weatherExpand, daylightExpand], "top-right");
+
+        /*window.addEventListener("keypress", onKeypress, false);
+        function onKeypress(event) {
+          console.log(view.camera);
+        }*/
       });
     </script>
   </head>
