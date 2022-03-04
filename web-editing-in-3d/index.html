@@ -338,10 +338,10 @@
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
-                    sketchVM.snappingOptions.enabled: true;
-                    sketchVM.snappingOptions.featureSources = [{ 
-                      layer: terminals
-                    }];
+                    Object.assign(sketchVM.snappingOptions, {
+                      enabled: true,
+                      featureSources: [{ layer: terminals }]
+                    });
                   </code>
                 </pre>
               </div>
