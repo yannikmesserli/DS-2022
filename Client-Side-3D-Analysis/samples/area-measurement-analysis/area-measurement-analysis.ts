@@ -6,25 +6,19 @@ import {
   addOAuthSupport,
   initView,
   onPlayClick,
-  showAlert,
   throwIfAborted,
   throwIfNotAbortError,
 } from "../../../common/utils";
 
 addOAuthSupport();
 
-let shouldAddAnalysis = false;
 let analysis: AreaMeasurementAnalysis | null = null;
 let widget: AreaMeasurement3D | null = null;
 
 const view = initView(DENVER_PARCELS);
 view.popup.autoOpenEnabled = false;
 
-setupClick();
-
-onPlayClick("add-analysis", () => {
-  shouldAddAnalysis = true;
-});
+onPlayClick("add-analysis", setupClick);
 onPlayClick("add-to-widget", createWidget);
 
 function setupClick(): void {
@@ -55,17 +49,13 @@ function setupClick(): void {
         return ring.map(([x, y]) => [x, y, groundZ]);
       });
 
-      if (shouldAddAnalysis) {
-        analysis = new AreaMeasurementAnalysis({ geometry });
+      analysis = new AreaMeasurementAnalysis({ geometry });
 
-        (view as any).analyses.removeAll();
-        (view as any).analyses.add(analysis);
+      (view as any).analyses.removeAll();
+      (view as any).analyses.add(analysis);
 
-        if (widget) {
-          createWidget();
-        }
-      } else {
-        showAlert(`Clicked: ${clickedGraphic.getObjectId()}`);
+      if (widget) {
+        createWidget();
       }
     } catch (e) {
       throwIfNotAbortError(e);
