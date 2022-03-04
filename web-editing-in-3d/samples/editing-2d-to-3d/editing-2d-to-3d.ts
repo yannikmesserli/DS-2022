@@ -2,20 +2,29 @@ import FieldElement from "@arcgis/core/form/elements/FieldElement";
 import FormTemplate from "@arcgis/core/form/FormTemplate";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import FeatureSnappingLayerSource from "@arcgis/core/views/interactive/snapping/FeatureSnappingLayerSource";
+import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 import WebMap from "@arcgis/core/WebMap";
 import Editor from "@arcgis/core/widgets/Editor";
 import Expand from "@arcgis/core/widgets/Expand";
 import Fullscreen from "@arcgis/core/widgets/Fullscreen";
 import SnappingControls from "@arcgis/core/widgets/support/SnappingControls";
+import { onPlayClick } from "../../../common/utils";
 
-init();
+let view: MapView | SceneView | null = null;
 
-async function init(): Promise<void> {
-  // Create a map from the referenced webmap item id
+init("2d");
+
+onPlayClick("use-scene-view", () => {
+  view?.destroy();
+  init("3d");
+});
+
+async function init(type: "2d" | "3d"): Promise<void> {
   const webmap = new WebMap({ portalItem: { id: "459a495fc16d4d4caa35e92e895694c8" } });
 
-  const view = new SceneView({ container: "viewDiv", map: webmap });
+  const viewProps = { container: "viewDiv", map: webmap };
+  view = type === "2d" ? new MapView(viewProps) : new SceneView(viewProps);
   await view.when();
   await webmap.loadAll();
 

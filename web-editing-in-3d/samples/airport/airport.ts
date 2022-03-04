@@ -21,6 +21,7 @@ widget.style.flexDirection = "column";
 widget.style.gap = "10px";
 widget.style.padding = "10px";
 view.ui.add(widget, "top-right");
+resetWidget();
 
 const treeSymbolPromise = new WebStyleSymbol({
   name: "Larix",
@@ -46,6 +47,14 @@ const terminalSymbol = new PolygonSymbol3D({
   ],
 });
 
+const trees = new GraphicsLayer({ elevationInfo: { mode: "on-the-ground" } });
+const airplanes = new GraphicsLayer({ elevationInfo: { mode: "relative-to-ground" } });
+const antennas = new GraphicsLayer({ elevationInfo: { mode: "relative-to-scene" } });
+const terminals = new GraphicsLayer({ elevationInfo: { mode: "absolute-height" } });
+view.map.addMany([trees, airplanes, antennas, terminals]);
+
+let useTreeSymbol = false;
+
 const svm = new SketchViewModel({
   view,
   defaultUpdateOptions: {
@@ -60,19 +69,19 @@ svm.on("create", (event) => {
   }
 });
 
-onFragment("init", async () => {
+onFragment("init", () => {
   setHeader("Placing trees on the ground");
   resetWidget();
 });
 
-onFragment("on-the-ground", async () => {
+onFragment("on-the-ground", () => {
   setHeader("Placing trees on the ground");
   resetWidget();
+});
 
-  onPlayClick("on-the-ground", () => {
-    widget.innerHTML = "";
-    addTreeButton();
-  });
+onPlayClick("on-the-ground", async () => {
+  widget.innerHTML = "";
+  addTreeButton();
 
   await view.when();
   view.goTo(
@@ -90,12 +99,30 @@ onFragment("on-the-ground", async () => {
   );
 });
 
-onFragment("relative-to-ground", async () => {
+onFragment("on-the-ground-symbol", () => {
+  setHeader("Placing trees on the ground");
+  widget.innerHTML = "";
+  addTreeButton();
+});
+
+onPlayClick("on-the-ground-symbol", async () => {
+  useTreeSymbol = true;
+});
+
+onFragment("on-the-ground-docs", () => {
+  setHeader("Placing trees on the ground");
+  widget.innerHTML = "";
+  addTreeButton();
+});
+
+onFragment("relative-to-ground", () => {
   setHeader("Placing airplanes in the air");
   widget.innerHTML = "";
-
   addTreeButton();
-  onPlayClick("relative-to-ground", addAirplaneButton);
+});
+
+onPlayClick("relative-to-ground", async () => {
+  addAirplaneButton();
 
   await view.when();
   view.goTo(
@@ -113,13 +140,15 @@ onFragment("relative-to-ground", async () => {
   );
 });
 
-onFragment("relative-to-scene", async () => {
+onFragment("relative-to-scene", () => {
   setHeader("Placing antennas relative to the scene");
   widget.innerHTML = "";
-
   addTreeButton();
   addAirplaneButton();
-  onPlayClick("relative-to-scene", addAntennaButton);
+});
+
+onPlayClick("relative-to-scene", async () => {
+  addAntennaButton();
 
   await view.when();
   view.goTo(
@@ -140,11 +169,13 @@ onFragment("relative-to-scene", async () => {
 onFragment("polygons", async () => {
   setHeader("Sketching a new terminal");
   widget.innerHTML = "";
-
   addTreeButton();
   addAirplaneButton();
   addAntennaButton();
-  onPlayClick("polygons", addTerminalButton);
+});
+
+onPlayClick("polygons-click", async () => {
+  addTerminalButton();
 
   await view.when();
   view.goTo(
@@ -162,21 +193,19 @@ onFragment("polygons", async () => {
   );
 });
 
-async function addTreeButton() {
-  const trees = new GraphicsLayer({ elevationInfo: { mode: "on-the-ground" } });
-  view.map.add(trees);
+onPlayClick("enable-snapping", enableSnapping);
 
+async function addTreeButton() {
   addButton("Add tree", async () => {
     svm.layer = trees;
-    svm.pointSymbol = await treeSymbolPromise;
+    if (useTreeSymbol) {
+      svm.pointSymbol = await treeSymbolPromise;
+    }
     svm.create("point");
   });
 }
 
 async function addAirplaneButton() {
-  const airplanes = new GraphicsLayer({ elevationInfo: { mode: "relative-to-ground" } });
-  view.map.add(airplanes);
-
   addButton("Add airplane", async () => {
     svm.layer = airplanes;
     svm.pointSymbol = await airplaneSymbolPromise;
@@ -185,9 +214,6 @@ async function addAirplaneButton() {
 }
 
 async function addAntennaButton() {
-  const antennas = new GraphicsLayer({ elevationInfo: { mode: "relative-to-scene" } });
-  view.map.add(antennas);
-
   addButton("Add antenna", async () => {
     svm.layer = antennas;
     svm.pointSymbol = await antennaSymbolPromise;
@@ -196,17 +222,17 @@ async function addAntennaButton() {
 }
 
 function addTerminalButton() {
-  const terminals = new GraphicsLayer({ elevationInfo: { mode: "absolute-height" } });
-  view.map.add(terminals);
-
-  svm.snappingOptions.enabled = true;
-  svm.snappingOptions.featureSources = new Collection([{ layer: terminals } as any]);
-
   addButton("Add terminal", async () => {
     svm.layer = terminals;
     svm.polygonSymbol = terminalSymbol;
     svm.create("polygon");
   });
+}
+
+function enableSnapping(): void {
+  svm.snappingOptions.enabled = true;
+  svm.snappingOptions.distance = 15;
+  svm.snappingOptions.featureSources = new Collection([{ layer: terminals } as any]);
 }
 
 function addButton(label: string, onClick: () => void): void {

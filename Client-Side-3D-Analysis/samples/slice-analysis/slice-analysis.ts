@@ -45,6 +45,21 @@ const SLIDES: SlideInfo[] = [
       height: 54.13647355579905,
     }),
   },
+  {
+    title: "Tilted",
+    shape: new SlicePlane({
+      position: {
+        spatialReference: { wkid: 4326 },
+        x: -117.18677129282855,
+        y: 34.05990837974229,
+        z: 413.4107119254768,
+      },
+      heading: 0.6657849842134532,
+      tilt: 0.00000775363957927766,
+      width: 56.863034126173964,
+      height: 54.13647355579905,
+    }),
+  },
 ];
 
 let widget: Slice | null = null;

@@ -360,9 +360,16 @@
                   <code class="lang-ts" data-trim data-line-numbers>
                     const widget = new Slice({ view });
 
-                    widget.viewModel
-
                     view.ui.add(widget, "top-right");
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="tilt-enabled" class="code-snippet fragment play-container">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    widget.viewModel.tiltEnabled = true;
                   </code>
                 </pre>
               </div>

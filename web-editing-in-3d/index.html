@@ -9,6 +9,10 @@
 
     <title>Esri Dev Summit 2022 - ArcGIS JS API for JavaScript: Web editing in 3D</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+
     <link rel="stylesheet" href="../reveal.js/dist/reset.css" />
     <link rel="stylesheet" href="../reveal.js/dist/reveal.css" />
     <link rel="stylesheet" href="../reveal.js/dist/theme/black.css" />
@@ -36,7 +40,7 @@
           <h2>From editing in 2D to editing in 3D</h2>
           <div class="two-columns">
             <div class="left-column">
-              <ul>
+              <ul style="font-size: 1.6rem">
                 <li>
                   Using the <code>Editor</code> widget in a <code>SceneView</code> works out of the
                   box.
@@ -48,10 +52,11 @@
                 <li>No need to prepare data specifically for 3D.</li>
               </ul>
 
-              <pre class="code-snippet fragment">
+              <pre data-fragment-id="use-scene-view" class="code-snippet fragment">
+                <button class="play"></button>
                 <code class="lang-ts" data-trim>
-                  const view = new SceneView({ /* ... */ });
                   // const view = new MapView({ /* ... */ });
+                  const view = new SceneView({ /* ... */ });
 
                   const editor = new Editor({ view /* ... */})
                 </code>
@@ -77,10 +82,10 @@
               <!--
                 Init
               -->
-              <div class="code-snippet">
+              <div class="code-snippet fragment fade-in-then-out">
                 <pre>
                   <code class="lang-ts" data-trim>
-                  const sketchViewModel = new SketchViewModel({
+                  const sketchVM = new SketchViewModel({
                     view,
                     defaultUpdateOptions: {
                       enableRotation: true,
@@ -103,20 +108,39 @@
                   });
                   view.map.add(trees);
 
-                  const treeSymbol = await new WebStyleSymbol({
-                    name: "Larix",
-                    styleName: "EsriRealisticTreesStyle",
-                  }).fetchSymbol();
-
-                  const button = /* create button */
+                  const button = createButton();
 
                   button.addEventListener("click", () => {
-                    sketchViewModel.layer = trees;
-                    sketchViewModel.pointSymbol = treeSymbol;
-                    sketchViewModel.create("point");
+                    sketchVM.layer = trees;
+                    sketchVM.create("point");
                   });
                   </code>
                 </pre>
+              </div>
+
+              <div
+                data-fragment-id="on-the-ground-symbol"
+                class="code-snippet fragment v-stack fade-in-then-out"
+              >
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    const treeWebStyleSymbol = new WebStyleSymbol({
+                      /* ... */
+                    });
+
+                    // Download the symbol to get a PointSymbol3D
+                    const treeSymbol = await treeWebStyleSymbol.fetchSymbol();
+
+                    sketchVM.pointSymbol = treeSymbol;
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="on-the-ground-docs" class="fragment v-stack fade-in-then-out">
+                <iframe
+                  data-src="https://developers.arcgis.com/javascript/latest/visualization/symbols-color-ramps/esri-web-style-symbols-3d/#schematic-vegetation"
+                ></iframe>
               </div>
 
               <!--
@@ -135,17 +159,12 @@
                   });
                   view.map.add(airplanes);
 
-                  const airplaneSymbol = await new WebStyleSymbol({
-                    name: "Airplane_Propeller",
-                    styleName: "EsriRealisticTransportationStyle",
-                  }).fetchSymbol();
-
-                  const button = /* create button */
+                  const button = createButton();
 
                   button.addEventListener("click", () => {
-                    sketchViewModel.layer = airplanes;
-                    sketchViewModel.pointSymbol = airplaneSymbol;
-                    sketchViewModel.create("point");
+                    sketchVM.layer = airplanes;
+                    sketchVM.pointSymbol = createAirplaneSymbol();
+                    sketchVM.create("point");
                   });
                   </code>
                 </pre>
@@ -166,17 +185,12 @@
                   });
                   view.map.add(antennas);
 
-                  const antennaSymbol = await new WebStyleSymbol({
-                    name: "Cell_Phone_Antenna",
-                    styleName: "EsriInfrastructureStyle",
-                  }).fetchSymbol();
-
-                  const button = /* create button */
+                  const button = createButton();
                   
                   button.addEventListener("click", () => {
-                    sketchViewModel.layer = antennas;
-                    sketchViewModel.pointSymbol = antennaSymbol;
-                    sketchViewModel.create("point");
+                    sketchVM.layer = antennas;
+                    sketchVM.pointSymbol = createAntennaSymbol();
+                    sketchVM.create("point");
                   });
                   </code>
                 </pre>
@@ -185,34 +199,38 @@
               <!--
                 Drawing polygons
               -->
-              <div data-fragment-id="polygons" class="code-snippet fragment fade-in-then-out">
-                <button class="play"></button>
-                <pre>
-                  <code class="lang-ts" data-trim>
-                  const terminals = new GraphicsLayer({ 
-                    elevationInfo: { mode: "relative-to-scene" }
-                  });
-                  view.map.add(terminals);
+              <div data-fragment-id="polygons" class="fragment v-stack">
+                <div data-fragment-id="polygons-click" class="code-snippet">
+                  <button class="play"></button>
+                  <pre>
+                    <code class="lang-ts" data-trim>
+                    const terminals = new GraphicsLayer({ 
+                      elevationInfo: { mode: "relative-to-scene" }
+                    });
+                    view.map.add(terminals);
 
-                  const options = sketchViewModel.snappingOptions;
-                  options.enabled = true;
-                  options.featureSources = [{ layer: terminals }];
+                    const button = createButton();
 
-                  const terminalSymbol = new PolygonSymbol3D({
-                    symbolLayers: [
-                      new ExtrudeSymbol3DLayer({ size: 5, /* ... */ }),
-                    ],
-                  })
+                    button.addEventListener("click", () => {
+                      sketchVM.layer = terminals;
+                      sketchVM.polygonSymbol = createTerminalSymbol();
+                      sketchVM.create("polygon");
+                    });
+                    </code>
+                  </pre>
+                </div>
 
-                  const button = /* create button */
-                  
-                  button.addEventListener("click", () => {
-                    sketchViewModel.layer = terminals;
-                    sketchViewModel.polygonSymbol = terminalSymbol;
-                    sketchViewModel.create("polygon");
-                  });
-                  </code>
-                </pre>
+                <div data-fragment-id="enable-snapping" class="code-snippet fragment">
+                  <button class="play"></button>
+                  <pre>
+                    <code class="lang-ts" data-trim>
+                    sketchVM.snappingOptions.enabled = true;
+                    sketchVM.snappingOptions.featureSources = [
+                      { layer: terminals }
+                    ];
+                    </code>
+                  </pre>
+                </div>
               </div>
             </div>
             <div class="right-column">
@@ -237,22 +255,9 @@
                   <code class="lang-ts" data-trim>
                   const pointLayer = new FeatureLayer({
                     title: "Airplanes",
-                    url: "https://services.arcgis ...",
-                    elevationInfo: { mode: "absolute-height" },
-                    outFields: ["*"],
+                    /* ... */
                     renderer: new UniqueValueRenderer({
-                      field: "TYPE",
-                      uniqueValueInfos: [
-                        { 
-                          value: "1",
-                          label: "Helicopter",
-                          symbol: helicopterSymbol
-                        },
-                        {
-                          value: "2",
-                          label: "Airplane",
-                          symbol: airplaneSymbol },
-                      ],
+                      /* ... */
                       visualVariables: [
                         new SizeVariable({
                           axis: "height",
@@ -274,19 +279,24 @@
 
               <div data-fragment-index="0" class="code-snippet fragment fade-in-then-out">
                 <pre>
-                  <code class="lang-ts" data-trim>                
-                  const formTemplate = new FormTemplate({
-                    elements: [
-                      new FieldElement({ fieldName: "ROTATION", label: "Rotation" }),
-                      new FieldElement({ fieldName: "SIZE", label: "Size" }),
-                    ],
-                  });
-                
-                  const editor = new Editor({
-                    view,
-                    layerInfos: [{ layer: pointLayer, formTemplate }],
-                  });
-                
+                  <code class="lang-ts" data-trim>                                 
+                  const layerInfos = {
+                    layer: pointLayer,
+                    formTemplate: new FormTemplate({
+                      elements: [
+                        new FieldElement({ 
+                          fieldName: "ROTATION",
+                          label: "Rotation"
+                        }),
+                        new FieldElement({
+                          fieldName: "SIZE",
+                          label: "Size"
+                        }),
+                      ],
+                    })
+                  };
+
+                  const editor = new Editor({ view, layerInfos });
                   view.ui.add(editor, "top-right");
                   </code>
                 </pre>
@@ -319,15 +329,6 @@
                   </code>
                 </pre>
               </div>
-
-              <ul>
-                <li>
-                  <a
-                    href="https://developers.arcgis.com/javascript/latest/working-with-scene-layers/#publishing"
-                    >Documentation: A guide to SceneLayers</a
-                  >
-                </li>
-              </ul>
 
               <div
                 data-fragment-id="add-widget"
