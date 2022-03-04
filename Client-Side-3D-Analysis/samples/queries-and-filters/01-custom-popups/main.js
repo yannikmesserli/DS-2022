@@ -9,7 +9,7 @@ let view, layer;
 
 const slideTitle = parent.Reveal ? parent.Reveal.getCurrentSlide().title : null;
 
-if (slideTitle == null) {
+if (!slideTitle) {
   init();
 }
 

@@ -2,7 +2,13 @@ import { join, resolve } from "path";
 import { defineConfig } from "vite";
 
 const talks = {
-  ["web-editing-in-3d"]: ["editing-2d-to-3d", "airport", "feature-layer", "advanced-editing"],
+  ["web-editing-in-3d"]: [
+    "editing-2d-to-3d",
+    "airport",
+    "feature-layer",
+    "scene-layer",
+    "advanced-editing",
+  ],
   ["client-side-3d-analysis"]: [
     "direct-line-measurement",
     "direct-line-measurement-analysis",
@@ -12,6 +18,12 @@ const talks = {
     "line-of-sight-analysis",
     "shadow-cast",
     "elevation-profile",
+    "queries-and-filters/01-custom-popups",
+    "queries-and-filters/02-filter-attributes",
+    "queries-and-filters/03-timeslider",
+    "queries-and-filters/04-query-attributes",
+    "queries-and-filters/05-query-statistic",
+    "queries-and-filters/06-query-geometry",
   ],
 };
 
@@ -31,6 +43,7 @@ module.exports = defineConfig(({ command }) => ({
   base: command === "build" ? "https://zrh-dev-local/DS-2022/dist/" : "./",
   build: {
     rollupOptions: { input },
+    minify: "esbuild",
   },
   resolve: {
     alias: {

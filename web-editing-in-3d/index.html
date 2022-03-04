@@ -2,20 +2,23 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
     <title>Esri Dev Summit 2022 - ArcGIS JS API for JavaScript: Web editing in 3D</title>
 
     <link rel="stylesheet" href="../reveal.js/dist/reset.css" />
     <link rel="stylesheet" href="../reveal.js/dist/reveal.css" />
     <link rel="stylesheet" href="../reveal.js/dist/theme/black.css" />
-    <link rel="stylesheet" href="../resources/atom-one-light.css" />
+    <link rel="stylesheet" href="../resources/highlighting-theme.css" />
     <link rel="stylesheet" href="../resources/main.css" />
   </head>
   <body>
     <div class="reveal">
       <div class="slides">
-        <section data-background="../reveal.js/img/2022/dev-summit/bg-1.png" data-background-size="cover">
+        <section data-background="../img/2022/dev-summit/bg-1.png" data-background-size="cover">
           <h1 style="text-align: left; font-size: 60px">
             ArcGIS JS API for JavaScript: <br />
             Web editing in 3D
@@ -29,19 +32,24 @@
           </p>
         </section>
 
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+        <section class="align-left" data-background="../img/2022/dev-summit/bg-2.png">
           <h2>From editing in 2D to editing in 3D</h2>
           <div class="two-columns">
             <div class="left-column">
               <ul>
-                <li>Using the <code>Editor</code> widget in a <code>SceneView</code> works out of the box.</li>
+                <li>
+                  Using the <code>Editor</code> widget in a <code>SceneView</code> works out of the
+                  box.
+                </li>
                 <li>Using the <code>SketchViewModel</code> also works 3D.</li>
-                <li><code>FeatureForm</code> and <code>Editor</code> widget is the same in 2D and 3D.</li>
+                <li>
+                  <code>FeatureForm</code> and <code>Editor</code> widget is the same in 2D and 3D.
+                </li>
                 <li>No need to prepare data specifically for 3D.</li>
               </ul>
 
               <pre class="code-snippet fragment">
-                <code class="lang-ts" data-trim data-line-numbers>
+                <code class="lang-ts" data-trim>
                   const view = new SceneView({ /* ... */ });
                   // const view = new MapView({ /* ... */ });
 
@@ -57,7 +65,11 @@
           </div>
         </section>
 
-        <section data-slideId="airport" class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+        <section
+          data-slideId="airport"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
           <h2 class="header">Placing trees on the ground</h2>
 
           <div class="two-columns">
@@ -65,9 +77,13 @@
               <!--
                 Init
               -->
-              <div data-fragment-index="0" data-fragment-id="on-the-ground" class="code-snippet fragment fade-out">
+              <div
+                data-fragment-index="0"
+                data-fragment-id="on-the-ground"
+                class="code-snippet fragment fade-out"
+              >
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim>
                   const view = new SceneView(/* ... */);
 
                   const sketchViewModel = new SketchViewModel({
@@ -99,7 +115,7 @@
                 class="code-snippet fragment fade-in-then-out"
               >
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim>
                   const trees = new GraphicsLayer({ 
                     elevationInfo: { mode: "on-the-ground" }
                   });
@@ -126,9 +142,12 @@
               <!--
                 Relative to ground (or absolute-height)
               -->
-              <div data-fragment-id="relative-to-ground" class="code-snippet fragment fade-in-then-out">
+              <div
+                data-fragment-id="relative-to-ground"
+                class="code-snippet fragment fade-in-then-out"
+              >
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim>
                   const airplanes = new GraphicsLayer({ 
                     elevationInfo: { mode: "relative-to-ground" }
                     // elevationInfo: { mode: "absolute-height" }
@@ -156,9 +175,12 @@
               <!--
                 Relative to scene
               -->
-              <div data-fragment-id="relative-to-scene" class="code-snippet fragment fade-in-then-out">
+              <div
+                data-fragment-id="relative-to-scene"
+                class="code-snippet fragment fade-in-then-out"
+              >
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim>
                   const antennas = new GraphicsLayer({ 
                     elevationInfo: { mode: "relative-to-scene" }
                   });
@@ -187,7 +209,7 @@
               -->
               <div data-fragment-id="polygons" class="code-snippet fragment fade-in-then-out">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim>
                   const terminals = new GraphicsLayer({ 
                     elevationInfo: { mode: "relative-to-scene" }
                   });
@@ -226,14 +248,18 @@
           </div>
         </section>
 
-        <section data-slideId="airport" class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+        <section
+          data-slideId="feature-layer"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
           <h2 class="header">FeatureLayer and Editor widget</h2>
 
           <div class="two-columns">
             <div class="left-column r-stack no-margin">
               <div data-fragment-index="0" class="code-snippet fragment fade-out">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
+                  <code class="lang-ts" data-trim>
                   const pointLayer = new FeatureLayer({
                     title: "Airplanes",
                     url: "https://services.arcgis ...",
@@ -266,7 +292,7 @@
 
               <div data-fragment-index="0" class="code-snippet fragment fade-in-then-out">
                 <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>                
+                  <code class="lang-ts" data-trim>                
                   const formTemplate = new FormTemplate({
                     elements: [
                       new FieldElement({ fieldName: "ROTATION", label: "Rotation" }),
@@ -292,43 +318,70 @@
           </div>
         </section>
 
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+        <section
+          data-slideId="scene-layer"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
+          <h2 class="header">SceneLayer editing</h2>
+
+          <div class="two-columns">
+            <div class="left-column v-stack no-margin">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    const editor = new Editor({ view });
+
+                    view.ui.add(editor, "top-right");
+                  </code>
+                </pre>
+              </div>
+
+              <ul>
+                <li>
+                  <a
+                    href="https://developers.arcgis.com/javascript/latest/working-with-scene-layers/#publishing"
+                    >Documentation: A guide to SceneLayers</a
+                  >
+                </li>
+              </ul>
+
+              <div
+                data-fragment-id="add-widget"
+                class="code-snippet"
+                style="place-content: center; display: grid; flex-grow: 1"
+              >
+                <img src="./images/data-connected-scene-layer.png" style="filter: invert(1)" />
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/scene-layer/index.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="align-left" data-background="../img/2022/dev-summit/bg-2.png">
           <h2>Building proposal planning app</h2>
           <iframe class="r-stretch" data-src="./samples/advanced-editing/index.html"></iframe>
         </section>
 
         <!-- FEEDBACK SLIDE: -->
-        <section data-markdown data-background="../reveal.js/img/2022/dev-summit/bg-7.png">
+        <section data-markdown data-background="../img/2022/dev-summit/bg-7.png">
           <textarea data-template>
             Please provide your feedback for this session by clicking on the session survey link directly below the video.
           </textarea>
         </section>
 
         <!-- ESRI LOGO SLIDE: -->
-        <section data-background="../reveal.js/img/2022/dev-summit/bg-8.png">
+        <section data-background="../img/2022/dev-summit/bg-8.png">
           <!-- <img src="img/esri-science-logo-white.png" /> -->
         </section>
       </div>
     </div>
 
-    <script src="../reveal.js/dist/reveal.js"></script>
-    <script src="../reveal.js/plugin/notes/notes.js"></script>
-    <script src="../reveal.js/plugin/markdown/markdown.js"></script>
-    <script src="../reveal.js/plugin/highlight/highlight.js"></script>
-    <script>
-      // More info about initialization & config:
-      // - https://revealjs.com/initialization/
-      // - https://revealjs.com/config/
-      Reveal.initialize({
-        hash: true,
-        center: true,
-        width: 1366,
-        height: 768,
-        margin: 0.01,
-
-        // Learn about plugins: https://revealjs.com/plugins/
-        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
-      });
-    </script>
+    <script src="./main.js" type="module"></script>
   </body>
 </html>

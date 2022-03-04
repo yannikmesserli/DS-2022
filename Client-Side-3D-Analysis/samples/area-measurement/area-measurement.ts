@@ -1,17 +1,31 @@
-// @ts-check
+import IdentityManager from "@arcgis/core/identity/IdentityManager";
+import OAuthInfo from "@arcgis/core/identity/OAuthInfo";
 import AreaMeasurement3D from "@arcgis/core/widgets/AreaMeasurement3D";
-import { SAN_FRANCISCO } from "../../../common/scenes";
-import { initView, onFragment, onInit } from "../../../common/utils";
+import { DENVER_PARCELS } from "../../../common/scenes";
+import { initView, onPlayClick } from "../../../common/utils";
+
+IdentityManager.registerOAuthInfos([
+  new OAuthInfo({
+    appId: "pZzd4uJ0gZddupQh",
+    popup: true,
+    popupCallbackUrl: `${document.location.origin}/oauth-callback-api.html`,
+  }),
+]);
+
+(window as any).setOAuthResponseHash = (responseHash: string) => {
+  IdentityManager.setOAuthResponseHash(responseHash);
+};
+
+const view = initView(DENVER_PARCELS);
 
 let widget: AreaMeasurement3D;
 
-onInit("area-measurement", () => {
-  const view = initView(SAN_FRANCISCO);
+onPlayClick("add-widget", () => {
   widget = new AreaMeasurement3D({ view });
   view.ui.add(widget, "top-right");
 });
 
-onFragment("set-units", () => {
+onPlayClick("set-units", () => {
   widget.viewModel.unit = "square-kilometers";
   widget.viewModel.unitOptions = ["square-meters", "square-kilometers"];
 });

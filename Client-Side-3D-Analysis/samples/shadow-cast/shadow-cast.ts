@@ -1,16 +1,39 @@
-// @ts-check
-import SceneView from "@arcgis/core/views/SceneView";
 import ShadowCast from "@arcgis/core/widgets/ShadowCast";
 import { SHADOW_CAST } from "../../../common/scenes";
-import { initView, onInit } from "../../../common/utils";
+import { initView, onPlayClick } from "../../../common/utils";
+import Daylight from "@arcgis/core/widgets/Daylight";
 
-let view: SceneView;
-let widget: ShadowCast;
+const view = initView(SHADOW_CAST);
 
-onInit("shadow-cast", () => {
-  view = initView(SHADOW_CAST);
-  view.environment.lighting!.directShadowsEnabled = false;
+let widget: ShadowCast | Daylight | null;
+
+onPlayClick("add-daylight", () => {
+  removeWidget();
+
+  widget = new Daylight({ view });
+  view.ui.add(widget, "top-right");
+
+  setDirectShadows(true);
+});
+
+onPlayClick("add-shadow-cast", () => {
+  removeWidget();
 
   widget = new ShadowCast({ view });
   view.ui.add(widget, "top-right");
+
+  // Show only accumulated shadows, for easier analysis.
+  setDirectShadows(false);
 });
+
+function setDirectShadows(value: boolean): void {
+  view.environment.lighting!.directShadowsEnabled = value;
+}
+
+function removeWidget(): void {
+  if (widget) {
+    view.ui.remove(widget);
+    widget.destroy();
+    widget = null;
+  }
+}

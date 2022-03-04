@@ -1,14 +1,12 @@
-// @ts-check
-import SceneView from "@arcgis/core/views/SceneView";
 import LineOfSight from "@arcgis/core/widgets/LineOfSight";
 import { MUNICH } from "../../../common/scenes";
-import { initView, onInit } from "../../../common/utils";
+import { initView, onPlayClick } from "../../../common/utils";
 
-let view: SceneView;
+const view = initView(MUNICH);
+
 let widget: LineOfSight;
 
-onInit("line-of-sight", () => {
-  view = initView(MUNICH);
+onPlayClick("add-widget", () => {
   widget = new LineOfSight({ view });
   view.ui.add(widget, "top-right");
 });

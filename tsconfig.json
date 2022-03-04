@@ -4,10 +4,11 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "target": "ESNext",
+    "isolatedModules": true,
     "moduleResolution": "Node",
     "lib": ["ESNext", "DOM"],
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["node_modules/@types"]
   },
-  "include": ["**/*.ts"],
-  "exclude": ["**/node_modules/**"]
+  "include": ["**/*.ts", "node_modules/@arcgis/core/**/*.ts"],
+  "exclude": ["reveal.js/**"]
 }
