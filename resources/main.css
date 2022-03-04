@@ -18,7 +18,7 @@
   --r-section-subhead-color: #00ec86;
 
   --spacing-half: calc(var(--r-block-margin) / 2);
-  --iframe-scale: 1;
+  --iframe-scale: 0.6;
   --play-btn-size: 32px;
 }
 

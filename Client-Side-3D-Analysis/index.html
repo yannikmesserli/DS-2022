@@ -202,21 +202,7 @@
           <h2>AreaMeasurementAnalysis</h2>
           <div class="two-columns">
             <div class="left-column">
-              <div data-fragment-id="click-event" class="code-snippet">
-                <button class="play"></button>
-                <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>                   
-                    view.on("click", async (event) => {
-                      const clickedGraphic = /* hit test... */
-                      
-                      const id = clickedGraphic.getObjectId();
-                      showAlert(`Clicked ${id}`);
-                    });
-                  </code>
-                </pre>
-              </div>
-
-              <div data-fragment-id="add-analysis" class="code-snippet fragment">
+              <div data-fragment-id="add-analysis" class="code-snippet">
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>                  
@@ -229,27 +215,14 @@
                 </pre>
               </div>
 
-              <div data-fragment-id="align-to-ground" class="code-snippet fragment">
-                <button class="play"></button>
-                <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>                   
-                    const groundZ = response.ground.mapPoint.z;
-                    
-                    geometry = geometry.clone();
-                    geometry.rings = geometry.rings.map((ring) =>
-                      ring.map(
-                        ([x, y]) => [x, y, groundZ]
-                      );
-                    );
-                  </code>
-                </pre>
-              </div>
-
               <div data-fragment-id="add-to-widget" class="code-snippet fragment">
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >                   
-                    const widget = new AreaMeasurement3D({ view, analysis });
+                    const widget = new AreaMeasurement3D({
+                      view,
+                      analysis
+                    });
                     
                     view.ui.add(widget, "top-right");
                   </code>
@@ -387,6 +360,8 @@
                   <code class="lang-ts" data-trim data-line-numbers>
                     const widget = new Slice({ view });
 
+                    widget.viewModel
+
                     view.ui.add(widget, "top-right");
                   </code>
                 </pre>
@@ -431,7 +406,7 @@
                       const slide = view.map.presentation.slides
                         .find((s) => s.title.text === title);
 
-                      const button = /* create button */
+                      const button = createButton();
 
                       button.addEventListener("click", () => {
                         const analysis = new SliceAnalysis({ shape });
@@ -450,11 +425,7 @@
                   <button class="play"></button>
                   <pre>
                     <code class="lang-ts" data-trim data-line-numbers>
-                      const widget = new Slice({
-                        view,
-                        analysis
-                      });
-
+                      const widget = new Slice({ view, analysis });
                       view.ui.add(widget, "top-right");
                     </code>
                   </pre>

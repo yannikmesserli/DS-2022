@@ -4,7 +4,13 @@ import IdentityManager from "@arcgis/core/identity/IdentityManager";
 import OAuthInfo from "@arcgis/core/identity/OAuthInfo";
 import AreaMeasurement3D from "@arcgis/core/widgets/AreaMeasurement3D";
 import { DENVER_PARCELS } from "../../../common/scenes";
-import { initView, onPlayClick, showAlert, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
+import {
+  initView,
+  onPlayClick,
+  showAlert,
+  throwIfAborted,
+  throwIfNotAbortError,
+} from "../../../common/utils";
 
 IdentityManager.registerOAuthInfos([
   new OAuthInfo({
@@ -18,7 +24,6 @@ IdentityManager.registerOAuthInfos([
   IdentityManager.setOAuthResponseHash(responseHash);
 };
 
-let shouldAlignToGround = false;
 let shouldAddAnalysis = false;
 let analysis: AreaMeasurementAnalysis | null = null;
 let widget: AreaMeasurement3D | null = null;
@@ -26,16 +31,11 @@ let widget: AreaMeasurement3D | null = null;
 const view = initView(DENVER_PARCELS);
 view.popup.autoOpenEnabled = false;
 
-onPlayClick("click-event", setupClick);
+setupClick();
 
 onPlayClick("add-analysis", () => {
   shouldAddAnalysis = true;
 });
-
-onPlayClick("align-to-ground", () => {
-  shouldAlignToGround = true;
-});
-
 onPlayClick("add-to-widget", createWidget);
 
 function setupClick(): void {
@@ -60,14 +60,11 @@ function setupClick(): void {
       // uses `on-the-ground` elevation mode. Therefore, we need to modify all
       // the vertices to so their Z corresponds to the the absolute elevation of
       // the ground. Essentially, we manually align the geometry to the ground.
-      if (shouldAlignToGround) {
-        const groundZ = ground.mapPoint.z;
-
-        geometry = geometry.clone();
-        geometry.rings = geometry.rings.map((ring) => {
-          return ring.map(([x, y]) => [x, y, groundZ]);
-        });
-      }
+      const groundZ = ground.mapPoint.z;
+      geometry = geometry.clone();
+      geometry.rings = geometry.rings.map((ring) => {
+        return ring.map(([x, y]) => [x, y, groundZ]);
+      });
 
       if (shouldAddAnalysis) {
         analysis = new AreaMeasurementAnalysis({ geometry });

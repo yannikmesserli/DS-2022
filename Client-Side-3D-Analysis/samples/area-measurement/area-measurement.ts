@@ -1,7 +1,7 @@
 import IdentityManager from "@arcgis/core/identity/IdentityManager";
 import OAuthInfo from "@arcgis/core/identity/OAuthInfo";
 import AreaMeasurement3D from "@arcgis/core/widgets/AreaMeasurement3D";
-import { DENVER_PARCELS } from "../../../common/scenes";
+import { MUNICH } from "../../../common/scenes";
 import { initView, onPlayClick } from "../../../common/utils";
 
 IdentityManager.registerOAuthInfos([
@@ -16,7 +16,7 @@ IdentityManager.registerOAuthInfos([
   IdentityManager.setOAuthResponseHash(responseHash);
 };
 
-const view = initView(DENVER_PARCELS);
+const view = initView(MUNICH);
 
 let widget: AreaMeasurement3D;
 
