@@ -2,7 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
     <title>Esri Dev Summit 2022 - ArcGIS JS API for JavaScript: Web editing in 3D</title>
 
@@ -13,13 +16,18 @@
     <link rel="stylesheet" href="../resources/main.css" />
     <style>
       .slidetitle {
-        font-size: 28px !important;
+        /*font-size: 28px !important;*/
         margin-bottom: 8px !important;
       }
       .slidetitle-sub {
         text-align: left;
         margin-top: 0 !important;
-        font-size: 20px;
+        /*font-size: 20px;*/
+      }
+      .snippet-title {
+        text-align: left;
+        margin-top: 0 !important;
+        font-size: 28px;
       }
       .footnote {
         text-align: right;
@@ -27,8 +35,29 @@
         font-size: 13px;
         opacity: 80%;
       }
+      .iframe-top-margin {
+        margin-top: 60px;
+      }
       .title-transparent {
+        /*color: var(--r-section-subhead-color);*/
+        opacity: 50%;
+      }
+      ul {
+        font-size: 32px;
+        line-height: 48px;
+        list-style: none !important;
+      }
+      ul li::before {
+        content: "\2022";
         color: var(--r-section-subhead-color);
+        font-weight: bold;
+        display: inline-block;
+        width: 1em;
+        margin-left: -1em;
+      }
+      ul.sublist li::before {
+        content: "-";
+        font-weight: normal;
       }
     </style>
   </head>
@@ -36,7 +65,10 @@
     <div class="reveal">
       <div class="slides">
         <!--------- Intro: TITLE -------->
-        <section data-background="../reveal.js/img/2022/dev-summit/bg-1.png" data-background-size="cover">
+        <section
+          data-background="../reveal.js/img/2022/dev-summit/bg-1.png"
+          data-background-size="cover"
+        >
           <h1 style="text-align: left; font-size: 60px">
             ArcGIS JS API for JavaScript: <br />
             3D Visualization
@@ -53,37 +85,49 @@
         <!--------- Intro: OVERVIEW -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
           <h2>Session outline</h2>
-          <div>
-            <ul>
-              <li>
-                Core concepts <span class="title-transparent"> - 15 min</span>
-                <ul>
-                  <li>Setting up a 3D application</li>
-                  <li>Sources of data</li>
-                  <li>Layer symbology</li>
-                </ul>
-              </li>
-              <li>
-                Coding demos <span class="title-transparent"> - 30 min</span>
-                <ul>
-                  <li>Data-driven thematic visualizations</li>
-                  <li>Realistic 3D data</li>
-                  <li>Combining realistic and data-driven visuals</li>
-                </ul>
-              </li>
-              <li>
-                Q & A <span class="title-transparent"> - 15 min</span>
-                <ul>
-                  <li>Sli.do</li>
-                </ul>
-              </li>
-            </ul>
+          <div class="two-columns" style="margin-left: 150px">
+            <div class="left-column">
+              <ul>
+                <li>
+                  Core concepts <span class="title-transparent"> - 15 min</span>
+                  <ul class="sublist">
+                    <li>Setting up a 3D application</li>
+                    <li>Sources of data</li>
+                    <li>Layer symbology</li>
+                  </ul>
+                </li>
+                <li>
+                  Coding demos <span class="title-transparent"> - 30 min</span>
+                  <ul class="sublist">
+                    <li>Data-driven thematic visualizations</li>
+                    <li>Realistic 3D data</li>
+                    <li>Combining realistic and data-driven visuals</li>
+                  </ul>
+                </li>
+                <li>
+                  Q & A <span class="title-transparent"> - 15 min</span>
+                  <ul class="sublist">
+                    <li>Sli.do</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
         <!--------- 1. Core concepts: TITLE -------->
-        <section data-background="../reveal.js/img/2022/dev-summit/bg-5.png" data-background-size="cover">
+        <section
+          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
+          data-background-size="cover"
+        >
           <h1 style="text-align: left; font-size: 50px; margin-bottom: 10px">Core concepts</h1>
-          <p style="text-align: left; font-size: 28px; margin-top: 0; color: var(--r-section-subhead-color)">
+          <p
+            style="
+              text-align: left;
+              font-size: 28px;
+              margin-top: 0;
+              color: var(--r-section-subhead-color);
+            "
+          >
             Getting started with 3D
           </p>
         </section>
@@ -175,7 +219,7 @@
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet fragment">
-                <button class="play dark" id="add-elevation"></button>
+                <button class="play" id="add-elevation"></button>
                 <pre><code class="lang-ts" data-line-numbers="3" data-trim>
 
                           const map = new Map({
@@ -202,7 +246,7 @@
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet">
-                <button class="play dark" id="add-elevation"></button>
+                <button class="play" id="add-elevation"></button>
                 <pre><code class="lang-ts" data-line-numbers="3" data-trim>
 
                           const map = new Map({
@@ -256,7 +300,7 @@
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet">
-                <button class="play dark" id="local-clipping"></button>
+                <button class="play" id="local-clipping"></button>
                 <pre><code class="lang-ts" data-line-numbers="14|1-10,15" data-trim>
                             const clippingExtent = {
                                 spatialReference: {
@@ -287,9 +331,19 @@
         </section>
 
         <!--------- 1.2 Core concepts: Sources of Data : TITLE -------->
-        <section data-background="../reveal.js/img/2022/dev-summit/bg-5.png" data-background-size="cover">
+        <section
+          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
+          data-background-size="cover"
+        >
           <h1 style="text-align: left; font-size: 32px; margin-bottom: 10px">Core concepts</h1>
-          <p style="text-align: left; font-size: 20px; margin-top: 0; color: var(--r-section-subhead-color)">
+          <p
+            style="
+              text-align: left;
+              font-size: 20px;
+              margin-top: 0;
+              color: var(--r-section-subhead-color);
+            "
+          >
             Sources of data
           </p>
         </section>
@@ -410,7 +464,7 @@
                       </pre>
               </div>
             </div>
-            <div class="right-column" style="margin-top: auto; margin-bottom: auto">
+            <div class="right-column iframe-top-margin">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/data-layer.html" width="800px"></iframe>
               </div>
@@ -460,15 +514,24 @@
             <div class="right-column">
               <div class="r-stack">
                 <img id="data-editor" src="./images/data-editor.png" width="800px" />
-                <img class="fragment" id="data-editor-sketch" src="./images/data-editor-sketch.png" width="800px" />
+                <img
+                  class="fragment"
+                  id="data-editor-sketch"
+                  src="./images/data-editor-sketch.png"
+                  width="800px"
+                />
               </div>
               <p class="footnote">
                 See more in public samples:
-                <a href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-editor-3d/" target="_blank"
+                <a
+                  href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-editor-3d/"
+                  target="_blank"
                   >Edit features in 3D with the Editor widget</a
                 >
                 and
-                <a href="https://developers.arcgis.com/javascript/latest/sample-code/sketch-3d/" target="_blank"
+                <a
+                  href="https://developers.arcgis.com/javascript/latest/sample-code/sketch-3d/"
+                  target="_blank"
                   >Sketch in 3D</a
                 >
               </p>
@@ -509,9 +572,19 @@
         </section>
 
         <!--------- 1.3 Core concepts: Layer symbology: TITLE -------->
-        <section data-background="../reveal.js/img/2022/dev-summit/bg-5.png" data-background-size="cover">
+        <section
+          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
+          data-background-size="cover"
+        >
           <h1 style="text-align: left; font-size: 32px; margin-bottom: 10px">Core concepts</h1>
-          <p style="text-align: left; font-size: 20px; margin-top: 0; color: var(--r-section-subhead-color)">
+          <p
+            style="
+              text-align: left;
+              font-size: 20px;
+              margin-top: 0;
+              color: var(--r-section-subhead-color);
+            "
+          >
             Layer symbology
           </p>
         </section>
@@ -521,7 +594,7 @@
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2 class="slidetitle">Layer symbology: Overview</h2>
 
-          <img src="./images/symbology-overview.png" width="800px" />
+          <img src="./images/symbology-overview.png" width="1200px" />
         </section>
 
         <!--------- 1.3 Core concepts: Layer symbology: FLAT VS VOLUMETRIC  -------->
@@ -533,7 +606,7 @@
         </section>
 
         <!--------- 1.3 Core concepts: Layer symbology : ADD RENDERER -------->
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+        <!--section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2 class="slidetitle">Layer symbology</h2>
 
           <div class="two-columns">
@@ -577,7 +650,7 @@
               </div>
             </div>
           </div>
-        </section>
+        </section-->
 
         <!--------- 1.3 Core concepts: Layer symbology: SYMBOLOGY POINT  -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
@@ -587,7 +660,7 @@
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet">
-                <p class="slidetitle-sub">Flat</p>
+                <p class="snippet-title">Flat</p>
                 <pre><code class="lang-ts"  data-trim>
                   const renderer2D = new SimpleRenderer({
                     symbol: new PointSymbol3D({
@@ -602,8 +675,8 @@
                 </code></pre>
               </div>
               <div class="code-snippet fragment">
-                <p class="slidetitle-sub">Volumetric</p>
-                <button class="play dark" id="icon-to-object"></button>
+                <p class="snippet-title">Volumetric</p>
+                <button class="play" id="icon-to-object"></button>
                 <pre><code class="lang-ts"  data-trim>
                   const renderer3D = new SimpleRenderer({
                     symbol: new PointSymbol3D({
@@ -620,7 +693,7 @@
                 </code></pre>
               </div>
             </div>
-            <div class="right-column" style="margin-top: auto; margin-bottom: auto">
+            <div class="right-column iframe-top-margin">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-point.html"></iframe>
               </div>
@@ -662,7 +735,7 @@
               </div>
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Volumetric</p>
-                <button class="play dark" id="line-to-path"></button>
+                <button class="play" id="line-to-path"></button>
                 <pre><code class="lang-ts"  data-trim>
                   let symbol3D = new LineSymbol3D({
                     symbolLayers: [
@@ -683,7 +756,7 @@
                 </code></pre>
               </div>
             </div>
-            <div class="right-column" style="margin-top: auto; margin-bottom: auto">
+            <div class="right-column iframe-top-margin">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-line.html"></iframe>
               </div>
@@ -718,7 +791,7 @@
               </div>
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Volumetric</p>
-                <button class="play dark" id="polygon-to-extrusion"></button>
+                <button class="play" id="polygon-to-extrusion"></button>
                 <pre><code class="lang-ts"  data-trim>
                   const renderer3D = new SimpleRenderer({
                     symbol: new PolygonSymbol3D({
@@ -728,7 +801,7 @@
                 </code></pre>
               </div>
             </div>
-            <div class="right-column" style="margin-top: auto; margin-bottom: auto">
+            <div class="right-column iframe-top-margin">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-polygon.html"></iframe>
               </div>
@@ -782,7 +855,7 @@
               </div>
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Add outlines</p>
-                <button class="play dark" id="sl-toggle-outlines"></button>
+                <button class="play" id="sl-toggle-outlines"></button>
                 <pre><code class="lang-ts" data-trim>
                   const solidEdges = new SolidEdges3D({
                     color: [0, 0, 0, 0.6],
@@ -793,7 +866,7 @@
 
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Color by attributes instead</p>
-                <button class="play dark" id="sl-toggle-color"></button>
+                <button class="play" id="sl-toggle-color"></button>
                 <pre><code class="lang-ts" data-trim>
                   const thematicRenderer = new SimpleRenderer({
                     symbol: new MeshSymbol3D({
@@ -812,7 +885,7 @@
                 </code></pre>
               </div>
             </div>
-            <div class="right-column" style="margin-top: auto; margin-bottom: auto">
+            <div class="right-column iframe-top-margin">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-3dosl.html"></iframe>
               </div>
@@ -853,7 +926,7 @@
 
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Color based on model name</p>
-                <button class="play dark" id="bsl-color"></button>
+                <button class="play" id="bsl-color"></button>
                 <pre><code class="lang-ts" data-trim>
                   buildingLayer.allSublayers.forEach((layer) =&gt; {
                     switch (layer.modelName) {
@@ -880,7 +953,7 @@
                 </code></pre>
               </div>
             </div>
-            <div class="right-column" style="margin-top: auto; margin-bottom: auto">
+            <div class="right-column iframe-top-margin">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-bsl.html"></iframe>
               </div>
@@ -914,7 +987,7 @@
               </div>
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Change point size</p>
-                <button class="play dark" id="pc-toggle-size"></button>
+                <button class="play" id="pc-toggle-size"></button>
                 <pre><code class="lang-ts" data-line-numbers="6" data-trim>
                   pcLayer.renderer = new PointCloudRGBRenderer({
                     field: "RGB",
@@ -928,7 +1001,7 @@
               </div>
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Color by LAS classification</p>
-                <button class="play dark" id="pc-toggle-color"></button>
+                <button class="play" id="pc-toggle-color"></button>
                 <pre><code class="lang-ts" data-trim style="height:150px;">
                   pcLayer.renderer = new PointCloudUniqueValueRenderer({
                     field: &quot;CLASS_CODE&quot;, // field containing data for standard LAS classification
@@ -965,13 +1038,15 @@
                 </code></pre>
               </div>
             </div>
-            <div class="right-column" style="margin-top: auto; margin-bottom: auto">
+            <div class="right-column iframe-top-margin">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-pc.html"></iframe>
               </div>
               <p class="footnote">
                 See more in public samples:
-                <a href="https://developers.arcgis.com/javascript/latest/sample-code/layers-pointcloud/" target="_blank"
+                <a
+                  href="https://developers.arcgis.com/javascript/latest/sample-code/layers-pointcloud/"
+                  target="_blank"
                   >PointCloudLayer - toggle renderers</a
                 >
                 and
@@ -1004,7 +1079,7 @@
 
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Color IM with a feature layer</p>
-                <button class="play dark" id="im-toggle-distances"></button>
+                <button class="play" id="im-toggle-distances"></button>
                 <pre><code class="lang-ts" data-trim>
           const walkingLayer = new FeatureLayer({
             url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Walking_time_Frankfurt_Cathedral/FeatureServer",
@@ -1015,7 +1090,7 @@
         </code></pre>
               </div>
             </div>
-            <div class="right-column" style="margin-top: auto; margin-bottom: auto">
+            <div class="right-column iframe-top-margin">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-im.html"></iframe>
               </div>
@@ -1032,9 +1107,19 @@
         </section>
 
         <!--------- 2. Coding demos: TITLE -------->
-        <section data-background="../reveal.js/img/2022/dev-summit/bg-5.png" data-background-size="cover">
+        <section
+          data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
+          data-background-size="cover"
+        >
           <h1 style="text-align: left; font-size: 50px; margin-bottom: 10px">Coding demos</h1>
-          <p style="text-align: left; font-size: 28px; margin-top: 0; color: var(--r-section-subhead-color)">
+          <p
+            style="
+              text-align: left;
+              font-size: 28px;
+              margin-top: 0;
+              color: var(--r-section-subhead-color);
+            "
+          >
             3D visualization use cases
           </p>
         </section>
