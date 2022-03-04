@@ -1,0 +1,265 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>BuildingSceneLayer with Slice widget | Sample | ArcGIS API for JavaScript 4.23</title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      #menu {
+        padding: 0.8em;
+        max-width: 250px;
+      }
+
+      #sliceContainer {
+        width: inherit;
+      }
+
+      #sliceOptions {
+        margin: 0 15px;
+      }
+
+      #sliceOptions > button {
+        margin-bottom: 15px;
+      }
+
+      #sliceContainer {
+        max-width: 228px;
+      }
+    </style>
+
+    <link
+      href="https://jsdev.arcgis.com/4.23/esri/themes/light/main.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://jsdev.arcgis.com/4.23/"></script>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/SceneView",
+        "esri/layers/FeatureLayer",
+        "esri/renderers/SimpleRenderer",
+        "esri/symbols/PolygonSymbol3D",
+        "esri/symbols/ExtrudeSymbol3DLayer",
+      ], (Map, SceneView, FeatureLayer, SimpleRenderer, PolygonSymbol3D, ExtrudeSymbol3DLayer) => {
+        var expresion = `
+        var area = Area($feature, 'square-meters'); //square-feet
+        var randomness = (8 * Random() -4);
+        var height;
+        if (area < 500) {
+          height = 7;
+        } else if (area < 1000) {
+          height = 10;
+        } else if (area < 2000) {
+          height = 25;
+        } else {
+          height = 35;
+        }
+        return height + randomness;
+      `;
+
+        const buildingsRenderer = {
+          type: "simple", // autocasts as new SimpleRenderer()
+          symbol: {
+            type: "polygon-3d", // autocasts as new PolygonSymbol3D()
+            symbolLayers: [
+              {
+                type: "extrude", // autocasts as new ExtrudeSymbol3DLayer()
+              },
+            ],
+          },
+          visualVariables: [
+            {
+              type: "size",
+              valueExpression: expresion,
+            },
+            {
+              type: "color",
+              field: "RAHSHeritageAward_BuildingAge",
+              stops: [
+                {
+                  value: 1900,
+                  color: "#FFFCD4",
+                  label: "<15%",
+                },
+                {
+                  value: 2000,
+                  color: [153, 83, 41],
+                  label: ">35%",
+                },
+              ],
+            },
+          ],
+        };
+        const buildings = new FeatureLayer({
+          url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Building_Footprints/FeatureServer",
+          renderer: buildingsRenderer,
+        });
+
+        const collectorRenderer = {
+          type: "simple", // autocasts as new SimpleRenderer()
+          symbol: {
+            type: "line-3d",
+            symbolLayers: [
+              {
+                type: "path",
+                profile: "quad",
+                material: {
+                  color: "blue",
+                },
+                //width: 2,
+                //height: 2,
+              },
+            ],
+          },
+          visualVariables: [
+            /*{
+            type: "height",
+            field: "DiameterEsri"
+          },
+          {
+            type: "width",
+            field: "DiameterEsri"
+          },*/
+            {
+              type: "size",
+              //field: "DiameterEsri"
+              valueExpression: `$feature.DiameterEsri/100*3`,
+            },
+            {
+              type: "color",
+              field: "InstallYearEsri",
+              stops: [
+                {
+                  value: 1900,
+                  color: "#ff0000",
+                },
+                {
+                  value: 2000,
+                  color: "#ffff00",
+                },
+              ],
+            },
+          ],
+        };
+
+        const collector = new FeatureLayer({
+          url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
+          /*elevationInfo: {
+          mode: "relative-to-ground",
+          mode: "absolute-height",
+          unit: "meters"
+        },*/
+          renderer: collectorRenderer,
+        });
+
+        const pipesRenderer = {
+          type: "simple", // autocasts as new SimpleRenderer()
+          symbol: {
+            type: "line-3d",
+            symbolLayers: [
+              {
+                type: "path",
+                profile: "quad",
+                material: {
+                  color: "blue",
+                },
+                //width: 2,
+                //height: 2,
+              },
+            ],
+          },
+          visualVariables: [
+            /*{
+            type: "height",
+            field: "DiameterEsri"
+          },
+          {
+            type: "width",
+            field: "DiameterEsri"
+          },*/
+            {
+              type: "size",
+              //field: "DiameterEsri"
+              valueExpression: `$feature.DiameterEsri/100*3`,
+            },
+            {
+              type: "color",
+              field: "InstallYearEsri",
+              stops: [
+                {
+                  value: 1900,
+                  color: "#00ff00",
+                },
+                {
+                  value: 2000,
+                  color: "#ffff00",
+                },
+              ],
+            },
+          ],
+        };
+        const pipes = new FeatureLayer({
+          url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
+          /*elevationInfo: {
+          mode: "relative-to-ground",
+          mode: "absolute-height",
+          unit: "meters"
+        },*/
+          renderer: pipesRenderer,
+        });
+
+        const view = new SceneView({
+          container: "viewDiv",
+
+          map: new Map({
+            basemap: "dark-gray-vector",
+            ground: "world-elevation",
+            layers: [buildings, collector, pipes],
+          }),
+          camera: {
+            position: {
+              spatialReference: {
+                latestWkid: 3857,
+                wkid: 102100,
+              },
+              x: -13043899.261905594,
+              y: 4036351.3913067374,
+              z: 501.0557425133884,
+            },
+            heading: 291.23421061365093,
+            tilt: 82.04610533060757,
+          },
+          qualityProfile: "high",
+        });
+
+        view.when(() => {
+          // allow navigation above and below the ground
+          view.map.ground.navigationConstraint = {
+            type: "none",
+          };
+          // the webscene has no basemap, so set a surfaceColor on the ground
+          view.map.ground.surfaceColor = "#fff";
+          // to see through the ground, set the ground opacity to 0.4
+          view.map.ground.opacity = 0.8;
+        });
+
+        view.popup.defaultPopupTemplateEnabled = true;
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
