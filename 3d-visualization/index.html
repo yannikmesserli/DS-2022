@@ -803,18 +803,8 @@
                   map.add(layer);
                 </code></pre>
               </div>
-              <div class="code-snippet fragment fade-in-then-out">
-                <p class="slidetitle-sub">Add edges</p>
-                <button class="play" id="sl-toggle-edges"></button>
-                <pre><code class="lang-ts" data-trim>
-                  const solidEdges = new SolidEdges3D({
-                    color: [0, 0, 0, 0.6],
-                    size: 1
-                  });
-                </code></pre>
-              </div>
 
-              <div class="code-snippet fragment fade-in-then-out">
+              <div class="code-snippet fragment fade-in-then-out" id="fragment-sl-toggle-color">
                 <p class="slidetitle-sub">Color by attributes instead</p>
                 <button class="play" id="sl-toggle-color"></button>
                 <pre><code class="lang-ts" data-trim>
@@ -832,6 +822,17 @@
                     }),
                   });
                   layer.renderer = thematicRenderer;
+                </code></pre>
+              </div>
+
+              <div class="code-snippet fragment fade-in-then-out">
+                <p class="slidetitle-sub">Add edges</p>
+                <button class="play" id="sl-toggle-edges"></button>
+                <pre><code class="lang-ts" data-trim>
+                  const solidEdges = new SolidEdges3D({
+                    color: [0, 0, 0, 0.6],
+                    size: 1
+                  });
                 </code></pre>
               </div>
             </div>
