@@ -575,51 +575,36 @@
         </section>
 
         <!--------- 1.3 Core concepts: Layer symbology : ADD RENDERER -------->
-        <!--section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
+        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2 class="slidetitle">Layer symbology</h2>
 
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet">
                 <pre>
-                          <code class="lang-ts" data-line-numbers="1-16,21" data-trim>
+                          <code class="lang-ts" data-line-numbers="1|3|4|5-6" data-trim>
                             const layer = new FeatureLayer({
                                 url: &quot;https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Major_Cities/FeatureServer&quot;,
                                 renderer: new SimpleRenderer({
                                   symbol: new PointSymbol3D({
                                     symbolLayers: [
-                                      new ObjectSymbol3DLayer({
-                                        width: 10000,
-                                        height: 50000,
-                                        depth: 10000,
-                                        resource: { primitive: &quot;cylinder&quot; },
-                                        material: { color: &quot;red&quot; }
+                                      new IconSymbol3DLayer({
+                                        size: &quot;10px&quot;,
+                                        href: &quot;icon.png&quot;
                                       })
                                     ]
                                   })
                                 })
                               });
-
-                              const map = new Map({
-                                  basemap: &quot;gray-vector&quot;,
-                                  ground: &quot;world-elevation&quot;,
-                                  layers: [layer]
-                              });
-
                           </code>
                         </pre>
               </div>
             </div>
             <div class="right-column">
-              <ul>
-                <br />
-              </ul>
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/data-layer-renderer.html"></iframe>
-              </div>
+              <img src="./images/symbology-applying.png" width="600px" />
             </div>
           </div>
-        </section-->
+        </section>
 
         <!--------- 1.3 Core concepts: Layer symbology: OVERVIEW  -------->
 
