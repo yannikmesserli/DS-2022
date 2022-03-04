@@ -37,7 +37,7 @@
           <ul>
             <li>
               Analysis
-              <ul>
+              <ul style="font-size: 80%">
                 <li>Direct Measurement</li>
                 <li>Area Measurement</li>
                 <li>Line Of Sight</li>
@@ -64,8 +64,10 @@
               <div data-fragment-id="add-widget" class="code-snippet play-container">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim >
-                    const widget = new DirectLineMeasurement3D({ view });
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const widget = new DirectLineMeasurement3D({
+                      view
+                    });
 
                     view.ui.add(widget, "top-right");
                   </code>
@@ -79,9 +81,12 @@
               >
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim >
+                  <code class="lang-ts" data-trim data-line-numbers>
                     widget.viewModel.unit = "kilometers";
-                    widget.viewModel.unitOptions = ["meters", "kilometers"];
+                    widget.viewModel.unitOptions = [
+                      "meters",
+                      "kilometers"
+                    ];
                   </code>
                 </pre>
               </div>
@@ -105,7 +110,7 @@
               <div data-fragment-id="click-event" class="code-snippet">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim>                  
+                  <code class="lang-ts" data-trim data-line-numbers>                  
                   view.on("click", async (event) => {
                     const clickedPoint = /* hit test... */
 
@@ -119,13 +124,17 @@
               <div data-fragment-id="add-analysis" class="code-snippet fragment">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim>
-                  const palmSpringsPoint = new Point({ x: -116.563645, y: 33.772349 });
-                  
-                  const analysis = new DirectLineMeasurementAnalysis({ 
-                    startPoint: clickedPoint,
-                    endPoint: palmSpringsPoint
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  const palmSpringsPoint = new Point({ 
+                    x: -116.563645,
+                    y: 33.772349
                   });
+                  
+                  const analysis =
+                    new DirectLineMeasurementAnalysis({ 
+                      startPoint: clickedPoint,
+                      endPoint: palmSpringsPoint
+                    });
 
                   view.analyses.add(analysis);
                   </code>
@@ -154,8 +163,10 @@
               <div data-fragment-id="add-widget" class="code-snippet">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim >
-                    const widget = new AreaMeasurement3D({ view });
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const widget = new AreaMeasurement3D({
+                      view
+                    });
 
                     view.ui.add(widget, "top-right");
                   </code>
@@ -165,7 +176,7 @@
               <div data-fragment-id="set-units" class="code-snippet fragment">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim >
+                  <code class="lang-ts" data-trim data-line-numbers>
                     widget.viewModel.unit = "square-meters";
                     widget.viewModel.unitOptions = [
                       "square-meters",
@@ -194,11 +205,12 @@
               <div data-fragment-id="click-event" class="code-snippet">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim >                   
+                  <code class="lang-ts" data-trim data-line-numbers>                   
                     view.on("click", async (event) => {
                       const clickedGraphic = /* hit test... */
-  
-                      showAlert(`Clicked ${clickedGraphic.getObjectId()}`);
+                      
+                      const id = clickedGraphic.getObjectId();
+                      showAlert(`Clicked ${id}`);
                     });
                   </code>
                 </pre>
@@ -207,7 +219,7 @@
               <div data-fragment-id="add-analysis" class="code-snippet fragment">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim >                  
+                  <code class="lang-ts" data-trim data-line-numbers>                  
                     const analysis = new AreaMeasurementAnalysis({
                       geometry: clickedGraphic.geometry
                     });
@@ -220,13 +232,15 @@
               <div data-fragment-id="align-to-ground" class="code-snippet fragment">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim >                   
+                  <code class="lang-ts" data-trim data-line-numbers>                   
                     const groundZ = response.ground.mapPoint.z;
                     
                     geometry = geometry.clone();
-                    geometry.rings = geometry.rings.map((ring) => {
-                      return ring.map(([x, y]) => [x, y, groundZ]);
-                    });
+                    geometry.rings = geometry.rings.map((ring) =>
+                      ring.map(
+                        ([x, y]) => [x, y, groundZ]
+                      );
+                    );
                   </code>
                 </pre>
               </div>
@@ -264,7 +278,7 @@
               <div data-fragment-id="add-widget" class="code-snippet">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim >
+                  <code class="lang-ts" data-trim data-line-numbers>
                     const widget = new LineOfSight({ view });
                     
                     view.ui.add(widget, "top-right");
@@ -290,7 +304,7 @@
             <div class="left-column r-stack no-margin">
               <div data-fragment-id="init" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim >
+                  <code class="lang-ts" data-trim data-line-numbers>
                   const landmarks = [{
                     name: "Neues Rathaus",
                     threshold: 5,
@@ -313,24 +327,22 @@
                 <div data-fragment-id="add-buttons" class="code-snippet">
                   <button class="play"></button>
                   <pre>
-                    <code class="lang-ts" data-trim >
-                    cafes.forEach((cafe) => {
-                      const button = /* create button */
+                    <code class="lang-ts" data-trim data-line-numbers>
+                      const landmarkTargets = landmarks.map((l) =>
+                        new LineOfSightAnalysisTarget({
+                          position: l.position
+                        })
+                      );
                   
-                      button.addEventListener("click", () => {
+                      button.onclick = () => {
                         const analysis = new LineOfSightAnalysis({
-                          observer: new LineOfSightAnalysisObserver({ position: cafe.position }),
-                          targets: landmarks.map((landmark) => {
-                            return new LineOfSightAnalysisTarget({
-                              position: landmark.position
-                            })
-                          })
+                          observer: new LineOfSightAnalysisObserver({
+                            position: cafe.position
+                          }),
+                          targets: landmarkTargets
                         });
-                  
-                        view.analyses.removeAll();
-                        view.analyses.add(analysis);
-                      });
-                    });
+                        // ...
+                      };
                     </code>
                   </pre>
                 </div>
@@ -338,8 +350,11 @@
                 <div data-fragment-id="add-widget" class="code-snippet fragment">
                   <button class="play"></button>
                   <pre>
-                    <code class="lang-ts" data-trim >
-                      const widget = new LineOfSight({ view, analysis });
+                    <code class="lang-ts" data-trim data-line-numbers>
+                      const widget = new LineOfSight({
+                        view,
+                        analysis
+                      });
                       
                       view.ui.add(widget, "top-right");
                     </code>
@@ -369,7 +384,7 @@
               <div data-fragment-id="add-widget" class="code-snippet">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim >
+                  <code class="lang-ts" data-trim data-line-numbers>
                     const widget = new Slice({ view });
 
                     view.ui.add(widget, "top-right");
@@ -395,7 +410,7 @@
             <div class="left-column r-stack no-margin">
               <div data-fragment-id="init-data" class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim >
+                  <code class="lang-ts" data-trim data-line-numbers>
                   const slidesAndPlanes = [{
                     title: "Front",
                     shape: new SlicePlane({ /* ... */ }),
@@ -411,7 +426,7 @@
                 <div data-fragment-id="add-buttons" class="code-snippet">
                   <button class="play"></button>
                   <pre>
-                    <code class="lang-ts" data-trim >
+                    <code class="lang-ts" data-trim data-line-numbers>
                     slidesAndPlanes.forEach(({ title, shape }) => {
                       const slide = view.map.presentation.slides
                         .find((s) => s.title.text === title);
@@ -434,8 +449,11 @@
                 <div data-fragment-id="add-widget" class="code-snippet fragment">
                   <button class="play"></button>
                   <pre>
-                    <code class="lang-ts" data-trim >
-                      const widget = new Slice({ view, analysis });
+                    <code class="lang-ts" data-trim data-line-numbers>
+                      const widget = new Slice({
+                        view,
+                        analysis
+                      });
 
                       view.ui.add(widget, "top-right");
                     </code>
@@ -469,7 +487,7 @@
               >
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim >
+                  <code class="lang-ts" data-trim data-line-numbers>
                     const widget = new Daylight({ view });
 
                     view.ui.add(widget, "top-right");
@@ -484,13 +502,14 @@
               >
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim >
+                  <code class="lang-ts" data-trim data-line-numbers>
                     const widget = new ShadowCast({ view });
 
                     view.ui.add(widget, "top-right");
 
                     // Show only accumulated shadows
-                    view.environment.lighting.directShadowsEnabled = false;
+                    view.environment
+                      .lighting.directShadowsEnabled = false;
                   </code>
                 </pre>
               </div>
@@ -514,8 +533,10 @@
               <div data-fragment-id="add-widget" class="code-snippet">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim >
-                  const widget = new ElevationProfile({ view });
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  const widget = new ElevationProfile({
+                    view
+                  });
                   
                   view.ui.add(widget, "top-right");
                   </code>
@@ -525,7 +546,7 @@
               <div data-fragment-id="set-profiles" class="code-snippet fragment">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim >
+                  <code class="lang-ts" data-trim data-line-numbers>
                   widget.profiles.push(
                     new ElevationProfileLineView({
                       type: "view",
@@ -546,7 +567,7 @@
           </div>
         </section>
 
-        <section
+        <!-- <section
           class="align-left"
           data-slideId="elevation-profile-csv"
           data-background="../img/2022/dev-summit/bg-3.png"
@@ -592,26 +613,33 @@
               </div>
             </div>
           </div>
+        </section> -->
+
+        <section data-background="../img/2022/dev-summit/bg-3.png">
+          <h2>Documentation & Resources</h2>
+          <ul>
+            <li>...</li>
+          </ul>
         </section>
 
         <section class="align-left" data-background="../img/2022/dev-summit/bg-4.png">
           <div style="width: 50%">
-            <h1 style="font-size: 3rem">Querying and Filtering a SceneLayer</h1>
+            <h1>Querying and Filtering a SceneLayer</h1>
           </div>
         </section>
 
-        <section class="align-left" data-background="../img/2022/dev-summit/bg-3.png">
+        <!-- <section class="align-left" data-background="../img/2022/dev-summit/bg-3.png">
           <h2>Loading the WebScene</h2>
 
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim>
-                    config.portalUrl = "http://jsapi.maps.arcgis.com/";
-
+                  <code class="lang-ts" data-trim data-line-numbers>
                     webscene = new WebScene({
-                      portalItem: { id: "a350d4d2b71a40a6a95031d25da9535f" }
+                      portalItem: { 
+                        id: "a350d4d2b71a40a6a95031d25da9535f"
+                      }
                     })
 
                     view = new SceneView({
@@ -631,13 +659,7 @@
               </div>
             </div>
           </div>
-        </section>
-
-        <section class="align-left" data-background="../img/2022/dev-summit/bg-3.png">
-          <h2>Filters vs Queries</h2>
-
-          <img src="./images/filter_vs_query.png" width="800px" />
-        </section>
+        </section> -->
 
         <section
           class="align-left"
@@ -648,10 +670,27 @@
 
           <div class="two-columns">
             <div class="left-column">
-              <div class="code-snippet">
-                <button class="play" id="filter-0"></button>
-                <pre>
-                  <code class="lang-ts" data-trim>
+              <div class="r-stack no-margin">
+                <div class="code-snippet">
+                  <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    webscene = new WebScene({
+                      portalItem: { 
+                        id: "a350d4d2b71a40a6a95031d25da9535f"
+                      }
+                    })
+
+                    view = new SceneView({
+                      map: webscene,
+                      container: "viewDiv"
+                    });
+                  </code>
+                </pre>
+                </div>
+                <div class="code-snippet fragment">
+                  <button class="play" id="filter-0"></button>
+                  <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
                   layer.renderer = new ClassBreaksRenderer({
                     field: "yearCompleted",
                     classBreakInfos: [
@@ -665,6 +704,7 @@
                   });
                   </code>
                 </pre>
+                </div>
               </div>
               <div class="code-snippet fragment">
                 <button class="play" id="filter-1"></button>
@@ -695,7 +735,7 @@
           </div>
         </section>
 
-        <section class="align-left" data-background="../img/2022/dev-summit/bg-3.png">
+        <!-- <section class="align-left" data-background="../img/2022/dev-summit/bg-3.png">
           <h2>Documentation</h2>
           <ul>
             <li>
@@ -712,6 +752,12 @@
               >
             </li>
           </ul>
+        </section> -->
+
+        <section data-background="../img/2022/dev-summit/bg-3.png">
+          <h2>Filters vs Queries</h2>
+
+          <img src="./images/filter_vs_query.png" width="800px" />
         </section>
 
         <section
@@ -725,45 +771,50 @@
             <div class="left-column">
               <div class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim>
-                  layer.outFields = ["solarAreaSuitableM2", "address"];
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  layer.outFields = [
+                    "solarAreaSuitableM2", 
+                    "address"
+                  ];
 
                   const query = layerView.createQuery();
-                  query.where = "solarAreaSuitableM2 BETWEEN 400 AND 500";
+                  query.where = 
+                    "solarAreaSuitableM2 BETWEEN 400 AND 500";
                   </code>
                 </pre>
               </div>
               <div class="code-snippet fragment">
                 <button class="play" id="query-1"></button>
                 <pre>
-                  <code class="lang-ts" data-trim>
+                  <code class="lang-ts" data-trim data-line-numbers>
                   query.outFields = ["address"];
 
-                  layerView.queryFeatures(query).then(function(response) {
-                    response.features.forEach(function(entry) {
+                  const response = 
+                    await layerView.queryFeatures(query);
+                  response.features.forEach((entry) => {
                       output(entry.attributes);
-                    });
-                  }).catch(console.error);
+                  });
                   </code>
                 </pre>
               </div>
               <div class="code-snippet fragment">
                 <button class="play" id="query-2"></button>
                 <pre>
-                  <code class="lang-ts" data-trim>
-                    layerView.queryObjectIds(query).then(function(response) {
-                      highlightHandle = layerView.highlight(response);
-                    }).catch(console.error);
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const objectIds = 
+                      await layerView.queryObjectIds(query)
+                    
+                    layerView.highlight(objectIds);
                   </code>
                 </pre>
               </div>
-              <div class="code-snippet fragment">
+              <!-- <div class="code-snippet fragment">
                 <pre>
                   <code class="lang-ts" data-trim>
                     highlightHandle.remove();
                   </code>
                 </pre>
-              </div>
+              </div> -->
             </div>
 
             <div class="right-column">
@@ -774,7 +825,7 @@
           </div>
         </section>
 
-        <section
+        <!-- <section
           class="align-left"
           data-background="../img/2022/dev-summit/bg-3.png"
           title="query-attribute"
@@ -811,7 +862,7 @@
               </div>
             </div>
           </div>
-        </section>
+        </section> -->
 
         <section
           class="align-left"
@@ -824,12 +875,13 @@
             <div class="left-column">
               <div class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim>
+                  <code class="lang-ts" data-trim data-line-numbers>
                     query.outStatistics = [
                       new StatisticDefinition({
                         outStatisticFieldName: "avg_area",
                         onStatisticField: "solarAreaSuitableM2",
-                        statisticType: "avg" //supports min, max, sum, std, ...
+                        //supports min, max, sum, std, ...
+                        statisticType: "avg"
                       })
                     ]);
                   </code>
@@ -838,11 +890,12 @@
               <div class="code-snippet fragment">
                 <button class="play" id="statistic-1"></button>
                 <pre>
-                  <code class="lang-ts" data-trim>
-                    layerView.queryFeatures(query).then(function(response) {
-                      output("Average area: "
-                        + response.features[0].attributes.avg_area);
-                    }).catch(console.error);
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const response =
+                      await layerView.queryFeatures(query);
+
+                    output("Average area: "
+                      + response.features[0].attributes.avg_area);
                   </code>
                 </pre>
               </div>
@@ -856,7 +909,7 @@
           </div>
         </section>
 
-        <section
+        <!-- <section
           class="align-left"
           data-background="../img/2022/dev-summit/bg-3.png"
           title="query-statistic"
@@ -868,7 +921,7 @@
               <div class="code-snippet">
                 <button class="play" id="statistic-2"></button>
                 <pre>
-                  <code class="lang-ts" data-trim>
+                  <code class="lang-ts" data-trim data-line-numbers>
                     query.outStatistics = [
                       /* ... */
                       {
@@ -897,7 +950,7 @@
               </div>
             </div>
           </div>
-        </section>
+        </section> -->
 
         <section
           class="align-left"
@@ -910,31 +963,28 @@
             <div class="left-column">
               <div class="code-snippet">
                 <pre>
-                  <code class="lang-ts" data-trim>
+                  <code class="lang-ts" data-trim data-line-numbers>
                     const sketch = new Sketch({
                       layer: sketchLayer,
                       view: view
                     });
 
-                    sketch.on("create", function (event) {
-                      if (event.state === "complete") {
-                        layerView.filter.geometry = event.graphic.geometry
-                      }
-                    });
-                    sketch.on("update", function (event) {
-                      if (!event.cancelled && event.graphics.length) {
-                        layerView.filter.geometry = event.graphics[0].geometry
-                      }
+                    sketch.on("create", (event) => {
+                      layerView.filter.geometry =
+                        event.graphic.geometry
                     });
 
-                    view.ui.add(sketch, "top-right");
+                    sketch.on("update", (event) => {
+                      layerView.filter.geometry =
+                        event.graphics[0].geometry
+                    });
                   </code>
                 </pre>
               </div>
               <div class="code-snippet fragment">
                 <button class="play" id="spatial-1"></button>
                 <pre>
-                  <code class="lang-ts" data-trim>
+                  <code class="lang-ts" data-trim data-line-numbers>
                     query.geometry = geometry;
                     query.spatialRelationship = "contains";
                     query.distance = 100;
@@ -944,7 +994,7 @@
                   </code>
                 </pre>
               </div>
-              <div class="code-snippet fragment">
+              <!-- <div class="code-snippet fragment">
                 <pre>
                   <code class="lang-ts" data-trim>
                     const debouncedQuery = promiseUtils.debounce(function () {
@@ -953,7 +1003,7 @@
                     debouncedQuery();
                   </code>
                 </pre>
-              </div>
+              </div> -->
             </div>
 
             <div class="right-column">
@@ -964,25 +1014,39 @@
           </div>
         </section>
 
-        <section class="align-left" data-background="../img/2022/dev-summit/bg-3.png">
+        <section data-background="../img/2022/dev-summit/bg-3.png">
           <h2>Spatial Relationships</h2>
 
           <img src="./images/spatial_relationships.png" />
         </section>
 
-        <section class="align-left" data-background="../img/2022/dev-summit/bg-3.png">
-          <h2>Documentation</h2>
+        <section data-background="../img/2022/dev-summit/bg-3.png">
+          <h2>Documentation & Resources</h2>
           <ul>
             <li>
               <a
-                href="https://developers.arcgis.com/javascript/latest/api-reference/esri-tasks-support-Query.html"
-                >https://developers.arcgis.com/javascript/latest/api-reference/esri-tasks-support-Query.html</a
+                href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html"
+                >Documentation about filtering LayerViews</a
               >
+            </li>
+            <li>
+              <a
+                href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html"
+                >Documentation about querying layers</a
+              >
+            </li>
+            <li>
+              <a href="https://developers.arcgis.com/javascript/latest/sample-code/"
+                >Code Samples</a
+              >
+            </li>
+            <li>
+              <a href="https://arcg.is/008mnO">https://arcg.is/008mnO</a>
             </li>
           </ul>
         </section>
 
-        <section class="align-left" data-background="../img/2022/dev-summit/bg-3.png">
+        <!-- <section class="align-left" data-background="../img/2022/dev-summit/bg-3.png">
           <h2>Additional Resources</h2>
           <ul>
             <li>
@@ -994,12 +1058,14 @@
               <a href="https://arcg.is/008mnO">https://arcg.is/008mnO</a>
             </li>
           </ul>
-        </section>
+        </section> -->
 
         <!-- FEEDBACK SLIDE: -->
         <section data-markdown data-background="../img/2022/dev-summit/bg-7.png">
           <textarea data-template>
-            Please provide your feedback for this session by clicking on the session survey link directly below the video.
+            ### Please share your feedback in the app
+
+            ![feedback](../resources/feedback.png)
           </textarea>
         </section>
 

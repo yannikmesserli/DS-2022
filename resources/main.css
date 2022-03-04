@@ -18,7 +18,7 @@
   --r-section-subhead-color: #00ec86;
 
   --spacing-half: calc(var(--r-block-margin) / 2);
-  --iframe-scale: 0.8;
+  --iframe-scale: 1;
   --play-btn-size: 32px;
 }
 
@@ -36,14 +36,6 @@
   margin-bottom: 0.5em;
 }
 
-.reveal h2 {
-  font-size: 38px;
-}
-
-.reveal pre {
-  font-size: 0.8rem;
-}
-
 .reveal .code-snippet.play-container code {
   min-height: calc(var(--play-btn-size) + var(--spacing-half));
 }
@@ -51,14 +43,6 @@
 .reveal .subtitle {
   font-size: 80%;
   margin-top: -30px;
-}
-
-.reveal ul {
-  display: flex;
-  flex-direction: column;
-  font-size: 1.2rem;
-  font-weight: 100;
-  gap: 0.5em;
 }
 
 .sink {
