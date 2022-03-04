@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "target": "ESNext",
+    "isolatedModules": true,
+    "moduleResolution": "Node",
+    "lib": [
+      "ESNext",
+      "DOM"
+    ]
+  },
+  "include": [
+    "**/*.ts",
+    "node_modules/@arcgis/core/**/*.ts"
+  ]
+}
