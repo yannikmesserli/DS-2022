@@ -89,35 +89,219 @@
           </div>
         </section>
 
+        <!--
+         Tree
+        -->
         <section
-          data-slideId="airport"
+          data-slideId="tree"
           class="align-left"
           data-background="../img/2022/dev-summit/bg-2.png"
         >
-          <h2 class="header">Placing trees on the ground</h2>
+          <h2 class="header">Placing tree on the ground</h2>
 
           <div class="two-columns">
-            <div class="left-column r-stack no-margin">
-              <!--
-                Init
-              -->
-              <div class="code-snippet fragment fade-in-then-out">
+            <div class="left-column">
+              <div data-fragment-id="place-point" class="code-snippet">
+                <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim>
-                  const sketchVM = new SketchViewModel({
-                    view,
-                    defaultUpdateOptions: {
-                      enableRotation: true,
-                      enableScaling: true,
-                    },
-                  });
+                  <code class="lang-ts" data-trim>               
+                    const tree = new Graphic({ 
+                      geometry: new Point({
+                        spatialReference,
+                        x: 1099766.76,
+                        y: 5865813.01
+                        // Note: no Z value!
+                      })
+                    });
+
+                    const trees = new GraphicsLayer({
+                      elevationInfo: { mode: "on-the-ground" }
+                    });
+
+                    trees.add(tree);
                   </code>
                 </pre>
               </div>
 
-              <!--
-                On-the-ground
-              -->
+              <div data-fragment-id="set-tree-symbol" class="code-snippet fragment">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    const webStyle = new WebStyleSymbol({
+                      /* ... */
+                    });
+                    
+                    tree.symbol = await webStyle.fetchSymbol();
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/tree/index.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="align-left" data-background="../img/2022/dev-summit/bg-2.png">
+          <h2 class="header">Web Style Symbols</h2>
+          <iframe
+            class="r-stretch"
+            data-src="https://developers.arcgis.com/javascript/latest/visualization/symbols-color-ramps/esri-web-style-symbols-3d/#schematic-vegetation"
+          ></iframe>
+        </section>
+
+        <!--
+         Tree (Editable)
+        -->
+        <section
+          data-slideId="tree-editable"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
+          <h2 class="header">Moving tree on the ground</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="update-tree" class="code-snippet">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    const sketchVM = new SketchViewModel({ 
+                      view,
+                      layer: trees
+                    });
+
+                    sketchVM.update(tree);
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/tree/index.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--
+         Antenna
+        -->
+        <section
+          data-slideId="antenna"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
+          <h2 class="header">Placing antenna on the roof</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="create-point" class="code-snippet">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    sketchVM.layer = antennas;
+                    sketchVM.pointSymbol = antennaSymbol;
+
+                    sketchVM.on("create", (event) => {
+                      if (event.state === "complete") {
+                        sketchVM.update(event.graphic);
+                      }
+                    });
+
+                    sketchVM.create("point");
+                  </code>
+                </pre>
+              </div>
+
+              <div
+                data-fragment-id="set-relative-to-scene"
+                class="code-snippet play-container fragment"
+              >
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    antennas.elevationInfo = {
+                      mode: "relative-to-scene"
+                    };
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/antenna/index.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--
+         Airplane
+        -->
+        <section
+          data-slideId="airplane"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
+          <h2 class="header">Placing airplane in the air</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    const geometry = new Point({
+                      spatialReference: SpatialReference.WebMercator,
+                      x: 1099766.76,
+                      y: 5865813.01,
+                      z: 50 // We now have elevation!!!
+                    });
+                
+                    const airplane = new Graphic({ 
+                      geometry,
+                      symbol: airplaneSymbol
+                    });
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="create" class="code-snippet fragment">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    airplanes = new GraphicsLayer({
+                      elevationInfo: { mode: "relative-to-ground" },
+                    });
+                    airplanes.add(airplane);
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="set-absolute-height" class="code-snippet fragment">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    airplanes.elevationInfo = {
+                      mode: "absolute-height"
+                    };
+                    airplane.geometry.z = 1708; // Runway elevation
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/airplane/index.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--
+
               <div data-fragment-id="on-the-ground" class="code-snippet fragment fade-in-then-out">
                 <button class="play"></button>
                 <pre>
@@ -164,9 +348,6 @@
                 </div>
               </div>
 
-              <!--
-                Relative to ground (or absolute-height)
-              -->
               <div
                 data-fragment-id="relative-to-ground"
                 class="code-snippet fragment fade-in-then-out"
@@ -191,9 +372,7 @@
                 </pre>
               </div>
 
-              <!--
-                Relative to scene
-              -->
+
               <div
                 data-fragment-id="relative-to-scene"
                 class="code-snippet fragment fade-in-then-out"
@@ -217,9 +396,7 @@
                 </pre>
               </div>
 
-              <!--
-                Drawing polygons
-              -->
+
               <div data-fragment-id="polygons" class="fragment v-stack">
                 <div data-fragment-id="polygons-click" class="code-snippet">
                   <button class="play"></button>
@@ -261,6 +438,7 @@
             </div>
           </div>
         </section>
+      -->
 
         <section
           data-slideId="feature-layer"
