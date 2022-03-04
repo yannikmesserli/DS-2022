@@ -2,8 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>AreaMeasurement3D</title>
-    <link rel="stylesheet" href="../../../node_modules/@arcgis/core/assets/esri/themes/light/main.css" />
+    <title>Customized Editing</title>
     <style>
       html,
       body,
@@ -27,16 +26,13 @@
       }
     </style>
 
-    <script src="./advanced-editing.ts" type="module"></script>
+    <script src="./customized-editing.ts" type="module"></script>
   </head>
   <body>
     <div id="main">
       <div id="viewDiv"></div>
       <div id="toolbar" class="calcite-theme-dark">
-        <calcite-action-bar expand-disabled="yes">
-          <calcite-action id="action-masking" icon="group-x"></calcite-action>
-          <calcite-action id="action-draw-building" icon="urban-model-"></calcite-action>
-          <calcite-action id="action-extrude-building" icon="export-"></calcite-action>
+        <calcite-action-bar id="action-bar" expand-disabled="yes">
         </calcite-action-bar>
       </div>
     </div>
