@@ -1,5 +1,6 @@
 import FieldElement from "@arcgis/core/form/elements/FieldElement";
 import FormTemplate from "@arcgis/core/form/FormTemplate";
+import { Point, SpatialReference } from "@arcgis/core/geometry";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import FeatureSnappingLayerSource from "@arcgis/core/views/interactive/snapping/FeatureSnappingLayerSource";
 import MapView from "@arcgis/core/views/MapView";
@@ -24,9 +25,26 @@ async function init(type: "2d" | "3d"): Promise<void> {
   const webmap = new WebMap({ portalItem: { id: "459a495fc16d4d4caa35e92e895694c8" } });
 
   const viewProps = { container: "viewDiv", map: webmap };
-  view = type === "2d" ? new MapView(viewProps) : new SceneView(viewProps);
+  if (type === "2d") {
+    view = new MapView(viewProps);
+  } else {
+    view = new SceneView({ ...viewProps });
+    view.map.ground = "world-elevation" as any;
+  }
+
+  view.map.basemap = "topo" as any;
+
+  view.center = new Point({
+    spatialReference: SpatialReference.WebMercator,
+    x: -12972313.390058449,
+    y: 4003710.6527475812,
+  });
+  view.zoom = 14;
+
   await view.when();
   await webmap.loadAll();
+
+  (window as any)["view"] = view;
 
   let pointLayer!: FeatureLayer;
   let lineLayer!: FeatureLayer;
