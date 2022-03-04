@@ -175,7 +175,7 @@
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet fragment">
-                <button class="play" id="add-elevation"></button>
+                <button class="play dark" id="add-elevation"></button>
                 <pre><code class="lang-ts" data-line-numbers="3" data-trim>
 
                           const map = new Map({
@@ -202,7 +202,7 @@
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet">
-                <button class="play" id="add-elevation"></button>
+                <button class="play dark" id="add-elevation"></button>
                 <pre><code class="lang-ts" data-line-numbers="3" data-trim>
 
                           const map = new Map({
@@ -256,7 +256,7 @@
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet">
-                <button class="play" id="local-clipping"></button>
+                <button class="play dark" id="local-clipping"></button>
                 <pre><code class="lang-ts" data-line-numbers="14|1-10,15" data-trim>
                             const clippingExtent = {
                                 spatialReference: {
@@ -603,7 +603,7 @@
               </div>
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Volumetric</p>
-                <button class="play" id="icon-to-object"></button>
+                <button class="play dark" id="icon-to-object"></button>
                 <pre><code class="lang-ts"  data-trim>
                   const renderer3D = new SimpleRenderer({
                     symbol: new PointSymbol3D({
@@ -662,7 +662,7 @@
               </div>
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Volumetric</p>
-                <button class="play" id="line-to-path"></button>
+                <button class="play dark" id="line-to-path"></button>
                 <pre><code class="lang-ts"  data-trim>
                   let symbol3D = new LineSymbol3D({
                     symbolLayers: [
@@ -718,7 +718,7 @@
               </div>
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Volumetric</p>
-                <button class="play" id="polygon-to-extrusion"></button>
+                <button class="play dark" id="polygon-to-extrusion"></button>
                 <pre><code class="lang-ts"  data-trim>
                   const renderer3D = new SimpleRenderer({
                     symbol: new PolygonSymbol3D({
@@ -782,7 +782,7 @@
               </div>
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Add outlines</p>
-                <button class="play" id="sl-toggle-outlines"></button>
+                <button class="play dark" id="sl-toggle-outlines"></button>
                 <pre><code class="lang-ts" data-trim>
                   const solidEdges = new SolidEdges3D({
                     color: [0, 0, 0, 0.6],
@@ -793,7 +793,7 @@
 
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Color by attributes instead</p>
-                <button class="play" id="sl-toggle-color"></button>
+                <button class="play dark" id="sl-toggle-color"></button>
                 <pre><code class="lang-ts" data-trim>
                   const thematicRenderer = new SimpleRenderer({
                     symbol: new MeshSymbol3D({
@@ -853,7 +853,7 @@
 
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Color based on model name</p>
-                <button class="play" id="bsl-color"></button>
+                <button class="play dark" id="bsl-color"></button>
                 <pre><code class="lang-ts" data-trim>
                   buildingLayer.allSublayers.forEach((layer) =&gt; {
                     switch (layer.modelName) {
@@ -914,7 +914,7 @@
               </div>
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Change point size</p>
-                <button class="play" id="pc-toggle-size"></button>
+                <button class="play dark" id="pc-toggle-size"></button>
                 <pre><code class="lang-ts" data-line-numbers="6" data-trim>
                   pcLayer.renderer = new PointCloudRGBRenderer({
                     field: "RGB",
@@ -928,7 +928,7 @@
               </div>
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Color by LAS classification</p>
-                <button class="play" id="pc-toggle-color"></button>
+                <button class="play dark" id="pc-toggle-color"></button>
                 <pre><code class="lang-ts" data-trim style="height:150px;">
                   pcLayer.renderer = new PointCloudUniqueValueRenderer({
                     field: &quot;CLASS_CODE&quot;, // field containing data for standard LAS classification
@@ -1004,7 +1004,7 @@
 
               <div class="code-snippet fragment">
                 <p class="slidetitle-sub">Color IM with a feature layer</p>
-                <button class="play" id="im-toggle-distances"></button>
+                <button class="play dark" id="im-toggle-distances"></button>
                 <pre><code class="lang-ts" data-trim>
           const walkingLayer = new FeatureLayer({
             url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Walking_time_Frankfurt_Cathedral/FeatureServer",

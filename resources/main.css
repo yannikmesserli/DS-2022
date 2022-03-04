@@ -169,3 +169,11 @@ button.play {
 button.play:hover {
   background-image: url("./play_64.png");
 }
+
+button.play.dark {
+  background-image: url("./play_dark_64_50.png");
+}
+
+button.play.dark:hover {
+  background-image: url("./play_dark_64.png");
+}
