@@ -16,13 +16,14 @@
     <link rel="stylesheet" href="../resources/main.css" />
     <style>
       .slidetitle {
-        /*font-size: 28px !important;*/
+        text-align: left;
+        font-size: 48px !important;
         margin-bottom: 8px !important;
       }
       .slidetitle-sub {
         text-align: left;
         margin-top: 0 !important;
-        /*font-size: 20px;*/
+        font-size: 32px;
       }
       .snippet-title {
         text-align: left;
@@ -35,10 +36,13 @@
         font-size: 13px;
         opacity: 80%;
       }
-      .iframe-top-margin {
+      .iframe-tm {
         margin-top: 60px;
       }
-      .title-transparent {
+      .title-lm {
+        margin-left: 150px;
+      }
+      .transparent {
         /*color: var(--r-section-subhead-color);*/
         opacity: 50%;
       }
@@ -84,12 +88,12 @@
 
         <!--------- Intro: OVERVIEW -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-4.png">
-          <h2>Session outline</h2>
-          <div class="two-columns" style="margin-left: 150px">
-            <div class="left-column">
-              <ul>
+          <div class="title-lm">
+            <h2>Session outline</h2>
+            <div>
+              <ul style="display: block">
                 <li>
-                  Core concepts <span class="title-transparent"> - 15 min</span>
+                  Core concepts <span class="transparent"> - 15 min</span>
                   <ul class="sublist">
                     <li>Setting up a 3D application</li>
                     <li>Sources of data</li>
@@ -97,7 +101,7 @@
                   </ul>
                 </li>
                 <li>
-                  Coding demos <span class="title-transparent"> - 30 min</span>
+                  Use cases <span class="transparent"> - 30 min</span>
                   <ul class="sublist">
                     <li>Data-driven thematic visualizations</li>
                     <li>Realistic 3D data</li>
@@ -105,7 +109,7 @@
                   </ul>
                 </li>
                 <li>
-                  Q & A <span class="title-transparent"> - 15 min</span>
+                  Q & A <span class="transparent"> - 15 min</span>
                   <ul class="sublist">
                     <li>Sli.do</li>
                   </ul>
@@ -114,22 +118,18 @@
             </div>
           </div>
         </section>
+
         <!--------- 1. Core concepts: TITLE -------->
         <section
           data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
           data-background-size="cover"
         >
-          <h1 style="text-align: left; font-size: 50px; margin-bottom: 10px">Core concepts</h1>
-          <p
-            style="
-              text-align: left;
-              font-size: 28px;
-              margin-top: 0;
-              color: var(--r-section-subhead-color);
-            "
-          >
-            Getting started with 3D
-          </p>
+          <div class="title-lm">
+            <h2 style="text-align: left; margin-bottom: 10px">Core concepts</h2>
+            <p style="text-align: left; margin-top: 0; color: var(--r-section-subhead-color)">
+              Getting started with 3D
+            </p>
+          </div>
         </section>
 
         <!--------- 1.1 Core concepts: Setting up a 3D application: HTML -------->
@@ -191,18 +191,6 @@
           </div>
         </section>
 
-        <!--------- 1.1 Core concepts: Setting up a 3D application: BASEMAP image -------->
-        <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
-          <h2 class="slidetitle">Setting up a 3D application</h2>
-          <p class="slidetitle-sub">Basemap</p>
-          <div class="two-columns">
-            <div class="left-column"></div>
-            <div class="right-column">
-              <img src="./images/basemapgallery.png" width="600px" />
-            </div>
-          </div>
-        </section>
-
         <!--------- 1.1 Core concepts: Setting up a 3D application: BASEMAP app -------->
 
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
@@ -246,7 +234,6 @@
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet">
-                <button class="play" id="add-elevation"></button>
                 <pre><code class="lang-ts" data-line-numbers="3" data-trim>
 
                           const map = new Map({
@@ -335,17 +322,12 @@
           data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
           data-background-size="cover"
         >
-          <h1 style="text-align: left; font-size: 32px; margin-bottom: 10px">Core concepts</h1>
-          <p
-            style="
-              text-align: left;
-              font-size: 20px;
-              margin-top: 0;
-              color: var(--r-section-subhead-color);
-            "
-          >
-            Sources of data
-          </p>
+          <div class="title-lm">
+            <h2 style="text-align: left; margin-bottom: 10px">Core concepts</h2>
+            <p style="text-align: left; margin-top: 0; color: var(--r-section-subhead-color)">
+              Sources of data
+            </p>
+          </div>
         </section>
 
         <!--------- 1.2 Core concepts: Sources of Data : Data types -------->
@@ -357,15 +339,15 @@
               <ul>
                 <li>
                   Layers with features
-                  <ul>
+                  <ul class="sublist">
                     <li>Points</li>
                     <li>Lines</li>
                     <li>Polygons</li>
                   </ul>
                 </li>
-                <li>
+                <li class="fragment">
                   3D specific layers
-                  <ul>
+                  <ul class="sublist">
                     <li>3D object scene layer</li>
                     <li>Building scene layer</li>
                     <li>Integrated mesh layer</li>
@@ -374,26 +356,18 @@
                 </li>
               </ul>
             </div>
-            <div class="right-column">
+            <div class="right-column fragment">
               <h2 class="slidetitle">Sources</h2>
               <ul>
                 <li>
                   ArcGIS Online
-                  <ul>
+                  <ul class="sublist">
                     <li>Living Atlas – worldwide data</li>
                     <li>Upload your own</li>
                     <li>Create your own data with the editing widget</li>
                   </ul>
                 </li>
-                <li>
-                  Other open data in formats:
-                  <ul>
-                    <li>GeoJSON</li>
-                    <li>WFS</li>
-                    <li>CSV</li>
-                    <li>OGC features</li>
-                  </ul>
-                </li>
+                <li class="fragment">Open data from other sources</li>
               </ul>
             </div>
           </div>
@@ -408,7 +382,7 @@
               <ul>
                 <li>
                   ArcGIS Online
-                  <ul>
+                  <ul class="sublist">
                     <li>Living Atlas – worldwide data</li>
                   </ul>
                 </li>
@@ -444,7 +418,7 @@
                       </pre>
               </div>
               <div class="code-snippet fragment">
-                <p class="slidetitle-sub">Load layer as a portal item</p>
+                <p class="slidetitle-sub">...or load it as a portal item</p>
                 <pre>
                         <code class="lang-ts" data-line-numbers="1-5,10" data-trim>
 
@@ -464,7 +438,7 @@
                       </pre>
               </div>
             </div>
-            <div class="right-column iframe-top-margin">
+            <div class="right-column iframe-tm">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/data-layer.html" width="800px"></iframe>
               </div>
@@ -480,9 +454,9 @@
             <div class="left-column">
               <ul>
                 <li>
-                  ArcGIS Online
-                  <ul>
-                    <li>Living Atlas – worldwide data</li>
+                  <span class="transparent">ArcGIS Online</span>
+                  <ul class="sublist">
+                    <li class="transparent">Living Atlas – worldwide data</li>
                     <li>Upload your own</li>
                   </ul>
                 </li>
@@ -502,10 +476,10 @@
             <div class="left-column">
               <ul>
                 <li>
-                  ArcGIS Online
-                  <ul>
-                    <li>Living Atlas – worldwide data</li>
-                    <li>Upload your own</li>
+                  <span class="transparent">ArcGIS Online</span>
+                  <ul class="sublist">
+                    <li class="transparent">Living Atlas – worldwide data</li>
+                    <li class="transparent">Upload your own</li>
                     <li>Create your own data with the editing widget</li>
                   </ul>
                 </li>
@@ -545,9 +519,9 @@
           <div class="two-columns">
             <div class="left-column">
               <ul>
-                <li>
+                <li class="transparent">
                   ArcGIS Online
-                  <ul>
+                  <ul class="sublist">
                     <li>Living Atlas – worldwide data</li>
                     <li>Upload your own</li>
                     <li>Create your own data with the editing widget</li>
@@ -556,7 +530,7 @@
                 <li>
                   Other open data sources <br />
                   in formats such as:
-                  <ul>
+                  <ul class="sublist">
                     <li>GeoJSON</li>
                     <li>WFS</li>
                     <li>CSV</li>
@@ -576,17 +550,12 @@
           data-background="../reveal.js/img/2022/dev-summit/bg-5.png"
           data-background-size="cover"
         >
-          <h1 style="text-align: left; font-size: 32px; margin-bottom: 10px">Core concepts</h1>
-          <p
-            style="
-              text-align: left;
-              font-size: 20px;
-              margin-top: 0;
-              color: var(--r-section-subhead-color);
-            "
-          >
-            Layer symbology
-          </p>
+          <div class="title-lm">
+            <h2 style="text-align: left; margin-bottom: 10px">Core concepts</h2>
+            <p style="text-align: left; margin-top: 0; color: var(--r-section-subhead-color)">
+              Layer symbology
+            </p>
+          </div>
         </section>
 
         <!--------- 1.3 Core concepts: Layer symbology: OVERVIEW  -------->
@@ -693,7 +662,7 @@
                 </code></pre>
               </div>
             </div>
-            <div class="right-column iframe-top-margin">
+            <div class="right-column iframe-tm">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-point.html"></iframe>
               </div>
@@ -756,7 +725,7 @@
                 </code></pre>
               </div>
             </div>
-            <div class="right-column iframe-top-margin">
+            <div class="right-column iframe-tm">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-line.html"></iframe>
               </div>
@@ -801,7 +770,7 @@
                 </code></pre>
               </div>
             </div>
-            <div class="right-column iframe-top-margin">
+            <div class="right-column iframe-tm">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-polygon.html"></iframe>
               </div>
@@ -841,8 +810,8 @@
 
           <h2></h2>
           <div class="two-columns">
-            <div class="left-column">
-              <div class="code-snippet">
+            <div class="left-column r-stack">
+              <div class="code-snippet fragment fade-in-then-out">
                 <p class="slidetitle-sub">Add textured layer</p>
                 <pre><code class="lang-ts" data-trim>
                   const layer = new SceneLayer({
@@ -853,8 +822,8 @@
                   map.add(layer);
                 </code></pre>
               </div>
-              <div class="code-snippet fragment">
-                <p class="slidetitle-sub">Add outlines</p>
+              <div class="code-snippet fragment fade-in-then-out">
+                <p class="slidetitle-sub">Add edges</p>
                 <button class="play" id="sl-toggle-outlines"></button>
                 <pre><code class="lang-ts" data-trim>
                   const solidEdges = new SolidEdges3D({
@@ -864,7 +833,7 @@
                 </code></pre>
               </div>
 
-              <div class="code-snippet fragment">
+              <div class="code-snippet fragment fade-in-then-out">
                 <p class="slidetitle-sub">Color by attributes instead</p>
                 <button class="play" id="sl-toggle-color"></button>
                 <pre><code class="lang-ts" data-trim>
@@ -885,7 +854,7 @@
                 </code></pre>
               </div>
             </div>
-            <div class="right-column iframe-top-margin">
+            <div class="right-column iframe-tm">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-3dosl.html"></iframe>
               </div>
@@ -953,7 +922,7 @@
                 </code></pre>
               </div>
             </div>
-            <div class="right-column iframe-top-margin">
+            <div class="right-column iframe-tm">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-bsl.html"></iframe>
               </div>
@@ -1038,7 +1007,7 @@
                 </code></pre>
               </div>
             </div>
-            <div class="right-column iframe-top-margin">
+            <div class="right-column iframe-tm">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-pc.html"></iframe>
               </div>
@@ -1090,7 +1059,7 @@
         </code></pre>
               </div>
             </div>
-            <div class="right-column iframe-top-margin">
+            <div class="right-column iframe-tm">
               <div class="iframe-wrapper">
                 <iframe data-src="./samples/symbology-im.html"></iframe>
               </div>
