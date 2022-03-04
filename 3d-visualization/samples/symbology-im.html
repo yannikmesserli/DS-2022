@@ -28,9 +28,6 @@
         "esri/widgets/Legend",
         "esri/widgets/Fullscreen",
       ], (WebScene, SceneView, IntegratedMeshLayer, FeatureLayer, Expand, Legend, Fullscreen) => {
-        const doc = parent.document;
-        doc.getElementById("im-toggle-distances").onclick = toggleDistances;
-
         /*************************************
          * Load webscene with other layers
          * (lakes, points of interest, roads)
@@ -99,16 +96,61 @@
           view.ui.add(legendExpand, "bottom-right");
         });
 
-        function toggleDistances() {
-          walkingLayer.visible = !walkingLayer.visible;
-        }
-
         const fullscreen = new Fullscreen({
           view: view,
         });
         view.ui.add(fullscreen, "bottom-left");
 
         view.popup = null;
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js slide interaction
+        // - - - - - - - - - - - - - - - -
+
+        const doc = parent.document;
+        doc.getElementById("im-toggle-distances").onclick = () => {
+          toggleDistances(!walkingLayer.visible);
+        };
+
+        function toggleDistances(input) {
+          walkingLayer.visible = input;
+        }
+
+        onFragment("fragment-im-toggle-distances", () => {
+          toggleDistances(true);
+        });
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js helpers
+        // - - - - - - - - - - - - - - - -
+
+        function onFragment(elementId, doSomething) {
+          const run = () => {
+            const currentId = getCurrentFragmentId();
+            //console.log(elementId + " " + currentId);
+            if (currentId === elementId) {
+              doSomething();
+            }
+          };
+
+          parent.Reveal.addEventListener("fragmenthidden", run);
+          parent.Reveal.addEventListener("fragmentshown", run);
+          run();
+        }
+
+        function getCurrentSlide() {
+          //console.log("getCurrentSlide");
+          return parent.Reveal.getCurrentSlide();
+        }
+
+        function getCurrentFragment() {
+          //console.log("getCurrentFragment");
+          return getCurrentSlide().querySelector(".current-fragment") ?? null;
+        }
+        function getCurrentFragmentId() {
+          //console.log("getCurrentFragmentId");
+          return getCurrentFragment()?.getAttribute("data-fragment-id") ?? null;
+        }
       });
     </script>
   </head>

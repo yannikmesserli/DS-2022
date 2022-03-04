@@ -15,7 +15,11 @@
       }
     </style>
 
-    <link href="https://jsdev.arcgis.com/4.23/esri/themes/light/main.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://jsdev.arcgis.com/4.23/esri/themes/light/main.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <script src="https://jsdev.arcgis.com/4.23/"></script>
 
     <script>
@@ -40,8 +44,6 @@
         SlicePlane,
         Fullscreen
       ) => {
-        const doc = parent.document;
-        doc.getElementById("bsl-color").onclick = toggleColor;
         let colorColumns = false;
 
         // Load webscene and display it in a SceneView
@@ -118,9 +120,24 @@
           sliceWidget.viewModel.shape = plane;
         }
 
-        function toggleColor() {
-          console.log("tere");
-          colorColumns = !colorColumns;
+        const fullscreen = new Fullscreen({
+          view: view,
+        });
+        view.ui.add(fullscreen, "bottom-left");
+
+        view.popup = null;
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js slide interaction
+        // - - - - - - - - - - - - - - - -
+
+        const doc = parent.document;
+        doc.getElementById("bsl-color").onclick = () => {
+          toggleColor(!colorColumns);
+        };
+
+        function toggleColor(input) {
+          colorColumns = input;
           if (colorColumns) {
             columnsLayer.renderer = new SimpleRenderer({
               symbol: new MeshSymbol3D({
@@ -138,12 +155,41 @@
           }
         }
 
-        const fullscreen = new Fullscreen({
-          view: view,
+        onFragment("fragment-bsl-color", () => {
+          toggleColor(true);
         });
-        view.ui.add(fullscreen, "bottom-left");
 
-        view.popup = null;
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js helpers
+        // - - - - - - - - - - - - - - - -
+
+        function onFragment(elementId, doSomething) {
+          const run = () => {
+            const currentId = getCurrentFragmentId();
+            //console.log(elementId + " " + currentId);
+            if (currentId === elementId) {
+              doSomething();
+            }
+          };
+
+          parent.Reveal.addEventListener("fragmenthidden", run);
+          parent.Reveal.addEventListener("fragmentshown", run);
+          run();
+        }
+
+        function getCurrentSlide() {
+          //console.log("getCurrentSlide");
+          return parent.Reveal.getCurrentSlide();
+        }
+
+        function getCurrentFragment() {
+          //console.log("getCurrentFragment");
+          return getCurrentSlide().querySelector(".current-fragment") ?? null;
+        }
+        function getCurrentFragmentId() {
+          //console.log("getCurrentFragmentId");
+          return getCurrentFragment()?.getAttribute("data-fragment-id") ?? null;
+        }
       });
     </script>
   </head>

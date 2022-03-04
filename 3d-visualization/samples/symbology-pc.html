@@ -2,7 +2,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>Based on: PointCloudLayer - intensity color modulation | Sample | ArcGIS API for JavaScript 4.22</title>
+    <title>
+      Based on: PointCloudLayer - intensity color modulation | Sample | ArcGIS API for JavaScript
+      4.22
+    </title>
     <style>
       html,
       body,
@@ -25,10 +28,14 @@
         "esri/renderers/PointCloudRGBRenderer",
         "esri/renderers/PointCloudUniqueValueRenderer",
         "esri/widgets/Fullscreen",
-      ], (Map, SceneView, PointCloudLayer, PointCloudRGBRenderer, PointCloudUniqueValueRenderer, Fullscreen) => {
-        const doc = parent.document;
-        doc.getElementById("pc-toggle-size").onclick = toggleSize;
-        doc.getElementById("pc-toggle-color").onclick = toggleTexture;
+      ], (
+        Map,
+        SceneView,
+        PointCloudLayer,
+        PointCloudRGBRenderer,
+        PointCloudUniqueValueRenderer,
+        Fullscreen
+      ) => {
         let biggerPoints = false;
         let texture = true;
 
@@ -115,19 +122,66 @@
             });
           }
         }
-        function toggleSize() {
-          biggerPoints = !biggerPoints;
-          updateRenderer();
-        }
-        function toggleTexture() {
-          texture = !texture;
-          updateRenderer();
-        }
 
         const fullscreen = new Fullscreen({
           view: view,
         });
         view.ui.add(fullscreen, "bottom-left");
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js slide interaction
+        // - - - - - - - - - - - - - - - -
+
+        const doc = parent.document;
+        //doc.getElementById("pc-toggle-size").onclick = toggleSize;
+        doc.getElementById("pc-toggle-color").onclick = () => {
+          toggleTexture(!texture);
+        };
+
+        function toggleSize(input) {
+          biggerPoints = input;
+          updateRenderer();
+        }
+        function toggleTexture(input) {
+          texture = input;
+          updateRenderer();
+        }
+
+        onFragment("fragment-pc-toggle-color", () => {
+          toggleTexture(false);
+        });
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js helpers
+        // - - - - - - - - - - - - - - - -
+
+        function onFragment(elementId, doSomething) {
+          const run = () => {
+            const currentId = getCurrentFragmentId();
+            //console.log(elementId + " " + currentId);
+            if (currentId === elementId) {
+              doSomething();
+            }
+          };
+
+          parent.Reveal.addEventListener("fragmenthidden", run);
+          parent.Reveal.addEventListener("fragmentshown", run);
+          run();
+        }
+
+        function getCurrentSlide() {
+          //console.log("getCurrentSlide");
+          return parent.Reveal.getCurrentSlide();
+        }
+
+        function getCurrentFragment() {
+          //console.log("getCurrentFragment");
+          return getCurrentSlide().querySelector(".current-fragment") ?? null;
+        }
+        function getCurrentFragmentId() {
+          //console.log("getCurrentFragmentId");
+          return getCurrentFragment()?.getAttribute("data-fragment-id") ?? null;
+        }
       });
     </script>
   </head>
