@@ -41,9 +41,6 @@
         SolidEdges3D,
         Fullscreen
       ) => {
-        const doc = parent.document;
-        doc.getElementById("sl-toggle-edges").onclick = toggleedges;
-        doc.getElementById("sl-toggle-color").onclick = toggleTexture;
         let edges = false;
         let texture = true;
 
@@ -135,14 +132,6 @@
             });
           }
         }
-        function toggleedges() {
-          edges = !edges;
-          updateRenderer();
-        }
-        function toggleTexture() {
-          texture = !texture;
-          updateRenderer();
-        }
 
         const template = {
           // autocasts as new PopupTemplate()
@@ -193,6 +182,66 @@
         view.popup.dockEnabled = true;
         view.popup.dockOptions = { position: "top-right", buttonEnabled: false, actions: null };
         view.popup.actions = [];
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js slide interaction
+        // - - - - - - - - - - - - - - - -
+
+        const doc = parent.document;
+        doc.getElementById("sl-toggle-edges").onclick = () => {
+          toggleEdges(!edges);
+        };
+        doc.getElementById("sl-toggle-color").onclick = () => {
+          toggleTexture(!texture);
+        };
+
+        function toggleEdges(input) {
+          edges = input;
+          updateRenderer();
+        }
+        function toggleTexture(input) {
+          texture = input;
+          updateRenderer();
+        }
+
+        onFragment("fragment-sl-toggle-edges", () => {
+          toggleEdges(true);
+        });
+        onFragment("fragment-sl-toggle-color", () => {
+          toggleTexture(false);
+        });
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js helpers
+        // - - - - - - - - - - - - - - - -
+
+        function onFragment(elementId, doSomething) {
+          const run = () => {
+            const currentId = getCurrentFragmentId();
+            //console.log(elementId + " " + currentId);
+            if (currentId === elementId) {
+              doSomething();
+            }
+          };
+
+          parent.Reveal.addEventListener("fragmenthidden", run);
+          parent.Reveal.addEventListener("fragmentshown", run);
+          run();
+        }
+
+        function getCurrentSlide() {
+          //console.log("getCurrentSlide");
+          return parent.Reveal.getCurrentSlide();
+        }
+
+        function getCurrentFragment() {
+          //console.log("getCurrentFragment");
+          return getCurrentSlide().querySelector(".current-fragment") ?? null;
+        }
+        function getCurrentFragmentId() {
+          //console.log("getCurrentFragmentId");
+          return getCurrentFragment()?.getAttribute("data-fragment-id") ?? null;
+        }
       });
     </script>
   </head>
