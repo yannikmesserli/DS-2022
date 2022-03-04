@@ -60,6 +60,5 @@ onPlayClick("set-absolute-height", () => {
   (airplane.geometry as Point).z = 1708;
 
   sketchVM.update(airplane);
+  watchGraphic(view, airplane);
 });
-
-view.on("click", (e) => console.log(e.mapPoint.toJSON()));

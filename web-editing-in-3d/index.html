@@ -301,101 +301,73 @@
         </section>
 
         <!--
+         Airplane
+        -->
+        <section
+          data-slideId="terminal"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
+          <h2 class="header">Sketching a new airport building</h2>
 
-              <div data-fragment-id="on-the-ground" class="code-snippet fragment fade-in-then-out">
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="create" class="code-snippet">
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
-                  const trees = new GraphicsLayer({ 
-                    elevationInfo: { mode: "on-the-ground" }
-                  });
-                  view.map.add(trees);
-
-                  const button = createButton();
-
-                  button.addEventListener("click", () => {
-                    sketchVM.layer = trees;
-                    sketchVM.create("point");
-                  });
-                  </code>
-                </pre>
-              </div>
-
-              <div
-                data-fragment-id="on-the-ground-symbol"
-                class="code-snippet fragment v-stack fade-in-then-out"
-              >
-                <button class="play"></button>
-                <pre>
-                  <code class="lang-ts" data-trim>
-                    const treeWebStyleSymbol = new WebStyleSymbol({
-                      /* ... */
+                    sketchVM.layer = new GraphicsLayer({
+                      elevationInfo = { mode: "absolute-height" }
                     });
 
-                    // Download the symbol to get a PointSymbol3D
-                    const treeSymbol = await treeWebStyleSymbol.fetchSymbol();
+                    sketchVM.polygonSymbol = new PolygonSymbol3D({
+                      symbolLayers: [
+                        new ExtrudeSymbol3DLayer({
+                          size: 10,
+                          material: { color: [255, 128, 0, 1] },
+                        }),
+                      ],
+                    });
 
-                    sketchVM.pointSymbol = treeSymbol;
+                    sketchVM.create("polygon");
                   </code>
                 </pre>
               </div>
 
-              <div data-fragment-id="on-the-ground-docs" class="fragment v-stack fade-in-then-out">
-                <div class="iframe-wrapper">
-                  <iframe
-                    data-src="https://developers.arcgis.com/javascript/latest/visualization/symbols-color-ramps/esri-web-style-symbols-3d/#schematic-vegetation"
-                  ></iframe>
-                </div>
-              </div>
-
-              <div
-                data-fragment-id="relative-to-ground"
-                class="code-snippet fragment fade-in-then-out"
-              >
+              <div data-fragment-id="enable-snapping" class="code-snippet fragment">
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
-                  const airplanes = new GraphicsLayer({ 
-                    elevationInfo: { mode: "relative-to-ground" }
-                    // elevationInfo: { mode: "absolute-height" }
-                  });
-                  view.map.add(airplanes);
-
-                  const button = createButton();
-
-                  button.addEventListener("click", () => {
-                    sketchVM.layer = airplanes;
-                    sketchVM.pointSymbol = createAirplaneSymbol();
-                    sketchVM.create("point");
-                  });
+                    sketchVM.snappingOptions.enabled: true;
+                    sketchVM.snappingOptions.featureSources = [{ 
+                      layer: terminals
+                    }];
                   </code>
                 </pre>
               </div>
 
-
-              <div
-                data-fragment-id="relative-to-scene"
-                class="code-snippet fragment fade-in-then-out"
-              >
+              <div data-fragment-id="enable-snapping" class="code-snippet fragment">
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
-                  const antennas = new GraphicsLayer({ 
-                    elevationInfo: { mode: "relative-to-scene" }
-                  });
-                  view.map.add(antennas);
+                    const reshapeOptions = sketchVM
+                      .defaultUpdateOptions
+                      .reshapeOptions;
 
-                  const button = createButton();
-                  
-                  button.addEventListener("click", () => {
-                    sketchVM.layer = antennas;
-                    sketchVM.pointSymbol = createAntennaSymbol();
-                    sketchVM.create("point");
-                  });
+                    reshapeOptions.edgeOperation = "offset";
                   </code>
                 </pre>
               </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/airport-terminal/index.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
 
+        <!--
 
               <div data-fragment-id="polygons" class="fragment v-stack">
                 <div data-fragment-id="polygons-click" class="code-snippet">
