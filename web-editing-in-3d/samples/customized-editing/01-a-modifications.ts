@@ -20,13 +20,12 @@ export function setupModifications(view: SceneView): void {
   });
 
   munichLayer.modifications = new SceneModifications();
-
   view.map.add(modificationsLayer);
 
   const modificationsSVM = new SketchViewModel({
     view,
     layer: modificationsLayer,
-    defaultUpdateOptions: { tool: "reshape" /* , reshapeOptions: { edgeOperation: "offset" } */ },
+    defaultUpdateOptions: { tool: "reshape", reshapeOptions: { edgeOperation: "offset" } },
     polygonSymbol: modificationsSymbol,
   });
 
