@@ -43,6 +43,10 @@ export function setupModifications(view: SceneView): void {
     }
   });
 
+  modificationsSVM.on("delete", () => {
+    munichLayer.modifications.removeAll();
+  });
+
   // Emitted when we are updating an existing graphic
   modificationsSVM.on("update", (event) => {
     if (event.state === "complete") {
