@@ -9,6 +9,10 @@
 
     <title>Esri Dev Summit 2022 - ArcGIS JS API: Client-side 3D analysis</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+
     <link rel="stylesheet" href="../reveal.js/dist/reset.css" />
     <link rel="stylesheet" href="../reveal.js/dist/reveal.css" />
     <link rel="stylesheet" href="../reveal.js/dist/theme/black.css" />
@@ -82,10 +86,11 @@
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
-                    widget.viewModel.unit = "kilometers";
+                    widget.viewModel.unit = "feet";
                     widget.viewModel.unitOptions = [
-                      "meters",
-                      "kilometers"
+                      "feet",
+                      "yards",
+                      "miles"
                     ];
                   </code>
                 </pre>
@@ -202,21 +207,7 @@
           <h2>AreaMeasurementAnalysis</h2>
           <div class="two-columns">
             <div class="left-column">
-              <div data-fragment-id="click-event" class="code-snippet">
-                <button class="play"></button>
-                <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>                   
-                    view.on("click", async (event) => {
-                      const clickedGraphic = /* hit test... */
-                      
-                      const id = clickedGraphic.getObjectId();
-                      showAlert(`Clicked ${id}`);
-                    });
-                  </code>
-                </pre>
-              </div>
-
-              <div data-fragment-id="add-analysis" class="code-snippet fragment">
+              <div data-fragment-id="add-analysis" class="code-snippet">
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>                  
@@ -229,27 +220,14 @@
                 </pre>
               </div>
 
-              <div data-fragment-id="align-to-ground" class="code-snippet fragment">
-                <button class="play"></button>
-                <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>                   
-                    const groundZ = response.ground.mapPoint.z;
-                    
-                    geometry = geometry.clone();
-                    geometry.rings = geometry.rings.map((ring) =>
-                      ring.map(
-                        ([x, y]) => [x, y, groundZ]
-                      );
-                    );
-                  </code>
-                </pre>
-              </div>
-
               <div data-fragment-id="add-to-widget" class="code-snippet fragment">
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >                   
-                    const widget = new AreaMeasurement3D({ view, analysis });
+                    const widget = new AreaMeasurement3D({
+                      view,
+                      analysis
+                    });
                     
                     view.ui.add(widget, "top-right");
                   </code>
@@ -391,6 +369,15 @@
                   </code>
                 </pre>
               </div>
+
+              <div data-fragment-id="tilt-enabled" class="code-snippet fragment play-container">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    widget.viewModel.tiltEnabled = true;
+                  </code>
+                </pre>
+              </div>
             </div>
             <div class="right-column">
               <div class="iframe-wrapper">
@@ -431,7 +418,7 @@
                       const slide = view.map.presentation.slides
                         .find((s) => s.title.text === title);
 
-                      const button = /* create button */
+                      const button = createButton();
 
                       button.addEventListener("click", () => {
                         const analysis = new SliceAnalysis({ shape });
@@ -450,11 +437,7 @@
                   <button class="play"></button>
                   <pre>
                     <code class="lang-ts" data-trim data-line-numbers>
-                      const widget = new Slice({
-                        view,
-                        analysis
-                      });
-
+                      const widget = new Slice({ view, analysis });
                       view.ui.add(widget, "top-right");
                     </code>
                   </pre>
@@ -477,7 +460,7 @@
           data-slideId="shadow-cast"
           data-background="../img/2022/dev-summit/bg-3.png"
         >
-          <h2>ShadowCast widget</h2>
+          <h2>Shadow analysis</h2>
           <div class="two-columns">
             <div class="left-column r-stack no-margin">
               <div
@@ -623,7 +606,7 @@
         </section>
 
         <section class="align-left" data-background="../img/2022/dev-summit/bg-4.png">
-          <div style="width: 50%">
+          <div>
             <h1>Querying and Filtering a SceneLayer</h1>
           </div>
         </section>

@@ -13,6 +13,6 @@ onPlayClick("add-widget", () => {
 });
 
 onPlayClick("set-units", () => {
-  widget.viewModel.unit = "kilometers";
-  widget.viewModel.unitOptions = ["meters", "kilometers"];
+  widget.viewModel.unit = "feet";
+  widget.viewModel.unitOptions = ["feet", "yards", "miles"];
 });

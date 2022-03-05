@@ -9,6 +9,10 @@
 
     <title>Esri Dev Summit 2022 - ArcGIS JS API for JavaScript: Web editing in 3D</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+
     <link rel="stylesheet" href="../reveal.js/dist/reset.css" />
     <link rel="stylesheet" href="../reveal.js/dist/reveal.css" />
     <link rel="stylesheet" href="../reveal.js/dist/theme/black.css" />
@@ -32,26 +36,46 @@
           </p>
         </section>
 
+        <section data-background="../img/2022/dev-summit/bg-3.png">
+          <h2 id="agenda">Agenda</h2>
+          <ul style="font-size: 2rem">
+            <li>From editing in 2D to editing in 3D</li>
+            <li>
+              SketchViewModel basics in 3D
+              <ul style="font-size: 1.8rem">
+                <li>Placing trees on the ground</li>
+                <li>Placing airplanes in the air</li>
+                <li>Placing antennas relative to the scene</li>
+                <li>Sketching a new terminal</li>
+              </ul>
+            </li>
+            <li>FeatureLayer and the Editor widget</li>
+            <li>SceneLayer editing</li>
+            <li>Building proposal planning app (dive-in)</li>
+          </ul>
+        </section>
+
         <section class="align-left" data-background="../img/2022/dev-summit/bg-2.png">
           <h2>From editing in 2D to editing in 3D</h2>
           <div class="two-columns">
-            <div class="left-column">
-              <ul>
+            <div class="left-column" style="width: 50%">
+              <ul style="font-size: 2rem">
                 <li>
-                  Using the <code>Editor</code> widget in a <code>SceneView</code> works out of the
+                  Using the <code>Editor</code> widget in a <code>SceneView</code> works out-of-the
                   box.
                 </li>
-                <li>Using the <code>SketchViewModel</code> also works 3D.</li>
                 <li>
-                  <code>FeatureForm</code> and <code>Editor</code> widget is the same in 2D and 3D.
+                  <code>SketchViewModel</code>, <code>FeatureForm</code> and
+                  <code>Editor</code> work similarly in 2D and 3D.
                 </li>
                 <li>No need to prepare data specifically for 3D.</li>
               </ul>
 
-              <pre class="code-snippet fragment">
+              <pre data-fragment-id="use-scene-view" class="code-snippet fragment">
+                <button class="play"></button>
                 <code class="lang-ts" data-trim>
-                  const view = new SceneView({ /* ... */ });
                   // const view = new MapView({ /* ... */ });
+                  const view = new SceneView({ /* ... */ });
 
                   const editor = new Editor({ view /* ... */})
                 </code>
@@ -65,184 +89,278 @@
           </div>
         </section>
 
+        <!--
+         Tree
+        -->
         <section
-          data-slideId="airport"
+          data-slideId="tree"
           class="align-left"
           data-background="../img/2022/dev-summit/bg-2.png"
         >
-          <h2 class="header">Placing trees on the ground</h2>
+          <h2 class="header">Placing tree on the ground</h2>
 
           <div class="two-columns">
-            <div class="left-column r-stack no-margin">
-              <!--
-                Init
-              -->
-              <div
-                data-fragment-index="0"
-                data-fragment-id="on-the-ground"
-                class="code-snippet fragment fade-out"
-              >
+            <div class="left-column">
+              <div data-fragment-id="place-point" class="code-snippet">
+                <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim>
-                  const view = new SceneView(/* ... */);
+                  <code class="lang-ts" data-trim>               
+                    const tree = new Graphic({ 
+                      geometry: new Point({
+                        spatialReference,
+                        x: 1099766.76,
+                        y: 5865813.01
+                        // Note: no Z value!
+                      })
+                    });
 
-                  const sketchViewModel = new SketchViewModel({
-                    view,
-                    defaultUpdateOptions: {
-                      enableRotation: true,
-                      enableScaling: true,
-                    },
-                  });
+                    const trees = new GraphicsLayer({
+                      elevationInfo: { mode: "on-the-ground" }
+                    });
 
-                  // Small widget where we will add a few buttons
-                  const widget = document.createElement("div");
-                  widget.className = "esri-widget";
-                  widget.style.display = "flex";
-                  widget.style.flexDirection = "column";
-                  widget.style.gap = "10px";
-                  widget.style.padding = "10px";
-                  view.ui.add(widget, "top-right");
+                    trees.add(tree);
                   </code>
                 </pre>
               </div>
 
-              <!--
-                On-the-ground
-              -->
-              <div
-                data-fragment-index="0"
-                data-fragment-id="on-the-ground"
-                class="code-snippet fragment fade-in-then-out"
-              >
+              <div data-fragment-id="set-tree-symbol" class="code-snippet fragment">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
-                  const trees = new GraphicsLayer({ 
-                    elevationInfo: { mode: "on-the-ground" }
-                  });
-                  view.map.add(trees);
-
-                  // Get a `PointSymbol3D` for our graphics.
-                  const treeSymbol = await new WebStyleSymbol({
-                    name: "Larix",
-                    styleName: "EsriRealisticTreesStyle",
-                  }).fetchSymbol();
-
-                  const button = document.createElement("calcite-button");
-                  button.textContent = "Add tree";
-
-                  button.addEventListener("click", () => {
-                    sketchViewModel.layer = trees;
-                    sketchViewModel.pointSymbol = treeSymbol;
-                    sketchViewModel.create("point");
-                  });
-                  </code>
-                </pre>
-              </div>
-
-              <!--
-                Relative to ground (or absolute-height)
-              -->
-              <div
-                data-fragment-id="relative-to-ground"
-                class="code-snippet fragment fade-in-then-out"
-              >
-                <pre>
-                  <code class="lang-ts" data-trim>
-                  const airplanes = new GraphicsLayer({ 
-                    elevationInfo: { mode: "relative-to-ground" }
-                    // elevationInfo: { mode: "absolute-height" }
-                  });
-                  view.map.add(airplanes);
-
-                  // Get a `PointSymbol3D` for our graphics.
-                  const airplaneSymbol = await new WebStyleSymbol({
-                    name: "Airplane_Propeller",
-                    styleName: "EsriRealisticTransportationStyle",
-                  }).fetchSymbol();
-
-                  const button = document.createElement("calcite-button");
-                  button.textContent = "Add airplane";
-
-                  button.addEventListener("click", () => {
-                    sketchViewModel.layer = airplanes;
-                    sketchViewModel.pointSymbol = airplaneSymbol;
-                    sketchViewModel.create("point");
-                  });
-                  </code>
-                </pre>
-              </div>
-
-              <!--
-                Relative to scene
-              -->
-              <div
-                data-fragment-id="relative-to-scene"
-                class="code-snippet fragment fade-in-then-out"
-              >
-                <pre>
-                  <code class="lang-ts" data-trim>
-                  const antennas = new GraphicsLayer({ 
-                    elevationInfo: { mode: "relative-to-scene" }
-                  });
-                  view.map.add(antennas);
-
-                  // Get a `PointSymbol3D` for our graphics.
-                  const antennaSymbol = await new WebStyleSymbol({
-                    name: "Cell_Phone_Antenna",
-                    styleName: "EsriInfrastructureStyle",
-                  }).fetchSymbol();
-
-                  const button = document.createElement("calcite-button");
-                  button.textContent = "Add airplane";
-                  
-                  button.addEventListener("click", () => {
-                    sketchViewModel.layer = antennas;
-                    sketchViewModel.pointSymbol = antennaSymbol;
-                    sketchViewModel.create("point");
-                  });
-                  </code>
-                </pre>
-              </div>
-
-              <!--
-                Drawing polygons
-              -->
-              <div data-fragment-id="polygons" class="code-snippet fragment fade-in-then-out">
-                <pre>
-                  <code class="lang-ts" data-trim>
-                  const terminals = new GraphicsLayer({ 
-                    elevationInfo: { mode: "relative-to-scene" }
-                  });
-                  view.map.add(terminals);
-
-                  // Make sketching easier with snapping.
-                  sketchViewModel.snappingOptions.enabled = true;
-                  sketchViewModel.snappingOptions.featureSources = [{ layer: terminals }];
-
-                  const terminalSymbol = new PolygonSymbol3D({
-                    symbolLayers: [
-                      new ExtrudeSymbol3DLayer({
-                        size: 5,
-                        material: { color: [255, 255, 255, 1] },
-                      }),
-                    ],
-                  })
-
-                  const button = document.createElement("calcite-button");
-                  button.textContent = "Add terminal";
-                  
-                  button.addEventListener("click", () => {
-                    sketchViewModel.layer = terminals;
-                    sketchViewModel.polygonSymbol = terminalSymbol;
-                    sketchViewModel.create("polygon");
-                  });
+                    const webStyle = new WebStyleSymbol({
+                      /* ... */
+                    });
+                    
+                    tree.symbol = await webStyle.fetchSymbol();
                   </code>
                 </pre>
               </div>
             </div>
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe data-src="./samples/airport/index.html"></iframe>
+                <iframe data-src="./samples/tree/index.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="align-left" data-background="../img/2022/dev-summit/bg-2.png">
+          <h2 class="header">Web Style Symbols</h2>
+          <iframe
+            class="r-stretch"
+            data-src="https://developers.arcgis.com/javascript/latest/visualization/symbols-color-ramps/esri-web-style-symbols-3d/#schematic-vegetation"
+          ></iframe>
+        </section>
+
+        <!--
+         Tree (Editable)
+        -->
+        <section
+          data-slideId="tree-editable"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
+          <h2 class="header">Moving tree on the ground</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="update-tree" class="code-snippet">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    const sketchVM = new SketchViewModel({ 
+                      view,
+                      layer: trees
+                    });
+
+                    sketchVM.update(tree);
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/tree/index.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--
+         Antenna
+        -->
+        <section
+          data-slideId="antenna"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
+          <h2 class="header">Placing antenna on the roof</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="create-point" class="code-snippet">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    sketchVM.layer = antennas;
+                    sketchVM.pointSymbol = antennaSymbol;
+
+                    sketchVM.on("create", (event) => {
+                      if (event.state === "complete") {
+                        sketchVM.update(event.graphic);
+                      }
+                    });
+
+                    sketchVM.create("point");
+                  </code>
+                </pre>
+              </div>
+
+              <div
+                data-fragment-id="set-relative-to-scene"
+                class="code-snippet play-container fragment"
+              >
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    antennas.elevationInfo = {
+                      mode: "relative-to-scene"
+                    };
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/antenna/index.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--
+         Airplane
+        -->
+        <section
+          data-slideId="airplane"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
+          <h2 class="header">Placing airplane in the air</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    const geometry = new Point({
+                      spatialReference: SpatialReference.WebMercator,
+                      x: 1099766.76,
+                      y: 5865813.01,
+                      z: 50 // We now have elevation!!!
+                    });
+                
+                    const airplane = new Graphic({ 
+                      geometry,
+                      symbol: airplaneSymbol
+                    });
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="create" class="code-snippet fragment">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    airplanes = new GraphicsLayer({
+                      elevationInfo: { mode: "relative-to-ground" },
+                    });
+                    airplanes.add(airplane);
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="set-absolute-height" class="code-snippet fragment">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    airplanes.elevationInfo = {
+                      mode: "absolute-height"
+                    };
+                    airplane.geometry.z = 1708; // Runway elevation
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/airplane/index.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--
+         Airplane
+        -->
+        <section
+          data-slideId="terminal"
+          class="align-left"
+          data-background="../img/2022/dev-summit/bg-2.png"
+        >
+          <h2 class="header">Sketching a new airport building</h2>
+
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="create" class="code-snippet">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    sketchVM.layer = new GraphicsLayer({
+                      elevationInfo = { mode: "absolute-height" }
+                    });
+
+                    sketchVM.polygonSymbol = new PolygonSymbol3D({
+                      symbolLayers: [
+                        new ExtrudeSymbol3DLayer({
+                          size: 10,
+                          material: { color: [255, 128, 0, 1] },
+                        }),
+                      ],
+                    });
+
+                    sketchVM.create("polygon");
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="enable-snapping" class="code-snippet fragment">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    Object.assign(sketchVM.snappingOptions, {
+                      enabled: true,
+                      featureSources: [{ layer: terminals }]
+                    });
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="enable-snapping" class="code-snippet fragment">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    sketchVM
+                      .defaultUpdateOptions
+                      .reshapeOptions
+                      .edgeOperation = "offset";
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/airport-terminal/index.html"></iframe>
               </div>
             </div>
           </div>
@@ -253,59 +371,96 @@
           class="align-left"
           data-background="../img/2022/dev-summit/bg-2.png"
         >
-          <h2 class="header">FeatureLayer and Editor widget</h2>
+          <h2 class="header">FeatureLayer and the Editor widget</h2>
 
           <div class="two-columns">
             <div class="left-column r-stack no-margin">
-              <div data-fragment-index="0" class="code-snippet fragment fade-out">
+              <div
+                data-fragment-id="editor-widget"
+                data-fragment-index="0"
+                class="code-snippet fragment fade-out"
+              >
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
-                  const pointLayer = new FeatureLayer({
-                    title: "Airplanes",
-                    url: "https://services.arcgis ...",
+                  const aircraftLayer = new FeatureLayer({ 
+                    title: "Aircraft",
+                    url: "...",
                     elevationInfo: { mode: "absolute-height" },
-                    outFields: ["*"],
-                    renderer: new UniqueValueRenderer({
-                      field: "TYPE",
-                      uniqueValueInfos: [
-                        { value: "1", label: "Helicopter", symbol: helicopterSymbol },
-                        { value: "2", label: "Airplane", symbol: airplaneSymbol },
-                      ],
-                      visualVariables: [
-                        new SizeVariable({
-                          axis: "height",
-                          field: "SIZE",
-                          valueUnit: "meters",
-                        }),
-                        new RotationVariable({
-                          field: "ROTATION",
-                          rotationType: "geographic",
-                        }),
-                      ],
-                    }),
+                    /* ... */
                   });
+                  view.map.add(aircraftLayer);
 
-                  view.map.add(pointLayer);
+                  const editor = new Editor({ view });
+                  view.ui.add(editor, "top-right");
                   </code>
                 </pre>
               </div>
 
-              <div data-fragment-index="0" class="code-snippet fragment fade-in-then-out">
+              <div
+                data-fragment-id="visual-variables-all"
+                data-fragment-index="0"
+                class="code-snippet fragment fade-in-then-out"
+              >
                 <pre>
-                  <code class="lang-ts" data-trim>                
-                  const formTemplate = new FormTemplate({
-                    elements: [
-                      new FieldElement({ fieldName: "ROTATION", label: "Rotation" }),
-                      new FieldElement({ fieldName: "SIZE", label: "Size" }),
-                    ],
-                  });
-                
-                  const editor = new Editor({
-                    view,
-                    layerInfos: [{ layer: pointLayer, formTemplate }],
-                  });
-                
-                  view.ui.add(editor, "top-right");
+                  <code class="lang-ts" data-trim>
+                    const aircraftLayer = new FeatureLayer({
+                      /* ... */
+                      renderer: new UniqueValueRenderer({
+                        /* ... */
+                        visualVariables: [
+                          new SizeVariable({
+                            axis: "height",
+                            field: "SIZE",
+                            valueUnit: "meters",
+                          }),
+                          new RotationVariable({
+                            field: "ROTATION",
+                            rotationType: "geographic",
+                          }),
+                        ],
+                      })
+                    });
+                  </code>
+                </pre>
+              </div>
+
+              <div
+                data-fragment-id="visual-variables-rotation"
+                class="code-snippet fragment fade-in-then-out"
+              >
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    const newRenderer = renderer.clone();
+
+                    newRenderer.visualVariables = [
+                      new RotationVariable({
+                        field: "ROTATION",
+                        rotationType: "geographic",
+                      }),
+                    ];
+                  
+                    aircraftLayer.renderer = newRenderer;
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="layer-infos" class="code-snippet fragment fade-in-then-out">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>  
+                    editor.layerInfos = [{
+                      layer: aircraftLayer,
+                      formTemplate: new FormTemplate({
+                        elements: [
+                          new FieldElement({ 
+                            fieldName: "ROTATION",
+                            label: "Rotation"
+                          })
+                        ],
+                      })
+                    }];
                   </code>
                 </pre>
               </div>
@@ -326,7 +481,7 @@
           <h2 class="header">SceneLayer editing</h2>
 
           <div class="two-columns">
-            <div class="left-column v-stack no-margin">
+            <div class="left-column v-stack no-margin" style="width: 50%">
               <div data-fragment-id="add-widget" class="code-snippet">
                 <button class="play"></button>
                 <pre>
@@ -337,15 +492,6 @@
                   </code>
                 </pre>
               </div>
-
-              <ul>
-                <li>
-                  <a
-                    href="https://developers.arcgis.com/javascript/latest/working-with-scene-layers/#publishing"
-                    >Documentation: A guide to SceneLayers</a
-                  >
-                </li>
-              </ul>
 
               <div
                 data-fragment-id="add-widget"
@@ -364,7 +510,7 @@
         </section>
 
         <section class="align-left" data-background="../img/2022/dev-summit/bg-2.png">
-          <h2>Building proposal planning app</h2>
+          <h2>Building proposal planning app (dive-in)</h2>
           <iframe class="r-stretch" data-src="./samples/advanced-editing/index.html"></iframe>
         </section>
 

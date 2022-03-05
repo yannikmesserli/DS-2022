@@ -32,15 +32,30 @@ const landmarks: { name: string; threshold: number; position: Point }[] = [
 const cafes: { name: string; position: Point }[] = [
   {
     name: "Cafe 1",
-    position: new Point({ spatialReference, x: 1288546.8915676193, y: 6129701.308535944, z: 518.4979617614299 }),
+    position: new Point({
+      spatialReference,
+      x: 1288546.8915676193,
+      y: 6129701.308535944,
+      z: 518.4979617614299,
+    }),
   },
   {
     name: "Cafe 2",
-    position: new Point({ spatialReference, x: 1288569.1527418362, y: 6129695.921143464, z: 518.1832591928542 }),
+    position: new Point({
+      spatialReference,
+      x: 1288569.1527418362,
+      y: 6129695.921143464,
+      z: 518.1832591928542,
+    }),
   },
   {
     name: "Cafe 3",
-    position: new Point({ spatialReference, x: 1288655.002978257, y: 6129675.878388246, z: 514.9744711806998 }),
+    position: new Point({
+      spatialReference,
+      x: 1288655.002978257,
+      y: 6129675.878388246,
+      z: 514.9744711806998,
+    }),
   },
 ];
 

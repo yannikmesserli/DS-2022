@@ -3,7 +3,13 @@ import Color from "@arcgis/core/Color";
 import Point from "@arcgis/core/geometry/Point";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import { WORLD_CAPITALS } from "../../../common/scenes";
-import { initView, onPlayClick, showAlert, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
+import {
+  initView,
+  onPlayClick,
+  showAlert,
+  throwIfAborted,
+  throwIfNotAbortError,
+} from "../../../common/utils";
 
 const palmSpringsPoint = new Point({
   x: -116.563645,
@@ -34,7 +40,10 @@ function registerClick(): void {
       const { results } = await view.hitTest(event);
       throwIfAborted(signal);
 
-      const clickedPoint = results.find((r) => r.graphic)?.graphic?.geometry as Point | null | undefined;
+      const clickedPoint = results.find((r) => r.graphic)?.graphic?.geometry as
+        | Point
+        | null
+        | undefined;
       if (!clickedPoint) {
         return;
       }

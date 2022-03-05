@@ -1,7 +1,9 @@
+import Daylight from "@arcgis/core/widgets/Daylight";
 import ShadowCast from "@arcgis/core/widgets/ShadowCast";
 import { SHADOW_CAST } from "../../../common/scenes";
-import { initView, onPlayClick } from "../../../common/utils";
-import Daylight from "@arcgis/core/widgets/Daylight";
+import { addOAuthSupport, initView, onPlayClick } from "../../../common/utils";
+
+addOAuthSupport();
 
 const view = initView(SHADOW_CAST);
 

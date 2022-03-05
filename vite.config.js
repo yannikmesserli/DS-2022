@@ -4,10 +4,12 @@ import { defineConfig } from "vite";
 const talks = {
   ["web-editing-in-3d"]: [
     "editing-2d-to-3d",
-    "airport",
+    "tree",
+    "antenna",
+    "airplane",
+    "airport-terminal",
     "feature-layer",
     "scene-layer",
-    "advanced-editing",
   ],
   ["client-side-3d-analysis"]: [
     "direct-line-measurement",

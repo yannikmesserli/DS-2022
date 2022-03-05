@@ -9,6 +9,8 @@
   --r-heading-font: Arial, Helvetica Neue, Helvetica, sans-serif;
   --r-main-font: Arial, Helvetica Neue, Helvetica, sans-serif;
 
+  --r-code-font: "Fira Code", monospace;
+
   /* For consistency with the template: */
   --r-heading-font-weight: normal;
   --r-heading-text-transform: none;
@@ -18,7 +20,7 @@
   --r-section-subhead-color: #00ec86;
 
   --spacing-half: calc(var(--r-block-margin) / 2);
-  --iframe-scale: 1;
+  --iframe-scale: 0.6;
   --play-btn-size: 32px;
 }
 
@@ -103,9 +105,13 @@ iframe {
   width: 100%;
 }
 
+.reveal pre code {
+  max-height: none;
+}
+
 .two-columns .left-column {
   position: relative;
-  width: 50%;
+  width: 55%;
 }
 
 .two-columns .left-column,
@@ -117,6 +123,7 @@ iframe {
 
 .two-columns .left-column.r-stack {
   display: grid;
+  overflow: hidden;
 }
 
 .two-columns .right-column {

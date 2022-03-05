@@ -13,5 +13,6 @@ Reveal.initialize({
   width: 1366,
   height: 768,
   margin: 0.05,
+
   plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
 });
