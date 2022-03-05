@@ -5,7 +5,10 @@ import "@esri/calcite-components";
 import "@arcgis/core/assets/esri/themes/light/main.css";
 
 // DEMO STEP
-// import { setupModifications } from "./01-modifications";
+// import { setupModifications } from "./01-a-modifications";
+
+// DEMO STEP
+// import { setupStoreState } from "./01-b-store-state";
 
 // DEMO STEP
 // import { setupDrawing } from "./02-a-drawing";
@@ -35,6 +38,9 @@ const view = new SceneView({
 
 // DEMO STEP
 // setupModifications(view);
+
+// DEMO STEP
+// setupStoreState(view);
 
 // DEMO STEP
 // setupDrawing(view);

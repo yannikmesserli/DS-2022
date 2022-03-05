@@ -6,7 +6,6 @@ import SceneView from "@arcgis/core/views/SceneView";
 import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 import { addToolbarAction } from "./utilities/actions";
 import { munichLayer, modificationsLayer } from "./utilities/layers";
-import { state } from "./utilities/state";
 import { modificationsSymbol } from "./utilities/symbols";
 
 export function setupModifications(view: SceneView): void {
@@ -49,19 +48,6 @@ export function setupModifications(view: SceneView): void {
     if (event.state === "complete") {
       updateMaskingModification(event.graphics[0]);
     }
-  });
-
-  // Set initial modifications from stored state
-  if (state.modification) {
-    munichLayer.modifications.add(state.modification);
-    modificationsLayer.add(
-      new Graphic({ geometry: state.modification.geometry, symbol: modificationsSymbol })
-    );
-  }
-
-  // Update stored state on changes
-  munichLayer.modifications.on("change", () => {
-    state.modification = munichLayer.modifications.getItemAt(0);
   });
 }
 
