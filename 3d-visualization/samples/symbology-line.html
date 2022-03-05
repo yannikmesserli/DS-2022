@@ -49,8 +49,6 @@
         PathSymbol3DLayer,
         Fullscreen
       ) => {
-        const doc = parent.document;
-        doc.getElementById("line-to-path").onclick = lineToPath;
         let symbol3D = false;
 
         // Create view and load an existing webscene into it
@@ -153,15 +151,63 @@
 
         renderTransitLayer();
 
-        function lineToPath() {
-          symbol3D = !symbol3D;
-          transitLayer.elevationInfo.mode = symbol3D ? "relative-to-ground" : "on-the-ground";
-          renderTransitLayer();
-        }
         const fullscreen = new Fullscreen({
           view: view,
         });
         view.ui.add(fullscreen, "bottom-left");
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js slide interaction
+        // - - - - - - - - - - - - - - - -
+
+        /*const doc = parent.document;
+        doc.getElementById("line-to-path").onclick = lineToPath;
+        */
+
+        function lineToPath(input) {
+          symbol3D = input;
+          transitLayer.elevationInfo.mode = symbol3D ? "relative-to-ground" : "on-the-ground";
+          renderTransitLayer();
+        }
+
+        onFragment("fragment-line-to-path", () => {
+          lineToPath(true);
+        });
+
+        onFragment("fragment-path-to-line", () => {
+          lineToPath(false);
+        });
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js helpers
+        // - - - - - - - - - - - - - - - -
+
+        function onFragment(elementId, doSomething) {
+          const run = () => {
+            const currentId = getCurrentFragmentId();
+            //console.log(elementId + " " + currentId);
+            if (currentId === elementId) {
+              doSomething();
+            }
+          };
+
+          parent.Reveal.addEventListener("fragmenthidden", run);
+          parent.Reveal.addEventListener("fragmentshown", run);
+          run();
+        }
+
+        function getCurrentSlide() {
+          //console.log("getCurrentSlide");
+          return parent.Reveal.getCurrentSlide();
+        }
+
+        function getCurrentFragment() {
+          //console.log("getCurrentFragment");
+          return getCurrentSlide().querySelector(".current-fragment") ?? null;
+        }
+        function getCurrentFragmentId() {
+          //console.log("getCurrentFragmentId");
+          return getCurrentFragment()?.getAttribute("data-fragment-id") ?? null;
+        }
       });
     </script>
   </head>

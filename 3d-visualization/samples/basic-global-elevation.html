@@ -18,9 +18,13 @@
     <script src="https://jsdev.arcgis.com/4.23/"></script>
 
     <script>
-      require(["esri/Map", "esri/views/SceneView", "esri/widgets/Fullscreen"], (Map, SceneView, Fullscreen) => {
-        const doc = parent.document;
-        doc.getElementById("add-elevation").onclick = addElevation;
+      require(["esri/Map", "esri/views/SceneView", "esri/widgets/Fullscreen"], (
+        Map,
+        SceneView,
+        Fullscreen
+      ) => {
+        let elevationShown = false;
+
         const map = new Map({
           qualityProfile: "high",
           basemap: "satellite",
@@ -45,13 +49,60 @@
           },
         });
 
-        function addElevation() {
-          map.ground = "world-elevation";
-        }
         const fullscreen = new Fullscreen({
           view: view,
         });
         view.ui.add(fullscreen, "bottom-left");
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js slide interaction
+        // - - - - - - - - - - - - - - - -
+
+        /*const doc = parent.document;
+        doc.getElementById("add-elevation").onclick = () => {
+          elevation = !elevation;
+          addElevation(elevation);
+        };*/
+
+        function addElevation(input) {
+          map.ground = "world-elevation";
+        }
+
+        onFragment("fragment-add-elevation", () => {
+          addElevation();
+        });
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js helpers
+        // - - - - - - - - - - - - - - - -
+
+        function onFragment(elementId, doSomething) {
+          const run = () => {
+            const currentId = getCurrentFragmentId();
+            //console.log(elementId + " " + currentId);
+            if (currentId === elementId) {
+              doSomething();
+            }
+          };
+
+          parent.Reveal.addEventListener("fragmenthidden", run);
+          parent.Reveal.addEventListener("fragmentshown", run);
+          run();
+        }
+
+        function getCurrentSlide() {
+          //console.log("getCurrentSlide");
+          return parent.Reveal.getCurrentSlide();
+        }
+
+        function getCurrentFragment() {
+          //console.log("getCurrentFragment");
+          return getCurrentSlide().querySelector(".current-fragment") ?? null;
+        }
+        function getCurrentFragmentId() {
+          //console.log("getCurrentFragmentId");
+          return getCurrentFragment()?.getAttribute("data-fragment-id") ?? null;
+        }
       });
     </script>
   </head>

@@ -66,6 +66,10 @@
       iframe.bigger-sample {
         height: 700px !important;
       }
+      code.smaller-snippet {
+        font-size: 14px;
+        line-height: 16px;
+      }
     </style>
   </head>
   <body>
@@ -83,10 +87,10 @@
           <p style="text-align: left; font-size: 30px; color: var(--r-section-subhead-color)">
             Arno Fiva, Grete Soosalu & Jesse van den Kieboom
           </p>
-          <p style="text-align: left; font-size: 30px">
+          <!--p style="text-align: left; font-size: 30px">
             Slides:
             <a href="http://bit.ly/abc123"><code>http://bit.ly/abc123</code></a>
-          </p>
+          </p-->
         </section>
 
         <!--------- Intro: OVERVIEW -------->
@@ -106,7 +110,8 @@
                 <li>
                   3D visualization use cases <span class="transparent"> - 30 min</span>
                   <ul class="sublist">
-                    <li>Data-driven thematic visualizations</li>
+                    <li>Data-driven thematic visualization</li>
+                    <li>3D city from 2D data</li>
                     <li>Realistic 3D data</li>
                     <li>Combining realistic and data-driven visuals</li>
                   </ul>
@@ -142,8 +147,7 @@
           <div class="two-columns">
             <div class="left-column">
               <div class="code-snippet">
-                <pre>
-                  <code class="lang-ts" data-line-numbers="1-15,32-37|17-18|22-24|26-29" data-trim>
+                <pre><code class="lang-ts smaller-snippet" data-line-numbers="1-15,32-37|17-18|22-24|26-29" data-trim>
                     &lt;html&gt;
                     &lt;head&gt;
                       &lt;meta charset=&quot;utf-8&quot; /&gt;
@@ -182,8 +186,7 @@
                     &lt;/body&gt;
                   &lt;/html&gt;
 
-                  </code>
-                </pre>
+                </code></pre>
               </div>
             </div>
             <div class="right-column">
@@ -209,8 +212,8 @@
 
           <div class="two-columns">
             <div class="left-column">
-              <div class="code-snippet fragment">
-                <button class="play" id="add-elevation"></button>
+              <div class="code-snippet fragment" data-fragment-id="fragment-add-elevation">
+                <!--button class="play swap" id="add-elevation"></button-->
                 <pre><code class="lang-ts" data-line-numbers="3" data-trim>
 
                           const map = new Map({
@@ -255,7 +258,7 @@
           </div>
         </section>
 
-        <!--------- 1.1 Core concepts: Setting up a 3D application: LOCAL 1 -------->
+        <!--------- 1.1 Core concepts: Setting up a 3D application: LOCAL world view -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2 class="slidetitle">Setting up a 3D application</h2>
           <p class="slidetitle-sub">Local</p>
@@ -282,7 +285,7 @@
           </div>
         </section>
 
-        <!--------- 1.1 Core concepts: Setting up a 3D application: LOCAL 2 -------->
+        <!--------- 1.1 Core concepts: Setting up a 3D application: LOCAL Redlands building -------->
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2 class="slidetitle">Setting up a 3D application</h2>
           <p class="slidetitle-sub">Local</p>
@@ -367,7 +370,7 @@
                   <ul class="sublist">
                     <li>Living Atlas – worldwide data</li>
                     <li>Upload your own</li>
-                    <li>Create your own data with the editing widget</li>
+                    <li>Create your own data</li>
                   </ul>
                 </li>
                 <li class="fragment">Open data from other sources</li>
@@ -491,7 +494,7 @@
                   <ul class="sublist">
                     <li class="transparent">Living Atlas – worldwide data</li>
                     <li class="transparent">Upload your own</li>
-                    <li>Create your own data with the editing widget</li>
+                    <li>Create your own data</li>
                   </ul>
                 </li>
               </ul>
@@ -535,7 +538,7 @@
                   <ul class="sublist">
                     <li>Living Atlas – worldwide data</li>
                     <li>Upload your own</li>
-                    <li>Create your own data with the editing widget</li>
+                    <li>Create your own data</li>
                   </ul>
                 </li>
                 <li>
@@ -624,7 +627,10 @@
           <h2></h2>
           <div class="two-columns">
             <div class="left-column r-stack">
-              <div class="code-snippet fragment fade-in-then-out">
+              <div
+                class="code-snippet fragment fade-in-then-out"
+                data-fragment-id="fragment-object-to-icon"
+              >
                 <p class="snippet-title">Flat</p>
                 <pre><code class="lang-ts"  data-trim>
                   const renderer2D = new SimpleRenderer({
@@ -639,9 +645,12 @@
                   });
                 </code></pre>
               </div>
-              <div class="code-snippet fragment fade-in-then-out">
+              <div
+                class="code-snippet fragment fade-in-then-out"
+                data-fragment-id="fragment-icon-to-object"
+              >
                 <p class="snippet-title">Volumetric</p>
-                <button class="play" id="icon-to-object"></button>
+                <!--button class="play swap" id="icon-to-object"></button-->
                 <pre><code class="lang-ts"  data-trim>
                   const renderer3D = new SimpleRenderer({
                     symbol: new PointSymbol3D({
@@ -681,7 +690,10 @@
           <h2></h2>
           <div class="two-columns">
             <div class="left-column r-stack">
-              <div class="code-snippet fragment fade-in-then-out">
+              <div
+                class="code-snippet fragment fade-in-then-out"
+                data-fragment-id="fragment-path-to-line"
+              >
                 <p class="slidetitle-sub">Flat</p>
                 <pre><code class="lang-ts"  data-trim>
                   let symbol2D = new LineSymbol3D({
@@ -698,9 +710,12 @@
                   });
                 </code></pre>
               </div>
-              <div class="code-snippet fragment fade-in-then-out">
+              <div
+                class="code-snippet fragment fade-in-then-out"
+                data-fragment-id="fragment-line-to-path"
+              >
                 <p class="slidetitle-sub">Volumetric</p>
-                <button class="play" id="line-to-path"></button>
+                <!--button class="play swap" id="line-to-path"></button-->
                 <pre><code class="lang-ts"  data-trim>
                   let symbol3D = new LineSymbol3D({
                     symbolLayers: [
@@ -744,7 +759,10 @@
           <h2></h2>
           <div class="two-columns">
             <div class="left-column r-stack">
-              <div class="code-snippet fragment fade-in-then-out">
+              <div
+                class="code-snippet fragment fade-in-then-out"
+                data-fragment-id="fragment-extrusion-to-polygon"
+              >
                 <p class="slidetitle-sub">Flat</p>
                 <pre><code class="lang-ts"  data-trim>
                   const renderer2D = new SimpleRenderer({
@@ -754,9 +772,12 @@
                   });
                 </code></pre>
               </div>
-              <div class="code-snippet fragment fade-in-then-out">
+              <div
+                class="code-snippet fragment fade-in-then-out"
+                data-fragment-id="fragment-polygon-to-extrusion"
+              >
                 <p class="slidetitle-sub">Volumetric</p>
-                <button class="play" id="polygon-to-extrusion"></button>
+                <!--button class="play swap" id="polygon-to-extrusion"></button-->
                 <pre><code class="lang-ts"  data-trim>
                   const renderer3D = new SimpleRenderer({
                     symbol: new PolygonSymbol3D({
@@ -812,7 +833,7 @@
                 data-fragment-id="fragment-sl-toggle-color"
               >
                 <p class="slidetitle-sub">Color by attributes instead</p>
-                <button class="play" id="sl-toggle-color"></button>
+                <button class="play swap" id="sl-toggle-color"></button>
                 <pre><code class="lang-ts" data-trim>
                   const thematicRenderer = new SimpleRenderer({
                     symbol: new MeshSymbol3D({
@@ -836,7 +857,7 @@
                 data-fragment-id="fragment-sl-toggle-edges"
               >
                 <p class="slidetitle-sub">Add edges</p>
-                <button class="play" id="sl-toggle-edges"></button>
+                <button class="play swap" id="sl-toggle-edges"></button>
                 <pre><code class="lang-ts" data-trim>
                   const solidEdges = new SolidEdges3D({
                     color: [0, 0, 0, 0.6],
@@ -886,8 +907,8 @@
 
               <div class="code-snippet fragment" data-fragment-id="fragment-bsl-color">
                 <p class="slidetitle-sub">Color based on model name</p>
-                <button class="play" id="bsl-color"></button>
-                <pre><code class="lang-ts" data-trim>
+                <button class="play swap" id="bsl-color"></button>
+                <pre><code class="lang-ts smaller-snippet" data-trim>
                   buildingLayer.allSublayers.forEach((layer) =&gt; {
                     switch (layer.modelName) {
                       case &quot;StructuralColumns&quot;:
@@ -947,7 +968,7 @@
               </div>
               <div class="code-snippet fragment" data-fragment-id="fragment-pc-toggle-color">
                 <p class="slidetitle-sub">Color by LAS classification</p>
-                <button class="play" id="pc-toggle-color"></button>
+                <button class="play swap" id="pc-toggle-color"></button>
                 <pre><code class="lang-ts" data-trim style="height:150px;">
                   pcLayer.renderer = new PointCloudUniqueValueRenderer({
                     field: &quot;CLASS_CODE&quot;, // field containing data for standard LAS classification
@@ -989,7 +1010,7 @@
                 <iframe data-src="./samples/symbology-pc.html"></iframe>
               </div>
               <p class="footnote">
-                See more in public samples:
+                See more in public samples:<br />
                 <a
                   href="https://developers.arcgis.com/javascript/latest/sample-code/layers-pointcloud/"
                   target="_blank"
@@ -1025,7 +1046,7 @@
 
               <div class="code-snippet fragment" data-fragment-id="fragment-im-toggle-distances">
                 <p class="slidetitle-sub">Color IM with a feature layer</p>
-                <button class="play" id="im-toggle-distances"></button>
+                <button class="play swap" id="im-toggle-distances"></button>
                 <pre><code class="lang-ts" data-trim>
           const walkingLayer = new FeatureLayer({
             url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Walking_time_Frankfurt_Cathedral/FeatureServer",

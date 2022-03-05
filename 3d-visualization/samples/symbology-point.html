@@ -1,7 +1,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Based on: Thematic multivariate visualization (3D) | Sample | ArcGIS API for JavaScript 4.22</title>
+    <title>
+      Based on: Thematic multivariate visualization (3D) | Sample | ArcGIS API for JavaScript 4.22
+    </title>
     <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/4.22/"></script>
 
@@ -40,8 +42,6 @@
         Legend,
         Fullscreen
       ) => {
-        const doc = parent.document;
-        doc.getElementById("icon-to-object").onclick = iconToObject;
         let symbol3D = false;
 
         /*****************************************************************
@@ -197,14 +197,63 @@
           view.ui.add(legendExpand, "bottom-right");
         });
 
-        function iconToObject() {
-          symbol3D = !symbol3D;
-          hurricaneLayer.renderer = symbol3D ? renderer3D : renderer2D;
-        }
         const fullscreen = new Fullscreen({
           view: view,
         });
         view.ui.add(fullscreen, "bottom-left");
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js slide interaction
+        // - - - - - - - - - - - - - - - -
+
+        /*const doc = parent.document;
+        doc.getElementById("icon-to-object").onclick = () => {
+          iconToObject(!symbol3D);
+        };*/
+
+        function iconToObject(input) {
+          symbol3D = input;
+          hurricaneLayer.renderer = symbol3D ? renderer3D : renderer2D;
+        }
+
+        onFragment("fragment-icon-to-object", () => {
+          iconToObject(true);
+        });
+
+        onFragment("fragment-object-to-icon", () => {
+          iconToObject(false);
+        });
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js helpers
+        // - - - - - - - - - - - - - - - -
+
+        function onFragment(elementId, doSomething) {
+          const run = () => {
+            const currentId = getCurrentFragmentId();
+            //console.log(elementId + " " + currentId);
+            if (currentId === elementId) {
+              doSomething();
+            }
+          };
+
+          parent.Reveal.addEventListener("fragmenthidden", run);
+          parent.Reveal.addEventListener("fragmentshown", run);
+          run();
+        }
+
+        function getCurrentSlide() {
+          //console.log("getCurrentSlide");
+          return parent.Reveal.getCurrentSlide();
+        }
+
+        function getCurrentFragment() {
+          //console.log("getCurrentFragment");
+          return getCurrentSlide().querySelector(".current-fragment") ?? null;
+        }
+        function getCurrentFragmentId() {
+          //console.log("getCurrentFragmentId");
+          return getCurrentFragment()?.getAttribute("data-fragment-id") ?? null;
+        }
       });
     </script>
   </head>

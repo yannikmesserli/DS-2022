@@ -42,8 +42,6 @@
         Legend,
         Fullscreen
       ) => {
-        const doc = parent.document;
-        doc.getElementById("polygon-to-extrusion").onclick = polygonToExtrusion;
         let symbol3D = false;
 
         // limit visualization to southeast U.S. counties
@@ -234,10 +232,58 @@
         });
         view.ui.add(fullscreen, "bottom-left");
 
-        function polygonToExtrusion() {
-          symbol3D = !symbol3D;
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js slide interaction
+        // - - - - - - - - - - - - - - - -
+
+        /*const doc = parent.document;
+        doc.getElementById("polygon-to-extrusion").onclick = polygonToExtrusion;
+        */
+
+        function polygonToExtrusion(input) {
+          symbol3D = input;
           //transitLayer.elevationInfo.mode = symbol3D ? "relative-to-ground" : "on-the-ground";
           povLayer.renderer = symbol3D ? renderer3D : renderer2D;
+        }
+
+        onFragment("fragment-polygon-to-extrusion", () => {
+          polygonToExtrusion(true);
+        });
+
+        onFragment("fragment-extrusion-to-polygon", () => {
+          polygonToExtrusion(false);
+        });
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js helpers
+        // - - - - - - - - - - - - - - - -
+
+        function onFragment(elementId, doSomething) {
+          const run = () => {
+            const currentId = getCurrentFragmentId();
+            //console.log(elementId + " " + currentId);
+            if (currentId === elementId) {
+              doSomething();
+            }
+          };
+
+          parent.Reveal.addEventListener("fragmenthidden", run);
+          parent.Reveal.addEventListener("fragmentshown", run);
+          run();
+        }
+
+        function getCurrentSlide() {
+          //console.log("getCurrentSlide");
+          return parent.Reveal.getCurrentSlide();
+        }
+
+        function getCurrentFragment() {
+          //console.log("getCurrentFragment");
+          return getCurrentSlide().querySelector(".current-fragment") ?? null;
+        }
+        function getCurrentFragmentId() {
+          //console.log("getCurrentFragmentId");
+          return getCurrentFragment()?.getAttribute("data-fragment-id") ?? null;
         }
       });
     </script>
