@@ -10,7 +10,6 @@ const talks = {
     "airport-terminal",
     "feature-layer",
     "scene-layer",
-    "advanced-editing",
   ],
   ["client-side-3d-analysis"]: [
     "direct-line-measurement",
