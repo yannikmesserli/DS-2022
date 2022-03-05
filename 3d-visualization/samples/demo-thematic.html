@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
     <title>
-      Based on: Thematic multivariate visualization (3D) | Sample | ArcGIS API for JavaScript 4.22
+      Data driven thematic 3D visualization. Based on Raluca Nicola's Earthquakes 2019 sample.
     </title>
     <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/4.22/"></script>
@@ -23,6 +23,7 @@
         "esri/layers/FeatureLayer",
         "esri/layers/CSVLayer",
         "esri/Map",
+        "esri/Basemap",
         "esri/views/SceneView",
         "esri/renderers/SimpleRenderer",
         "esri/symbols/PointSymbol3D",
@@ -35,6 +36,7 @@
         FeatureLayer,
         CSVLayer,
         Map,
+        Basemap,
         SceneView,
         SimpleRenderer,
         PointSymbol3D,
@@ -44,20 +46,112 @@
         Legend,
         Fullscreen
       ) => {
-        const doc = parent.document;
-        doc.getElementById("icon-to-object").onclick = iconToObject;
-        let symbol3D = false;
+        /*****************************************************************
+         * STEP 0
+         * Create simple app
+         *****************************************************************/
+
+        let earthquakeLayer;
+
+        // add the layer to a new map
+        const map = new Map({
+          //basemap: "oceans",
+          basemap: "dark-gray-vector",
+          //layers: [earthquakeLayer],
+        });
+
+        // The initial camera of the view
+        const initCam = {
+          position: {
+            spatialReference: {
+              latestWkid: 3857,
+              wkid: 102100,
+            },
+            x: -7634847.283479332,
+            y: 59794.91411143105,
+            z: 25512548.000000004,
+          },
+          heading: 0,
+          tilt: 0.09999878152828588,
+        };
+        // add the map to a new 3d view
+        const view = new SceneView({
+          map: map,
+          container: "viewDiv",
+          alphaCompositingEnabled: true,
+          ui: {
+            components: [],
+          },
+          highlightOptions: {
+            color: "white",
+          },
+          camera: initCam,
+          popup: {
+            collapseEnabled: false,
+            dockEnabled: false,
+            dockOptions: {
+              breakpoint: false,
+            },
+          },
+        });
 
         /*****************************************************************
-         * More than one visual variable can be set on a renderer to create
-         * multivariate visualizations on a layer.
-         *
-         * In this case we set three visual variables on the renderer - one
-         * for color and two for size. Because size values can be applied to
-         * more than one axis in 3D (heigh, depth, and width) we want to
-         * specify a constant value for the width and depth and size the
-         * height of each feature based on the windspeed of the hurricane
-         * at that location. Color is used to visualize atmospheric pressure.
+         * STEP 1
+         * Add layer
+         *****************************************************************/
+        const popupTemplate = {
+          content: "Magnitude {mag} {type} hit {place} on {time} at a depth of {depth} km.",
+          title: "Earthquake info",
+          fieldInfos: [
+            {
+              fieldName: "time",
+              format: {
+                dateFormat: "short-date-long-time-24",
+              },
+            },
+            {
+              fieldName: "mag",
+              format: {
+                places: 1,
+                digitSeparator: true,
+              },
+            },
+            {
+              fieldName: "depth",
+              format: {
+                places: 1,
+                digitSeparator: true,
+              },
+            },
+          ],
+        };
+        function addLayer() {
+          // define the earthquakes layer
+          earthquakeLayer = new CSVLayer({
+            url: "./demo-thematic/earthquake_data.csv",
+            elevationInfo: { mode: "on-the-ground" },
+
+            screenSizePerspectiveEnabled: false,
+            popupTemplate: popupTemplate,
+          });
+          map.add(earthquakeLayer);
+
+          earthquakeLayer.when(() => {
+            const legendExpand = new Expand({
+              view: view,
+              content: new Legend({
+                view: view,
+              }),
+              group: "bottom-right",
+              expanded: false,
+            });
+            view.ui.add(legendExpand, "bottom-right");
+          });
+        }
+
+        /*****************************************************************
+         * STEP 2
+         * Add 2D renderer
          *****************************************************************/
 
         const visualVariables2D = [
@@ -70,11 +164,11 @@
             stops: [
               {
                 value: 1,
-                color: [255, 0, 0, 0.5],
+                color: [255, 255, 200, 0.5],
               },
               {
                 value: 100,
-                color: [0, 0, 255, 0.5],
+                color: [255, 0, 0, 0.5],
               },
             ],
           },
@@ -97,138 +191,186 @@
           },
         ];
 
-        const getRenderer2D = function (visualVariablesInput) {
-          return new SimpleRenderer({
-            symbol: new PointSymbol3D({
-              symbolLayers: [
-                new IconSymbol3DLayer({
-                  resource: { primitive: "circle" },
-                  material: { color: [255, 0, 0, 0.8] },
-                  size: 3,
-                }),
-              ],
-            }),
-            label: "Earthquake location",
-            visualVariables: visualVariablesInput,
-          });
-        };
-        const getRenderer3D = function () {
-          return new SimpleRenderer({
-            symbol: {
-              type: "point-3d",
-              symbolLayers: [
-                {
-                  type: "object",
-                  resource: {
-                    primitive: "sphere",
-                  },
-                  material: { color: [255, 250, 239, 0.8] },
-                  depth: 10000,
-                  height: 10000,
-                  width: 10000,
-                },
-              ],
-            },
-            label: "Earthquake location",
-            visualVariables: [
+        const renderer2D = new SimpleRenderer({
+          symbol: new PointSymbol3D({
+            symbolLayers: [
+              new IconSymbol3DLayer({
+                resource: { primitive: "circle" },
+                material: { color: [255, 0, 0, 0.8] },
+                size: 3,
+              }),
+            ],
+          }),
+          label: "Earthquake location",
+          visualVariables: visualVariables2D,
+        });
+
+        function add2dRenderer() {
+          earthquakeLayer.renderer = renderer2D;
+          earthquakeLayer.elevationInfo = {
+            mode: "on-the-ground",
+          };
+        }
+
+        /*****************************************************************
+         * STEP 3
+         * Add 3D renderer and show above ground
+         *****************************************************************/
+
+        const renderer3D = new SimpleRenderer({
+          symbol: {
+            type: "point-3d",
+            symbolLayers: [
               {
-                type: "size",
-                field: "mag",
-                axis: "all",
-                stops: [
-                  { value: 5.5, size: 70000, label: "<15%" },
-                  { value: 7, size: 250000, label: "25%" },
-                ],
-              },
-              {
-                type: "color",
-                field: "mag",
-                legendOptions: {
-                  title: "Magnitude",
+                type: "object",
+                resource: {
+                  primitive: "sphere",
                 },
-                stops: [
-                  { value: 6, color: [254, 240, 217], label: "4.5 - 6" },
-                  { value: 7, color: [179, 0, 0], label: ">7" },
-                ],
+                material: { color: [255, 250, 239, 0.8] },
+                depth: 10000,
+                height: 10000,
+                width: 10000,
               },
             ],
-          });
-        };
-        const exaggeratedElevation = {
-          mode: "absolute-height",
-          featureExpressionInfo: {
-            expression: "-$feature.depth * 6",
           },
-          unit: "kilometers",
-        };
+          label: "Earthquake location",
+          visualVariables: [
+            {
+              type: "size",
+              field: "mag",
+              axis: "all",
+              stops: [
+                { value: 5.5, size: 70000 },
+                { value: 7, size: 250000 },
+              ],
+            },
+            {
+              type: "color",
+              field: "mag",
+              legendOptions: {
+                title: "Magnitude",
+              },
+              stops: [
+                { value: 6, color: [255, 255, 200, 0.8], label: "4.5 - 6" },
+                { value: 7, color: [255, 0, 0, 0.8], label: ">7" },
+                //{ value: 6, color: [254, 240, 217], label: "4.5 - 6" },
+                //{ value: 7, color: [179, 0, 0], label: ">7" },
+              ],
+            },
+          ],
+        });
 
         const realElevationOverground = {
           mode: "absolute-height",
-          featureExpressionInfo: {
-            expression: "$feature.depth*6",
-          },
-          //offset: 1000,
+          field: "depth",
           unit: "kilometers",
         };
-        const realElevation = {
+        function add3dRenderer() {
+          earthquakeLayer.renderer = renderer3D;
+          earthquakeLayer.elevationInfo = realElevationOverground;
+        }
+
+        /*****************************************************************
+         * STEP 4
+         * Exaggerate overground
+         *****************************************************************/
+
+        const exaggeratedElevationOverground = {
           mode: "absolute-height",
           featureExpressionInfo: {
-            expression: "-$feature.depth",
+            expression: "$feature.depth*3",
           },
           unit: "kilometers",
         };
-        let exaggerated = true;
-
-        // define the earthquakes layer
-        const earthquakeLayer = new CSVLayer({
-          url: "./demo-thematic/earthquake_data.csv",
-          renderer: getRenderer2D(), //symbol3D ? renderer3D : renderer2D,
-          elevationInfo: { mode: "on-the-ground" },
-        });
-
-        // add the layer to a new map
-        const map = new Map({
-          basemap: "oceans",
-          layers: [earthquakeLayer],
-        });
-
-        // The initial camera of the view
-        const initCam = {
-          position: {
-            spatialReference: {
-              latestWkid: 3857,
-              wkid: 102100,
-            },
-            x: -7634847.283479332,
-            y: 59794.91411143105,
-            z: 25512548.000000004,
-          },
-          heading: 0,
-          tilt: 0.09999878152828588,
-        };
-        // add the map to a new 3d view
-        const view = new SceneView({
-          map: map,
-          container: "viewDiv",
-          camera: initCam,
-        });
-
-        earthquakeLayer.when(() => {
-          const legendExpand = new Expand({
-            view: view,
-            content: new Legend({
-              view: view,
-            }),
-            group: "bottom-right",
-            expanded: false,
-          });
-          view.ui.add(legendExpand, "bottom-right");
-        });
-
-        function iconToObject() {
-          symbol3D = !symbol3D;
-          earthquakeLayer.renderer = symbol3D ? renderer3D : renderer2D;
+        function exagerateOverground() {
+          earthquakeLayer.elevationInfo = exaggeratedElevationOverground;
         }
+
+        /*****************************************************************
+         * STEP 5
+         * Show underground
+         *****************************************************************/
+        const countryBorders = new FeatureLayer({
+          url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Countries_(Generalized)/FeatureServer/0",
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "polygon-3d",
+              symbolLayers: [
+                {
+                  type: "fill",
+                  outline: {
+                    color: [255, 255, 255, 0.8],
+                    size: 1,
+                  },
+                },
+              ],
+            },
+          },
+        });
+
+        const plateTectonicBorders = new FeatureLayer({
+          url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/plate_tectonics_boundaries/FeatureServer",
+          elevationInfo: {
+            mode: "on-the-ground",
+          },
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "line-3d",
+              symbolLayers: [
+                {
+                  type: "line",
+                  material: { color: [255, 133, 125, 0.7] },
+                  size: 3,
+                },
+              ],
+            },
+          },
+        });
+
+        const exaggeratedElevationUnderground = {
+          mode: "absolute-height",
+          featureExpressionInfo: {
+            expression: "-$feature.depth*3",
+          },
+          unit: "kilometers",
+        };
+
+        function showUnderground() {
+          map.basemap = new Basemap({
+            baseLayers: [countryBorders, plateTectonicBorders],
+          });
+          map.ground = {
+            opacity: 0,
+          };
+          earthquakeLayer.elevationInfo = exaggeratedElevationUnderground;
+          let earthquakeLayerView = null;
+          let highlightHandler = null;
+
+          view.whenLayerView(earthquakeLayer).then(function (lyrView) {
+            earthquakeLayerView = lyrView;
+          });
+        }
+        /*****************************************************************
+         * STEP 6
+         * Style environment
+         *****************************************************************/
+        function styleEnvironment() {
+          view.environment = {
+            background: {
+              type: "color",
+              color: [0, 0, 0],
+            },
+            starsEnabled: false,
+            atmosphereEnabled: false,
+          };
+        }
+        /*****************************************************************
+         * UI and controls
+         *
+         *****************************************************************/
+
         const fullscreen = new Fullscreen({
           view: view,
         });
@@ -240,25 +382,22 @@
           //console.log(event);
           if (event.key == "1") {
             console.log("1");
-            earthquakeLayer.renderer = getRenderer2D(visualVariables2D);
+            addLayer();
           } else if (event.key == "2") {
             console.log("2");
-            earthquakeLayer.elevationInfo = {
-              mode: "absolute-height",
-              offset: 1000,
-              unit: "kilometers",
-            };
+            add2dRenderer();
           } else if (event.key == "3") {
             console.log("3");
-            earthquakeLayer.elevationInfo = realElevationOverground;
-            //earthquakeLayer.renderer = getRenderer3D();
+            add3dRenderer();
           } else if (event.key == "4") {
             console.log("4");
-            earthquakeLayer.elevationInfo = realElevationOverground;
-            earthquakeLayer.renderer = getRenderer3D();
+            exagerateOverground();
           } else if (event.key == "5") {
+            console.log("5");
+            showUnderground();
           } else if (event.key == "6") {
-          } else if (event.key == "7") {
+            console.log("6");
+            styleEnvironment();
           } else if (event.key == "c") {
             console.log(view.camera);
           }
