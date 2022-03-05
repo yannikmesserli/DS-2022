@@ -63,6 +63,9 @@
         content: "-";
         font-weight: normal;
       }
+      iframe.bigger-sample {
+        height: 700px !important;
+      }
     </style>
   </head>
   <body>
@@ -1063,14 +1066,22 @@
           </div>
         </section>
 
-        <!--------- 2.1 Use cases: DATA DRIVEN -------->
+        <!--------- 2.1 Use cases: DATA DRIVEN: Earthquakes by Raluca-------->
+        <!-- NB with default REVEAL.JS settings the globe would be cropped in the iframe -->
+        <!-- Solution: changed in app "view-container").style.height="800px" -->
 
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2 class="slidetitle">Data-driven thematic visualizations</h2>
-          <iframe class="r-stretch" data-src="./samples/demo-thematic.html"></iframe>
+          <iframe class="r-stretch" data-src="./samples/demo-thematic/index.html"></iframe>
+          <p class="footnote" style="font-size: 20px; text-align: left">
+            Sample by Raluca Nicola. See more on her
+            <a href="https://ralucanicola.github.io/JSAPI_demos/earthquakes-depth/" target="_blank"
+              >website</a
+            >.
+          </p>
         </section>
 
-        <!--------- 2.1 Use cases: 3D city from 2D data -------->
+        <!--------- 2.1 Use cases: 3D city from 2D data: Redlands buildings & storm drain -------->
 
         <section class="align-left" data-background="../reveal.js/img/2022/dev-summit/bg-2.png">
           <h2 class="slidetitle">3D city from 2D data</h2>
