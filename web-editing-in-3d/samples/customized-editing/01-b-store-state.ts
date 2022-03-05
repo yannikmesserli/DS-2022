@@ -6,6 +6,11 @@ import { state } from "./utilities/state";
 import { floorSymbol, modificationsSymbol } from "./utilities/symbols";
 
 export function setupStoreState(): void {
+  setupStoreStateModifications();
+  setupStoreStateFloors();
+}
+
+function setupStoreStateModifications(): void {
   // Set initial modifications from stored state
   if (state.modification) {
     munichLayer.modifications.add(state.modification);
@@ -18,7 +23,9 @@ export function setupStoreState(): void {
   munichLayer.modifications.on("change", () => {
     state.modification = munichLayer.modifications.getItemAt(0);
   });
+}
 
+function setupStoreStateFloors(): void {
   // Initialize from stored state
   for (const floor of state.floors) {
     floorsLayer.add(new Graphic({ geometry: floor, symbol: floorSymbol }));
