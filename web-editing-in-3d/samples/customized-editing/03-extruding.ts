@@ -75,7 +75,7 @@ export function setupExtruding(view: SceneView): void {
     while (extrudedFloors.length < numExtraFloors) {
       const newFloor = selectedFloor.geometry.clone() as Polygon;
 
-      const floorZ = (extrudedFloors.length + 1) * FLOOR_HEIGHT;
+      const floorZ = originalZ + (extrudedFloors.length + 1) * FLOOR_HEIGHT;
       setPolygonZ(newFloor, floorZ);
 
       const newGraphic = new Graphic({ geometry: newFloor, symbol: floorSymbol });
