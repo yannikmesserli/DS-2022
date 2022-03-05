@@ -36,6 +36,9 @@ const view = new SceneView({
   qualityProfile: "high",
 });
 
+// Store view on the window so we can easily access it for debugging purposes
+(window as any).view = view;
+
 // DEMO STEP
 // setupModifications(view);
 
