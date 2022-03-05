@@ -40,7 +40,7 @@ const view = new SceneView({
 // setupModifications(view);
 
 // DEMO STEP
-// setupStoreState(view);
+// setupStoreState();
 
 // DEMO STEP
 // setupDrawing(view);
