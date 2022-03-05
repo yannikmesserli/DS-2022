@@ -350,11 +350,10 @@
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
-                    const reshapeOptions = sketchVM
+                    sketchVM
                       .defaultUpdateOptions
-                      .reshapeOptions;
-
-                    reshapeOptions.edgeOperation = "offset";
+                      .reshapeOptions
+                      .edgeOperation = "offset";
                   </code>
                 </pre>
               </div>
@@ -367,51 +366,6 @@
           </div>
         </section>
 
-        <!--
-
-              <div data-fragment-id="polygons" class="fragment v-stack">
-                <div data-fragment-id="polygons-click" class="code-snippet">
-                  <button class="play"></button>
-                  <pre>
-                    <code class="lang-ts" data-trim>
-                    const terminals = new GraphicsLayer({ 
-                      elevationInfo: { mode: "relative-to-scene" }
-                    });
-                    view.map.add(terminals);
-
-                    const button = createButton();
-
-                    button.addEventListener("click", () => {
-                      sketchVM.layer = terminals;
-                      sketchVM.polygonSymbol = createTerminalSymbol();
-                      sketchVM.create("polygon");
-                    });
-                    </code>
-                  </pre>
-                </div>
-
-                <div data-fragment-id="enable-snapping" class="code-snippet fragment">
-                  <button class="play"></button>
-                  <pre>
-                    <code class="lang-ts" data-trim>
-                    sketchVM.snappingOptions.enabled = true;
-                    sketchVM.snappingOptions.featureSources = [
-                      { layer: terminals }
-                    ];
-                    </code>
-                  </pre>
-                </div>
-              </div>
-            </div>
-            <div class="right-column">
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/airport/index.html"></iframe>
-              </div>
-            </div>
-          </div>
-        </section>
-      -->
-
         <section
           data-slideId="feature-layer"
           class="align-left"
@@ -421,54 +375,92 @@
 
           <div class="two-columns">
             <div class="left-column r-stack no-margin">
-              <div data-fragment-index="0" class="code-snippet fragment fade-out">
+              <div
+                data-fragment-id="editor-widget"
+                data-fragment-index="0"
+                class="code-snippet fragment fade-out"
+              >
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
-                  const pointLayer = new FeatureLayer({
-                    title: "Airplanes",
+                  const aircraftLayer = new FeatureLayer({ 
+                    title: "Aircraft",
+                    url: "...",
+                    elevationInfo: { mode: "absolute-height" },
                     /* ... */
-                    renderer: new UniqueValueRenderer({
-                      /* ... */
-                      visualVariables: [
-                        new SizeVariable({
-                          axis: "height",
-                          field: "SIZE",
-                          valueUnit: "meters",
-                        }),
-                        new RotationVariable({
-                          field: "ROTATION",
-                          rotationType: "geographic",
-                        }),
-                      ],
-                    }),
                   });
+                  view.map.add(aircraftLayer);
 
-                  view.map.add(pointLayer);
+                  const editor = new Editor({ view });
+                  view.ui.add(editor, "top-right");
                   </code>
                 </pre>
               </div>
 
-              <div data-fragment-index="0" class="code-snippet fragment fade-in-then-out">
+              <div
+                data-fragment-id="visual-variables-all"
+                data-fragment-index="0"
+                class="code-snippet fragment fade-in-then-out"
+              >
                 <pre>
-                  <code class="lang-ts" data-trim>                                 
-                  const layerInfos = {
-                    layer: pointLayer,
-                    formTemplate: new FormTemplate({
-                      elements: [
-                        new FieldElement({ 
-                          fieldName: "ROTATION",
-                          label: "Rotation"
-                        }),
-                        new FieldElement({
-                          fieldName: "SIZE",
-                          label: "Size"
-                        }),
-                      ],
-                    })
-                  };
+                  <code class="lang-ts" data-trim>
+                    const aircraftLayer = new FeatureLayer({
+                      /* ... */
+                      renderer: new UniqueValueRenderer({
+                        /* ... */
+                        visualVariables: [
+                          new SizeVariable({
+                            axis: "height",
+                            field: "SIZE",
+                            valueUnit: "meters",
+                          }),
+                          new RotationVariable({
+                            field: "ROTATION",
+                            rotationType: "geographic",
+                          }),
+                        ],
+                      })
+                    });
+                  </code>
+                </pre>
+              </div>
 
-                  const editor = new Editor({ view, layerInfos });
-                  view.ui.add(editor, "top-right");
+              <div
+                data-fragment-id="visual-variables-rotation"
+                class="code-snippet fragment fade-in-then-out"
+              >
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>
+                    const newRenderer = renderer.clone();
+
+                    newRenderer.visualVariables = [
+                      new RotationVariable({
+                        field: "ROTATION",
+                        rotationType: "geographic",
+                      }),
+                    ];
+                  
+                    aircraftLayer.renderer = newRenderer;
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="layer-infos" class="code-snippet fragment fade-in-then-out">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim>  
+                    editor.layerInfos = [{
+                      layer: aircraftLayer,
+                      formTemplate: new FormTemplate({
+                        elements: [
+                          new FieldElement({ 
+                            fieldName: "ROTATION",
+                            label: "Rotation"
+                          })
+                        ],
+                      })
+                    }];
                   </code>
                 </pre>
               </div>
