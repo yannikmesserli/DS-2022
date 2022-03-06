@@ -66,161 +66,47 @@
         LayerList,
         Fullscreen
       ) => {
-        // The building footprints used in this example don't have information about the building height.
-        // We are using Arcade expressions to extrude footprints dependant on their area:
-        var expresion = `
-              var area = Area($feature, 'square-meters'); //square-feet
-              var randomness = (8 * Random() -4);
-              var height;
-              if (area < 500) {
-                height = 5;
-              } else if (area < 1000) {
-                height = 6;
-              } else if (area < 2000) {
-                height = 16;
-              } else {
-                height = 12;
-              }
-              return height + randomness;
-            `;
-
-        function getBuildingSymbol(color) {
-          return {
-            type: "polygon-3d", // autocasts as new PolygonSymbol3D()
-            symbolLayers: [
-              {
-                type: "extrude", // autocasts as new ExtrudeSymbol3DLayer()
-                material: { color: color },
-              },
-            ],
-          };
-        }
-        const buildingsRenderer = {
-          type: "unique-value", // autocasts as new UniqueValueRenderer()
-          defaultSymbol: getBuildingSymbol("#fff8eb"),
-          defaultLabel: "Building General",
-          field: "FEATURECODE",
-          uniqueValueInfos: [
+        let allPipesLayer, boxCollectorLayer, tubeCollectorLayer, buildingsLayer;
+        const popupTemplate = {
+          title: "Storm Collector: {ProfileType}",
+          content: [
             {
-              //const colors = ["#524834", "#715b38", "#8f6e3c", "#ae8140", "#cc9444", "#eba748", "#eeb664", "#f0c47f", "#f9e0b7", "#fff8eb"];
-              value: "Education Facility",
-              symbol: getBuildingSymbol("#f9e0b7"), //"#A7C636"),
-              label: "Education Facility",
-            },
-            {
-              value: "Industrial Facility",
-              symbol: getBuildingSymbol("#f0c47f"), //"#FC921F"),
-              label: "Industrial Facility",
-            },
-            {
-              value: "Commercial or Retail Facility",
-              symbol: getBuildingSymbol("#eeb664"), //"#ED5151"),
-              label: "Commercial or Retail Facility",
-            },
-            {
-              value: "Government or Military Facility",
-              symbol: getBuildingSymbol("#eba748"), //"#149ECE"),
-              label: "Government or Military Facility",
-            },
-          ],
-          visualVariables: [
-            {
-              type: "size",
-              // In case your dataset doesn't have a building height saved in an attribute,
-              //you can use a value expression to extrude the footprint by a guessed value based on geometry area.
-              //field: "HEIGHT",
-              valueExpression: expresion,
-            },
-          ],
-        };
-
-        const buildings = new FeatureLayer({
-          url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Building_Footprints/FeatureServer",
-          title: "Buildings",
-          renderer: buildingsRenderer,
-        });
-
-        const collectorRenderer = {
-          type: "simple", // autocasts as new SimpleRenderer()
-          symbol: {
-            type: "line-3d",
-            symbolLayers: [
-              {
-                type: "path",
-                profile: "quad",
-                join: "bevel",
-                material: {
-                  color: "#3bc7e5", //34c7b4", //51b9b8", //[0, 115, 76],
+              type: "fields",
+              fieldInfos: [
+                {
+                  fieldName: "ProfileType",
+                  label: "Profile Type",
                 },
-                width: 3,
-                height: 3,
-              },
-            ],
-          },
-          visualVariables: [
-            {
-              type: "size",
-              //field: "DiameterEsri"
-              valueExpression: `$feature.DiameterEsri*0.0254`, //*39.3701
-            },
-          ],
-        };
-
-        const tubesRenderer = {
-          type: "simple", // autocasts as new SimpleRenderer()
-          symbol: {
-            type: "line-3d",
-            symbolLayers: [
-              {
-                type: "path",
-                profile: "circle",
-                join: "bevel",
-                material: {
-                  color: "#3bc7e5", //"#51b9b8", //[0, 115, 76],
+                {
+                  fieldName: "DiameterEsri",
+                  label: "Diameter",
                 },
-                width: 1,
-                height: 1,
-              },
-            ],
-          },
-          visualVariables: [
-            {
-              type: "size",
-              //field: "DiameterEsri"
-              valueExpression: `$feature.DiameterEsri*0.0254`, //*39.3701
+                {
+                  fieldName: "MATERIAL",
+                  label: "Material",
+                },
+                {
+                  fieldName: "Condition",
+                  label: "Condition",
+                },
+              ],
             },
           ],
         };
-        const collector = new FeatureLayer({
-          url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
-          title: "Storm Collector",
-          definitionExpression: "ProfileType IN ('Box','') OR ProfileType IS NULL",
-          elevationInfo: {
-            mode: "relative-to-ground",
-            offset: -4,
-          },
-          renderer: collectorRenderer,
-        });
 
-        const tubes = new FeatureLayer({
-          url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
-          title: "Storm Drains",
-          definitionExpression: "ProfileType IN ('Tube','') OR ProfileType IS NULL",
-          elevationInfo: {
-            mode: "relative-to-ground",
-            offset: -4,
-          },
-          renderer: tubesRenderer,
-        });
+        /*****************************************************************
+         * STEP 0
+         * Create simple app
+         *****************************************************************/
 
+        const map = new Map({
+          basemap: "dark-gray-vector",
+          ground: "world-elevation",
+          //layers: [buildings, collector, tubes],
+        });
         const view = new SceneView({
           container: "viewDiv",
-
-          map: new Map({
-            basemap: "dark-gray-vector",
-            ground: "world-elevation",
-            layers: [buildings, collector, tubes],
-          }),
+          map: map,
           camera: {
             position: {
               spatialReference: {
@@ -237,15 +123,250 @@
           qualityProfile: "high",
         });
 
-        view.when(() => {
+        /*****************************************************************
+         * STEP 1
+         * Add layer - and see in the popup that there are pipes with BOX and with TUBE type
+         *****************************************************************/
+
+        function addAllPipesLayer() {
+          allPipesLayer = new FeatureLayer({
+            url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
+            title: "All pipes",
+            popupTemplate: popupTemplate,
+          });
+
+          map.add(allPipesLayer);
+        }
+
+        /*****************************************************************
+         * STEP 2
+         * Add only BOX type drains of this layer
+         *****************************************************************/
+
+        function addBoxCollectorLayer() {
+          map.removeAll();
+          const boxCollectorRenderer = {
+            type: "simple", // autocasts as new SimpleRenderer()
+            symbol: {
+              type: "line-3d", // autocasts as new LineSymbol3D()
+              symbolLayers: [
+                {
+                  type: "path", // autocasts as new PathSymbol3DLayer()
+                  profile: "quad",
+                  join: "bevel",
+                  material: {
+                    color: "#3bc7e5",
+                  },
+                  width: 3,
+                  height: 3,
+                },
+              ],
+            },
+            visualVariables: [
+              {
+                type: "size",
+                //field: "DiameterEsri"
+                valueExpression: `$feature.DiameterEsri*0.0254`, //convert from inches to meters
+              },
+            ],
+          };
+          boxCollectorLayer = new FeatureLayer({
+            url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
+            title: "Storm Collector",
+            definitionExpression: "ProfileType IN ('Box','') OR ProfileType IS NULL",
+            renderer: boxCollectorRenderer,
+          });
+          map.add(boxCollectorLayer);
+        }
+
+        /*****************************************************************
+         * STEP 3
+         * Move layer undergrond and make underground transparent
+         *****************************************************************/
+
+        function moveBoxCollectorUnderground() {
+          boxCollectorLayer.elevationInfo = {
+            mode: "relative-to-ground",
+            offset: -4,
+          };
+          // to see through the ground, set the ground opacity to below 1
+          view.map.ground.opacity = 0.7;
+        }
+
+        /*****************************************************************
+         * STEP 4
+         * Add the rest of the pipe network
+         *****************************************************************/
+
+        function addTubeCollectorLayer() {
+          const tubeCollectorRenderer = {
+            type: "simple", // autocasts as new SimpleRenderer()
+            symbol: {
+              type: "line-3d", // autocasts as new LineSymbol3D()
+              symbolLayers: [
+                {
+                  type: "path", // autocasts as new PathSymbol3DLayer()
+                  profile: "circle",
+                  join: "bevel",
+                  material: {
+                    color: "#3bc7e5",
+                  },
+                  width: 1,
+                  height: 1,
+                },
+              ],
+            },
+            visualVariables: [
+              {
+                type: "size",
+                //field: "DiameterEsri"
+                valueExpression: `$feature.DiameterEsri*0.0254`, //convert from inches to meters
+              },
+            ],
+          };
+
+          tubeCollectorLayer = new FeatureLayer({
+            url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
+            title: "Storm Drains",
+            definitionExpression: "ProfileType IN ('Tube','') OR ProfileType IS NULL",
+            elevationInfo: {
+              mode: "relative-to-ground",
+              offset: -4,
+            },
+            renderer: tubeCollectorRenderer,
+          });
+          map.add(tubeCollectorLayer);
+        }
+
+        /*****************************************************************
+         * STEP 5
+         * allow underground navigation
+         *****************************************************************/
+
+        function allowUndergroundNavigation() {
           // allow navigation above and below the ground
           view.map.ground.navigationConstraint = {
             type: "none",
           };
-          //view.map.ground.surfaceColor = "#fff";
-          // to see through the ground, set the ground opacity to 0.4
-          view.map.ground.opacity = 0.6;
-        });
+        }
+
+        /*****************************************************************
+         * STEP 6
+         * Add buildings
+         *****************************************************************/
+
+        function addBuildingsLayer() {
+          buildingsLayer = new FeatureLayer({
+            url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Building_Footprints/FeatureServer",
+            title: "Buildings",
+            //renderer: getBuildingsRenderer(),
+          });
+          map.add(buildingsLayer);
+        }
+
+        /*****************************************************************
+         * STEP 7
+         * Color buildings by type and extrude them random height
+         *****************************************************************/
+
+        // The building footprints used in this example don't have information about the building height.
+        // We are using Arcade expressions to extrude footprints dependant on their area:
+        const expresion = `
+                        var area = Area($feature, 'square-meters'); //square-feet
+                        var randomness = (8 * Random() -4);
+                        var height;
+                        if (area < 500) {
+                          height = 5;
+                        } else if (area < 1000) {
+                          height = 6;
+                        } else if (area < 2000) {
+                          height = 16;
+                        } else {
+                          height = 12;
+                        }
+                        return height + randomness;
+                      `;
+
+        function getBuildingSymbol(color) {
+          return {
+            type: "polygon-3d", // autocasts as new PolygonSymbol3D()
+            symbolLayers: [
+              {
+                type: "extrude", // autocasts as new ExtrudeSymbol3DLayer()
+                material: { color: color },
+              },
+            ],
+          };
+        }
+
+        const buildingsRenderer = {
+          type: "unique-value", // autocasts as new UniqueValueRenderer()
+          defaultSymbol: getBuildingSymbol("#fff8eb"),
+          defaultLabel: "Building General",
+          field: "FEATURECODE",
+          uniqueValueInfos: [
+            {
+              value: "Education Facility",
+              symbol: getBuildingSymbol("#f9e0b7"),
+              label: "Education Facility",
+            },
+            {
+              value: "Industrial Facility",
+              symbol: getBuildingSymbol("#f0c47f"),
+              label: "Industrial Facility",
+            },
+            {
+              value: "Commercial or Retail Facility",
+              symbol: getBuildingSymbol("#eeb664"),
+              label: "Commercial or Retail Facility",
+            },
+            {
+              value: "Government or Military Facility",
+              symbol: getBuildingSymbol("#eba748"),
+              label: "Government or Military Facility",
+            },
+          ],
+          visualVariables: [
+            {
+              type: "size",
+              // In case your dataset doesn't have a building height saved in an attribute,
+              //you can use a value expression to extrude the footprint by a guessed value based on geometry area.
+              //field: "HEIGHT",
+              valueExpression: expresion,
+            },
+          ],
+        };
+
+        function addRandomBuildingHeight() {
+          buildingsLayer.renderer = buildingsRenderer;
+        }
+
+        /*****************************************************************
+         * Helpers
+         *
+         *****************************************************************/
+
+        function colorDefaultLinesWhite() {
+          allPipesLayer.renderer = {
+            type: "simple", // autocasts as new SimpleRenderer()
+            symbol: {
+              type: "line-3d", // autocasts as new LineSymbol3D()
+              symbolLayers: [
+                {
+                  type: "line", // autocasts as new LineSymbol3DLayer()
+                  material: {
+                    color: "#white",
+                  },
+                },
+              ],
+            },
+          };
+        }
+
+        /*****************************************************************
+         * UI and controls
+         *
+         *****************************************************************/
 
         const layerExpand = new Expand({
           view: view,
@@ -273,6 +394,38 @@
           view: view,
         });
         view.ui.add(fullscreen, "bottom-left");
+
+        window.addEventListener("keypress", onKeypress, false);
+        function onKeypress(event) {
+          //console.log(event);
+          if (event.key == "1") {
+            console.log("1");
+            addAllPipesLayer();
+            setTimeout(() => {
+              colorDefaultLinesWhite();
+            }, 3000);
+          } else if (event.key == "2") {
+            console.log("2");
+            addBoxCollectorLayer();
+          } else if (event.key == "3") {
+            console.log("3");
+            moveBoxCollectorUnderground();
+          } else if (event.key == "4") {
+            console.log("4");
+            addTubeCollectorLayer();
+          } else if (event.key == "5") {
+            console.log("5");
+            allowUndergroundNavigation();
+          } else if (event.key == "6") {
+            console.log("6");
+            addBuildingsLayer();
+          } else if (event.key == "7") {
+            console.log("7");
+            addRandomBuildingHeight();
+          } else if (event.key == "c") {
+            console.log(view.camera);
+          }
+        }
       });
     </script>
   </head>
