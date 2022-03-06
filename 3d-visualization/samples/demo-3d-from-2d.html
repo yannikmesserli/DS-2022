@@ -66,7 +66,6 @@
         LayerList,
         Fullscreen
       ) => {
-        let allPipesLayer, boxCollectorLayer, tubeCollectorLayer, buildingsLayer;
         const popupTemplate = {
           title: "Storm Collector: {ProfileType}",
           content: [
@@ -128,13 +127,13 @@
          * Add layer - and see in the popup that there are pipes with BOX and with TUBE type
          *****************************************************************/
 
-        function addAllPipesLayer() {
-          allPipesLayer = new FeatureLayer({
-            url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
-            title: "All pipes",
-            popupTemplate: popupTemplate,
-          });
+        const allPipesLayer = new FeatureLayer({
+          url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
+          title: "All pipes",
+          popupTemplate: popupTemplate,
+        });
 
+        function addAllPipesLayer() {
           map.add(allPipesLayer);
         }
 
@@ -143,39 +142,41 @@
          * Add only BOX type drains of this layer
          *****************************************************************/
 
-        function addBoxCollectorLayer() {
-          map.removeAll();
-          const boxCollectorRenderer = {
-            type: "simple", // autocasts as new SimpleRenderer()
-            symbol: {
-              type: "line-3d", // autocasts as new LineSymbol3D()
-              symbolLayers: [
-                {
-                  type: "path", // autocasts as new PathSymbol3DLayer()
-                  profile: "quad",
-                  join: "bevel",
-                  material: {
-                    color: "#3bc7e5",
-                  },
-                  width: 3,
-                  height: 3,
-                },
-              ],
-            },
-            visualVariables: [
+        const boxCollectorRenderer = {
+          type: "simple", // autocasts as new SimpleRenderer()
+          symbol: {
+            type: "line-3d", // autocasts as new LineSymbol3D()
+            symbolLayers: [
               {
-                type: "size",
-                //field: "DiameterEsri"
-                valueExpression: `$feature.DiameterEsri*0.0254`, //convert from inches to meters
+                type: "path", // autocasts as new PathSymbol3DLayer()
+                profile: "quad",
+                join: "bevel",
+                material: {
+                  color: "#3bc7e5",
+                },
+                width: 3,
+                height: 3,
               },
             ],
-          };
-          boxCollectorLayer = new FeatureLayer({
-            url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
-            title: "Storm Collector",
-            definitionExpression: "ProfileType IN ('Box','') OR ProfileType IS NULL",
-            renderer: boxCollectorRenderer,
-          });
+          },
+          visualVariables: [
+            {
+              type: "size",
+              //field: "DiameterEsri"
+              valueExpression: `$feature.DiameterEsri*0.0254`, //convert from inches to meters
+            },
+          ],
+        };
+
+        const boxCollectorLayer = new FeatureLayer({
+          url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
+          title: "Storm Collector",
+          definitionExpression: "ProfileType IN ('Box','') OR ProfileType IS NULL",
+          renderer: boxCollectorRenderer,
+        });
+
+        function addBoxCollectorLayer() {
+          map.removeAll();
           map.add(boxCollectorLayer);
         }
 
@@ -198,43 +199,44 @@
          * Add the rest of the pipe network
          *****************************************************************/
 
-        function addTubeCollectorLayer() {
-          const tubeCollectorRenderer = {
-            type: "simple", // autocasts as new SimpleRenderer()
-            symbol: {
-              type: "line-3d", // autocasts as new LineSymbol3D()
-              symbolLayers: [
-                {
-                  type: "path", // autocasts as new PathSymbol3DLayer()
-                  profile: "circle",
-                  join: "bevel",
-                  material: {
-                    color: "#3bc7e5",
-                  },
-                  width: 1,
-                  height: 1,
-                },
-              ],
-            },
-            visualVariables: [
+        const tubeCollectorRenderer = {
+          type: "simple", // autocasts as new SimpleRenderer()
+          symbol: {
+            type: "line-3d", // autocasts as new LineSymbol3D()
+            symbolLayers: [
               {
-                type: "size",
-                //field: "DiameterEsri"
-                valueExpression: `$feature.DiameterEsri*0.0254`, //convert from inches to meters
+                type: "path", // autocasts as new PathSymbol3DLayer()
+                profile: "circle",
+                join: "bevel",
+                material: {
+                  color: "#3bc7e5",
+                },
+                width: 1,
+                height: 1,
               },
             ],
-          };
-
-          tubeCollectorLayer = new FeatureLayer({
-            url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
-            title: "Storm Drains",
-            definitionExpression: "ProfileType IN ('Tube','') OR ProfileType IS NULL",
-            elevationInfo: {
-              mode: "relative-to-ground",
-              offset: -4,
+          },
+          visualVariables: [
+            {
+              type: "size",
+              //field: "DiameterEsri"
+              valueExpression: `$feature.DiameterEsri*0.0254`, //convert from inches to meters
             },
-            renderer: tubeCollectorRenderer,
-          });
+          ],
+        };
+
+        const tubeCollectorLayer = new FeatureLayer({
+          url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
+          title: "Storm Drains",
+          definitionExpression: "ProfileType IN ('Tube','') OR ProfileType IS NULL",
+          elevationInfo: {
+            mode: "relative-to-ground",
+            offset: -4,
+          },
+          renderer: tubeCollectorRenderer,
+        });
+
+        function addTubeCollectorLayer() {
           map.add(tubeCollectorLayer);
         }
 
@@ -255,12 +257,13 @@
          * Add buildings
          *****************************************************************/
 
+        const buildingsLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Building_Footprints/FeatureServer",
+          title: "Buildings",
+          //renderer: getBuildingsRenderer(),
+        });
+
         function addBuildingsLayer() {
-          buildingsLayer = new FeatureLayer({
-            url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Building_Footprints/FeatureServer",
-            title: "Buildings",
-            //renderer: getBuildingsRenderer(),
-          });
           map.add(buildingsLayer);
         }
 

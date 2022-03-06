@@ -32,6 +32,7 @@
         "esri/widgets/Expand",
         "esri/widgets/Weather",
         "esri/widgets/Daylight",
+        "esri/widgets/Fullscreen",
       ], (
         Map,
         SceneLayer,
@@ -40,49 +41,19 @@
         IntegratedMeshLayer,
         Expand,
         Weather,
-        Daylight
+        Daylight,
+        Fullscreen
       ) => {
-        /***********************************
-         * Create the SceneView
-         ***********************************/
+        /*****************************************************************
+         * STEP 0
+         * Create simple app
+         *****************************************************************/
+
         // Create a new map
         const map = new Map({
           basemap: "satellite",
           //ground: "world-elevation",
         });
-
-        const layer = new IntegratedMeshLayer({
-          url: "https://tiles.arcgis.com/tiles/cFEFS0EWrhfDeVw9/arcgis/rest/services/Buildings_Frankfurt_2021/SceneServer",
-          // Frankfurt integrated mesh data provided by nFrames and Aerowest
-          copyright: "nFrames - Aerowest",
-          title: "Integrated Mesh Frankfurt",
-        });
-        map.add(layer);
-
-        const waterLayer = new FeatureLayer({
-          url: "https://services7.arcgis.com/wdgKFvvZvYZ3Biji/arcgis/rest/services/Frankfurt_water2/FeatureServer",
-          elevationInfo: {
-            //mode: "on-the-ground",
-            mode: "relative-to-scene",
-            offset: -85,
-          },
-          renderer: {
-            type: "simple",
-            symbol: {
-              type: "polygon-3d",
-              symbolLayers: [
-                {
-                  type: "water",
-                  waveDirection: 125, //170, //260,
-                  color: "#454b3b", //3e4b3b", //3b4b47", //1d6152", //25427c",
-                  waveStrength: "moderate", //"rippled"
-                  waterbodySize: "medium",
-                },
-              ],
-            },
-          },
-        });
-        map.add(waterLayer);
 
         // Create a new sceneView and set the weather to cloudy
         const view = new SceneView({
@@ -108,14 +79,64 @@
             atmosphere: {
               quality: "high",
             },
-            //weather: { type: "foggy", fogDensity: 0.4 },
             weather: { type: "cloudy", cloudCover: 0.3 }, // autocasts to new CloudyWeather({ cloudCover: 0.6 })
           },
         });
 
-        /***********************************
-         * Add the widgets' UI elements to the view
-         ***********************************/
+        /*****************************************************************
+         * STEP 1
+         * Add IM with the city layer
+         *****************************************************************/
+
+        const cityLayer = new IntegratedMeshLayer({
+          url: "https://tiles.arcgis.com/tiles/cFEFS0EWrhfDeVw9/arcgis/rest/services/Buildings_Frankfurt_2021/SceneServer",
+          // Frankfurt integrated mesh data provided by nFrames and Aerowest
+          copyright: "nFrames - Aerowest",
+          title: "Integrated Mesh Frankfurt",
+        });
+
+        function addCityLayer() {
+          map.add(cityLayer);
+        }
+
+        /*****************************************************************
+         * STEP 2
+         * Add water layer
+         *****************************************************************/
+
+        const waterLayer = new FeatureLayer({
+          url: "https://services7.arcgis.com/wdgKFvvZvYZ3Biji/arcgis/rest/services/Frankfurt_water2/FeatureServer",
+          elevationInfo: {
+            //mode: "on-the-ground",
+            mode: "relative-to-scene",
+            offset: -85,
+          },
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "polygon-3d",
+              symbolLayers: [
+                {
+                  type: "water",
+                  waveDirection: 125,
+                  color: "#454b3b",
+                  waveStrength: "moderate",
+                  waterbodySize: "medium",
+                },
+              ],
+            },
+          },
+        });
+
+        function addWaterLayer() {
+          map.add(waterLayer);
+        }
+
+        /*****************************************************************
+         * STEP 3
+         * Add the widgets' UI elements to the view: WEATHER
+         *****************************************************************/
+
         const weatherExpand = new Expand({
           view: view,
           content: new Weather({
@@ -125,6 +146,15 @@
           expanded: true,
         });
 
+        function addWeatherWidget() {
+          view.ui.add([weatherExpand], "top-right");
+        }
+
+        /*****************************************************************
+         * STEP 4
+         * Add the widgets' UI elements to the view: DAYLIGHT
+         *****************************************************************/
+
         const daylightExpand = new Expand({
           view: view,
           content: new Daylight({
@@ -132,12 +162,40 @@
           }),
           group: "top-right",
         });
-        view.ui.add([weatherExpand, daylightExpand], "top-right");
 
-        /*window.addEventListener("keypress", onKeypress, false);
+        function addDaylightWidget() {
+          view.ui.add([daylightExpand], "top-right");
+        }
+
+        /*****************************************************************
+         * UI and controls
+         *
+         *****************************************************************/
+
+        const fullscreen = new Fullscreen({
+          view: view,
+        });
+        view.ui.add(fullscreen, "bottom-left");
+
+        window.addEventListener("keypress", onKeypress, false);
         function onKeypress(event) {
-          console.log(view.camera);
-        }*/
+          //console.log(event);
+          if (event.key == "1") {
+            console.log("1");
+            addCityLayer();
+          } else if (event.key == "2") {
+            console.log("2");
+            addWaterLayer();
+          } else if (event.key == "3") {
+            console.log("3");
+            addWeatherWidget();
+          } else if (event.key == "4") {
+            console.log("4");
+            addDaylightWidget();
+          } else if (event.key == "c") {
+            console.log(view.camera);
+          }
+        }
       });
     </script>
   </head>
