@@ -10,6 +10,9 @@ import "@esri/calcite-components/dist/components/calcite-alert";
 import "@esri/calcite-components/dist/components/calcite-loader";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
 import { HELSINKI_FIELDS } from "./scenes";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import Graphic from "@arcgis/core/Graphic";
+import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 
 const Reveal = (parent as any).Reveal as RevealStatic | null;
 
@@ -173,4 +176,54 @@ export function applySolarAreaRenderer(layer: SceneLayer) {
       },
     ],
   } as any;
+}
+
+export function addEditablePoint(view: SceneView, onUpdate: (pointGraphic: Graphic) => void) {
+  const graphicsLayer = new GraphicsLayer({
+    // elevationInfo: { mode: "on-the-ground" },
+    title: "Sketch GraphicsLayer",
+  });
+  const point = {
+    type: "point", // autocasts as new Point()
+    spatialReference: { latestWkid: 3857, wkid: 102100 },
+    x: 2775690.9496367406,
+    y: 8434900.987816326,
+    z: 50,
+  };
+  const markerSymbol = {
+    type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+    color: [226, 119, 40],
+    outline: {
+      // autocasts as new SimpleLineSymbol()
+      color: [255, 255, 255],
+      width: 2,
+    },
+  };
+  const pointGraphic = new Graphic({
+    geometry: point,
+    symbol: markerSymbol,
+  });
+  graphicsLayer.add(pointGraphic);
+
+  let sketchVM = new SketchViewModel({
+    layer: graphicsLayer,
+    view: view,
+    defaultCreateOptions: {
+      hasZ: true, // default value
+    },
+    defaultUpdateOptions: {
+      enableZ: true, // default value
+    },
+  });
+
+  view.on("click", async (e) => {
+    const hitTestResult = await view.hitTest(e);
+    if (hitTestResult.results.find((r) => r.graphic === pointGraphic)) {
+      sketchVM.update(pointGraphic);
+    }
+  });
+
+  sketchVM.on("update", () => onUpdate(pointGraphic));
+
+  return { graphicsLayer, pointGraphic };
 }

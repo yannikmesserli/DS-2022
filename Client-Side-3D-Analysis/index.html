@@ -864,11 +864,23 @@
                 </pre>
               </div>
               <div class="code-snippet fragment">
-                <button class="play" id="statistic-1"></button>
+                <button class="play" id="statistic-query"></button>
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
                     const response =
                       await layerView.queryFeatures(query);
+
+                    output("Average area: "
+                      + response.features[0].attributes.avg_area);
+                  </code>
+                </pre>
+              </div>
+              <div class="code-snippet fragment">
+                <button class="play" id="statistic-query"></button>
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    const response =
+                      await layer.queryFeatures(query);
 
                     output("Average area: "
                       + response.features[0].attributes.avg_area);
