@@ -28,3 +28,7 @@ body,
   border: none;
   border-color: transparent;
 }
+
+#sumContainer {
+  font-size: 300%;
+}

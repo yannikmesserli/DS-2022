@@ -7,10 +7,13 @@ import { HELSINKI, HELSINKI_BUILDING_NAME, HELSINKI_FIELDS } from "./scenes";
 import {
   addEditablePoint,
   addOAuthSupport,
+  addSumArea,
   applySolarAreaRenderer,
   getLayerFromView,
   initView,
   onPlayClick,
+  statDefinition,
+  sumLabel,
 } from "./utils";
 import Geometry from "@arcgis/core/geometry/Geometry";
 
@@ -43,33 +46,13 @@ onPlayClick("statistic-query-server", () => {
   queryFeatures(pointGraphic.geometry, true);
 });
 
-onPlayClick("highlight-remove", () => {
-  if (highlight) {
-    highlight.remove();
-  }
-});
-
 let highlight: IHandle;
 //////////////////////////////
 // QueryFeatures
 //////////////////////////////
 
 async function queryFeatures(center: Geometry, server = false) {
-  // setup statistic definition
-  const sumLabel = "sum_area";
-  const statDefinition = [
-    {
-      onStatisticField: HELSINKI_FIELDS.solarAreaField,
-      outStatisticFieldName: sumLabel,
-      statisticType: "sum",
-    },
-  ];
-  const avgContainer = document.getElementById("avgContainer") as HTMLDivElement;
-  avgContainer.style.display = "block";
-  avgContainer.style.backgroundColor = "white";
-  avgContainer.style.padding = "5px";
-  view.ui.add("avgContainer", "top-right");
-
+  addSumArea(view);
   const layer = (await getLayerFromView(HELSINKI_BUILDING_NAME, view)) as SceneLayer;
   layer.outFields = [HELSINKI_FIELDS.solarAreaField, HELSINKI_FIELDS.usageField];
 
@@ -79,17 +62,28 @@ async function queryFeatures(center: Geometry, server = false) {
   query.outStatistics = statDefinition as any;
   query.where = "solarAreaSuitableM2 BETWEEN 200 AND 500";
 
+  const queryFeatureForHighlight = layerView.createQuery();
+  queryFeatureForHighlight.where = "solarAreaSuitableM2 BETWEEN 200 AND 500";
+
   if (!server) {
     query.geometry = center;
     query.distance = 100;
     query.units = "meters";
+    queryFeatureForHighlight.geometry = center;
+    queryFeatureForHighlight.distance = 100;
+    queryFeatureForHighlight.units = "meters";
   }
 
-  // query.outFields = [attributeName];
-
-  const result = server ? await layer.queryFeatures(query) : await layerView.queryFeatures(query);
+  const [result, resultForHighlight] = server
+    ? await Promise.all([layer.queryFeatures(query), layer.queryFeatures(queryFeatureForHighlight)])
+    : await Promise.all([
+        layerView.queryFeatures(query),
+        layerView.queryFeatures(queryFeatureForHighlight),
+      ]);
+  (document.getElementById("sum") as HTMLDivElement).innerHTML =
+    "Total area: " + result.features[0].attributes[sumLabel].toFixed(1);
   if (highlight) {
     highlight.remove();
   }
-  highlight = layerView.highlight(result.features);
+  highlight = layerView.highlight(resultForHighlight.features);
 }

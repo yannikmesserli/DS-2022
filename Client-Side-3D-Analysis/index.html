@@ -801,45 +801,6 @@
           </div>
         </section>
 
-        <!-- <section
-          class="align-left"
-          data-background="../img/2022/dev-summit/bg-3.png"
-          title="query-attribute"
-        >
-          <h2>Attribute Queries</h2>
-
-          <div class="two-columns">
-            <div class="left-column">
-              <div class="code-snippet">
-                <button class="play" id="query-3"></button>
-                <pre>
-                  <code class="lang-ts" data-trim>
-                    layer.outFields = ["solarAreaSuitableM2", "usage"];
-                    
-                    const query = layerView.createQuery();
-                    query.where = "solarAreaSuitableM2 BETWEEN 400 AND 500";
-                    query.outFields = ["usage"];
-                  </code>
-                </pre>
-              </div>
-              <div class="code-snippet fragment">
-                <button class="play" id="query-4"></button>
-                <pre>
-                  <code class="lang-ts" data-trim>
-                    query.returnDistinctValues = true;
-                  </code>
-                </pre>
-              </div>
-            </div>
-
-            <div class="right-column">
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/queries-and-filters/04-query-attributes/"></iframe>
-              </div>
-            </div>
-          </div>
-        </section> -->
-
         <section
           class="align-left"
           data-background="../img/2022/dev-summit/bg-3.png"
@@ -876,6 +837,7 @@
                 </pre>
               </div>
               <div class="code-snippet fragment" data-fragment-id="statistic-query-server">
+                <h3>Server querying...</h3>
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
@@ -949,7 +911,7 @@
 
           <div class="two-columns">
             <div class="left-column">
-              <div class="code-snippet">
+              <div class="code-snippet fragment" data-fragment-id="sketch-widget">
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
                     const sketch = new Sketch({
@@ -969,34 +931,32 @@
                   </code>
                 </pre>
               </div>
-              <div class="code-snippet fragment">
-                <button class="play" id="spatial-1"></button>
+              <div class="code-snippet fragment" data-fragment-id="query-and-filter">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
-                    query.geometry = geometry;
-                    query.spatialRelationship = "contains";
-                    query.distance = 100;
-                    query.units = "meters";
-
-                    query.where = "usage = 'residential'";
+                    const response =
+                      await layerView.queryFeatures(query);
                   </code>
                 </pre>
               </div>
-              <!-- <div class="code-snippet fragment">
+              <div class="code-snippet fragment" data-fragment-id="query-and-filter-2">
+                <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim>
-                    const debouncedQuery = promiseUtils.debounce(function () {
-                      layerView.queryObjectIds(query).then(/*...*/);
-                    });
-                    debouncedQuery();
+                  <code class="lang-ts" data-trim data-line-numbers>
+                    layerView.filter = null;
+                    const query = layerView.createQuery();
+                    query.geometry = geometry; // from sketch widget
+                    query.spatialRelationship = "contains";
+                    query.where = ...
                   </code>
                 </pre>
-              </div> -->
+              </div>
             </div>
 
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe data-src="./samples/queries-and-filters/06-query-geometry/"></iframe>
+                <iframe data-src="./samples/filters-and-queries/"></iframe>
               </div>
             </div>
           </div>
