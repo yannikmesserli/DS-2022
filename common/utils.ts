@@ -9,6 +9,7 @@ import "@esri/calcite-components";
 import "@esri/calcite-components/dist/components/calcite-alert";
 import "@esri/calcite-components/dist/components/calcite-loader";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
+import { HELSINKI_FIELDS } from "./scenes";
 
 const Reveal = (parent as any).Reveal as RevealStatic;
 
@@ -132,15 +133,6 @@ export function throwIfNotAbortError(e: any): void {
   }
 }
 
-export const MUNICH_2_BUILDING_NAME = "Helsinki_buildings";
-export const MUNICH_2_FIELDS = {
-  addressField: "address",
-  usageField: "usage",
-  yearField: "yearCompleted",
-  solarAreaField: "solarAreaSuitableM2",
-  solarPotentialField: "solarElectricitGenPotYearlyKWh",
-};
-
 export async function getLayerFromView(layerName: string, view: SceneView): Promise<SceneLayer> {
   await (view.map as any).load();
   return view.map.layers.find((l) => l.title === layerName) as SceneLayer;
@@ -165,7 +157,7 @@ export function applySolarAreaRenderer(layer: SceneLayer) {
     visualVariables: [
       {
         type: "color",
-        field: MUNICH_2_FIELDS.solarAreaField,
+        field: HELSINKI_FIELDS.solarAreaField,
         legendOptions: {
           title: "Solar-Suitable Area (m<sup>2</sup>)",
         },

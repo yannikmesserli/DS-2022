@@ -3,7 +3,7 @@ import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
 import SceneLayerView from "@arcgis/core/views/layers/SceneLayerView";
-import { MUNICH_2 } from "./scenes";
+import { HELSINKI } from "./scenes";
 import {
   addOAuthSupport,
   applySolarAreaRenderer,
@@ -17,7 +17,7 @@ import Geometry from "@arcgis/core/geometry/Geometry";
 
 addOAuthSupport();
 
-const view = initView(MUNICH_2);
+const view = initView(HELSINKI);
 view.popup.defaultPopupTemplateEnabled = true;
 
 getLayerFromView(MUNICH_2_BUILDING_NAME, view).then((layer) => {
