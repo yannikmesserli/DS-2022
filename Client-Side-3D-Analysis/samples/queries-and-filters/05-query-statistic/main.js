@@ -21,7 +21,7 @@ if (slideTitle === "query-statistic") {
 
   const doc = parent.document;
   doc.getElementById("statistic-1").onclick = runSimpleQuery;
-  doc.getElementById("statistic-2").onclick = runComplexQuery;
+  // doc.getElementById("statistic-2").onclick = runComplexQuery;
 }
 
 function init() {
@@ -72,7 +72,7 @@ function runSimpleQuery() {
   // setup query
   const query = layerView.createQuery();
   query.outStatistics = statDefinition;
-  query.where = `${appConfig.usageField} = 'industrial'`;
+  query.where = "solarAreaSuitableM2 BETWEEN 200 AND 500";
 
   // run query and display result
   layerView

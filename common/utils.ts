@@ -8,6 +8,7 @@ import Fullscreen from "@arcgis/core/widgets/Fullscreen";
 import "@esri/calcite-components";
 import "@esri/calcite-components/dist/components/calcite-alert";
 import "@esri/calcite-components/dist/components/calcite-loader";
+import SceneLayer from "@arcgis/core/layers/SceneLayer";
 
 const Reveal = (parent as any).Reveal as RevealStatic;
 
@@ -49,9 +50,10 @@ function showSpinnerUntilLoaded(view: SceneView): void {
 }
 
 export function onInit(title: string, cb: () => void) {
-  if (getCurrentSlide().getAttribute("data-slideId") === title) {
-    cb();
-  }
+  cb();
+  // if (getCurrentSlide().getAttribute("data-slideId") === title) {
+  //   cb();
+  // }
 }
 
 export function onFragment(id: string, cb: () => void) {
@@ -128,4 +130,51 @@ export function throwIfNotAbortError(e: any): void {
   if (e?.message !== "AbortError") {
     throw e;
   }
+}
+
+export const MUNICH_2_BUILDING_NAME = "Helsinki_buildings";
+export const MUNICH_2_FIELDS = {
+  addressField: "address",
+  usageField: "usage",
+  yearField: "yearCompleted",
+  solarAreaField: "solarAreaSuitableM2",
+  solarPotentialField: "solarElectricitGenPotYearlyKWh",
+};
+
+export async function getLayerFromView(layerName: string, view: SceneView): Promise<SceneLayer> {
+  await (view.map as any).load();
+  return view.map.layers.find((l) => l.title === layerName) as SceneLayer;
+}
+
+export function applySolarAreaRenderer(layer: SceneLayer) {
+  layer.renderer = {
+    type: "simple",
+    symbol: {
+      type: "mesh-3d",
+      symbolLayers: [
+        {
+          type: "fill",
+          material: { color: "white", colorMixMode: "replace" },
+          edges: {
+            type: "solid",
+            color: [50, 50, 50, 0.5],
+          },
+        },
+      ],
+    },
+    visualVariables: [
+      {
+        type: "color",
+        field: MUNICH_2_FIELDS.solarAreaField,
+        legendOptions: {
+          title: "Solar-Suitable Area (m<sup>2</sup>)",
+        },
+        stops: [
+          { value: 200, color: "#406f8a", label: "< 100 m<sup>2</sup>" },
+          { value: 1000, color: "#ffe23b", label: "> 1000 m<sup>2</sup>" },
+        ],
+        binSize: 200,
+      },
+    ],
+  } as any;
 }

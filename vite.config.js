@@ -20,6 +20,7 @@ const talks = {
     "line-of-sight-analysis",
     "shadow-cast",
     "elevation-profile",
+    "query-attributes",
     "queries-and-filters/01-custom-popups",
     "queries-and-filters/02-filter-attributes",
     "queries-and-filters/03-timeslider",
