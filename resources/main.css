@@ -60,17 +60,11 @@
   color: var(--r-section-subhead-color);
 }
 
-.align-left .subhead,
-.align-left h1,
-.align-left h2,
-.align-left h3 {
+.align-left {
   text-align: left;
 }
 
-.align-right .subhead,
-.align-right h1,
-.align-right h2,
-.align-right h3 {
+.align-right {
   text-align: right;
 }
 

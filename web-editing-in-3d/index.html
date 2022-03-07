@@ -99,7 +99,6 @@
                   <code class="lang-ts" data-trim>               
                     const tree = new Graphic({ 
                       geometry: new Point({
-                        spatialReference,
                         x: 1099766.76,
                         y: 5865813.01
                         // Note: no Z value!
@@ -246,7 +245,6 @@
                 <pre>
                   <code class="lang-ts" data-trim>
                     const geometry = new Point({
-                      spatialReference: SpatialReference.WebMercator,
                       x: 1099766.76,
                       y: 5865813.01,
                       z: 50 // We now have elevation!!!
@@ -293,7 +291,7 @@
         </section>
 
         <!--
-         Airplane
+         Airport building
         -->
         <section
           data-slideId="terminal"
@@ -313,12 +311,9 @@
                     });
 
                     sketchVM.polygonSymbol = new PolygonSymbol3D({
-                      symbolLayers: [
-                        new ExtrudeSymbol3DLayer({
-                          size: 10,
-                          material: { color: [255, 128, 0, 1] },
-                        }),
-                      ],
+                      symbolLayers: [new ExtrudeSymbol3DLayer({ 
+                        size: 10 
+                      })]
                     });
 
                     sketchVM.create("polygon");
@@ -358,6 +353,9 @@
           </div>
         </section>
 
+        <!--
+          FeatureLayer
+        -->
         <section
           data-slideId="feature-layer"
           class="align-left"
@@ -465,6 +463,9 @@
           </div>
         </section>
 
+        <!--
+          SceneLayer
+        -->
         <section
           data-slideId="scene-layer"
           class="align-left"
@@ -506,9 +507,22 @@
           <iframe class="r-stretch" data-src="./samples/advanced-editing/index.html"></iframe>
         </section>
 
-        <section data-background="../img/2022/dev-summit/bg-3.png">
+        <section class="align-left" data-background="../img/2022/dev-summit/bg-3.png">
           <h2>Documentation & Resources</h2>
-          <ul>
+          <ul class="align-left">
+            <li>
+              <a
+                href="https://developers.arcgis.com/javascript/latest/sample-code/scene-elevationinfo/"
+              >
+                Sample: Elevation options
+              </a>
+            </li>
+
+            <li>
+              <a href="https://developers.arcgis.com/javascript/latest/sample-code/sketch-3d/">
+                Sample: Sketch in 3D
+              </a>
+            </li>
             <li>
               <a
                 href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-editor-3d/"
@@ -520,6 +534,21 @@
                 href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-editor-3d-scenelayer/"
                 >Sample: SceneLayer attribute editing</a
               >
+            </li>
+
+            <li>
+              <a
+                href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Sketch-SketchViewModel.html"
+              >
+                API Docs: SketchViewModel
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html"
+              >
+                API Docs: SnappingOptions
+              </a>
             </li>
           </ul>
         </section>
