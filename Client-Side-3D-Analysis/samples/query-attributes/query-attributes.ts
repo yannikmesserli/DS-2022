@@ -1,9 +1,8 @@
+import Geometry from "@arcgis/core/geometry/Geometry";
 import Graphic from "@arcgis/core/Graphic";
-import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
 import SceneLayerView from "@arcgis/core/views/layers/SceneLayerView";
-import { HELSINKI, HELSINKI_BUILDING_NAME, HELSINKI_FIELDS } from "./scenes";
+import { HELSINKI, HELSINKI_BUILDING_NAME, HELSINKI_FIELDS } from "../../../common/scenes";
 import {
   addEditablePoint,
   addOAuthSupport,
@@ -11,8 +10,7 @@ import {
   getLayerFromView,
   initView,
   onPlayClick,
-} from "./utils";
-import Geometry from "@arcgis/core/geometry/Geometry";
+} from "../../../common/utils";
 
 addOAuthSupport();
 

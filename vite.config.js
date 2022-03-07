@@ -1,41 +1,22 @@
+import { readdirSync } from "fs";
 import { join, resolve } from "path";
 import { defineConfig } from "vite";
 
-const talks = {
-  ["web-editing-in-3d"]: [
-    "editing-2d-to-3d",
-    "tree",
-    "antenna",
-    "airplane",
-    "airport-terminal",
-    "feature-layer",
-    "scene-layer",
-  ],
-  ["client-side-3d-analysis"]: [
-    "direct-line-measurement",
-    "direct-line-measurement-analysis",
-    "area-measurement",
-    "area-measurement-analysis",
-    "line-of-sight",
-    "line-of-sight-analysis",
-    "shadow-cast",
-    "elevation-profile",
-    "query-attributes",
-    "queries-and-filters/01-custom-popups",
-    "queries-and-filters/02-filter-attributes",
-    "queries-and-filters/03-timeslider",
-    "queries-and-filters/04-query-attributes",
-    "queries-and-filters/05-query-statistic",
-    "queries-and-filters/06-query-geometry",
-  ],
-};
+const talks = ["web-editing-in-3d", "client-side-3d-analysis"];
 
 const input = {
-  ...Object.entries(talks).reduce((res, [talkFolder, samples]) => {
-    res[talkFolder] = resolve(__dirname, talkFolder, "index.html");
-    for (const sampleFolder of samples) {
-      const path = join(talkFolder, "samples", sampleFolder);
-      res[path] = resolve(__dirname, path, "index.html");
+  ...talks.reduce((res, talkFolder) => {
+    const talkFolderPath = resolve(__dirname, talkFolder);
+
+    res[talkFolder] = resolve(talkFolderPath, "index.html");
+
+    const samplesFolder = resolve(talkFolderPath, "samples");
+    const sampleFolders = readdirSync(samplesFolder, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name);
+
+    for (const sampleFolder of sampleFolders) {
+      res[`${talkFolder}/${sampleFolder}`] = resolve(samplesFolder, sampleFolder, "index.html");
     }
 
     return res;

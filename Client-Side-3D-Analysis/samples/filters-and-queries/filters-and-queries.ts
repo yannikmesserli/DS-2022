@@ -1,7 +1,7 @@
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
 import SceneLayerView from "@arcgis/core/views/layers/SceneLayerView";
-import { HELSINKI, HELSINKI_BUILDING_NAME, HELSINKI_FIELDS } from "./scenes";
+import { HELSINKI, HELSINKI_BUILDING_NAME, HELSINKI_FIELDS } from "../../../common/scenes";
 import {
   point,
   addOAuthSupport,
@@ -12,7 +12,7 @@ import {
   sumLabel,
   statDefinition,
   addSumArea,
-} from "./utils";
+} from "../../../common/utils";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Sketch from "@arcgis/core/widgets/Sketch";
 
