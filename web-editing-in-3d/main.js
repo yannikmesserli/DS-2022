@@ -13,6 +13,12 @@ Reveal.initialize({
   width: 1366,
   height: 768,
   margin: 0.05,
-
+  controls: false,
   plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "e") {
+    document.body.classList.toggle("extend-iframe");
+  }
 });

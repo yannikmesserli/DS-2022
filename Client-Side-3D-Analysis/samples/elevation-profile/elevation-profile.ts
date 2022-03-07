@@ -4,11 +4,17 @@ import ElevationProfile from "@arcgis/core/widgets/ElevationProfile.js";
 import ElevationProfileLineGround from "@arcgis/core/widgets/ElevationProfile/ElevationProfileLineGround";
 import ElevationProfileLineView from "@arcgis/core/widgets/ElevationProfile/ElevationProfileLineView";
 import "@esri/calcite-components";
-import "@esri/calcite-components/dist/components/button";
+import "@esri/calcite-components/dist/components/calcite-button";
 import { saveAs } from "file-saver";
 import { Parser } from "json2csv";
 import { HIKING_TRAILS, SAN_FRANCISCO } from "../../../common/scenes";
-import { initView, onInit, onPlayClick, throwIfAborted, throwIfNotAbortError } from "../../../common/utils";
+import {
+  initView,
+  onInit,
+  onPlayClick,
+  throwIfAborted,
+  throwIfNotAbortError,
+} from "../../../common/utils";
 
 let view: SceneView;
 let widget: ElevationProfile;

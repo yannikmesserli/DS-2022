@@ -1,20 +1,19 @@
 import Camera from "@arcgis/core/Camera";
 import { when } from "@arcgis/core/core/reactiveUtils";
+import Point from "@arcgis/core/geometry/Point";
+import Graphic from "@arcgis/core/Graphic";
 import IdentityManager from "@arcgis/core/identity/IdentityManager";
 import OAuthInfo from "@arcgis/core/identity/OAuthInfo";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import SceneLayer from "@arcgis/core/layers/SceneLayer";
+import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer";
 import SceneView from "@arcgis/core/views/SceneView";
 import WebScene from "@arcgis/core/WebScene";
-import Fullscreen from "@arcgis/core/widgets/Fullscreen";
+import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 import "@esri/calcite-components";
 import "@esri/calcite-components/dist/components/calcite-alert";
 import "@esri/calcite-components/dist/components/calcite-loader";
-import SceneLayer from "@arcgis/core/layers/SceneLayer";
 import { HELSINKI_FIELDS } from "./scenes";
-import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import Graphic from "@arcgis/core/Graphic";
-import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
-import Point from "@arcgis/core/geometry/Point";
-import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer";
 
 const Reveal = (parent as any).Reveal as RevealStatic | null;
 
@@ -31,8 +30,6 @@ export function initView(itemId?: string, camera?: Camera) {
   const view = new SceneView(camera ? { ...viewProps, camera } : viewProps);
 
   showSpinnerUntilLoaded(view);
-
-  view.ui.add(new Fullscreen({ view }), "bottom-right");
 
   return view;
 }
