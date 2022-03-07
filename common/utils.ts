@@ -19,7 +19,7 @@ export function initView(itemId?: string, camera?: Camera) {
   const viewProps: __esri.SceneViewProperties = {
     container,
     map: itemId ? new WebScene({ portalItem: { id: itemId } }) : new WebScene({ basemap: "topo" }),
-    qualityProfile: "low",
+    qualityProfile: "high",
     popup: { defaultPopupTemplateEnabled: false },
   };
 
