@@ -1,14 +1,14 @@
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
 import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
 import SceneLayerView from "@arcgis/core/views/layers/SceneLayerView";
-import { HELSINKI, HELSINKI_BUILDING_NAME, HELSINKI_FIELDS } from "./scenes";
+import { HELSINKI, HELSINKI_BUILDING_NAME, HELSINKI_FIELDS } from "../../../common/scenes";
 import {
   addOAuthSupport,
   applyYearRenderer,
   getLayerFromView,
   initView,
   onPlayClick,
-} from "./utils";
+} from "../../../common/utils";
 
 addOAuthSupport();
 
