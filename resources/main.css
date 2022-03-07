@@ -88,12 +88,6 @@ iframe {
   transform: translate(-50%, -50%) scale(var(--iframe-scale)) translate(50%, 50%);
 }
 
-.two-columns .iframe-wrapper {
-  overflow: hidden;
-  width: 100%;
-  aspect-ratio: 16 / 10;
-}
-
 .two-columns pre {
   margin: 0;
   width: 100%;

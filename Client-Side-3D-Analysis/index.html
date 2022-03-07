@@ -505,32 +505,38 @@
           <h2>Exporting profile data</h2>
           <div class="two-columns">
             <div class="left-column">
-              <div class="code-snippet">
+              <div class="code-snippet" style="font-size: 0.9em">
                 <pre>
                   <code class="lang-ts" data-trim >
                   async function downloadCSV() {
-                    const groundProfileLine = widget.profiles.getItemAt(0);
+                    const groundProfile = widget.profiles.getItemAt(0);
 
-                    // Wait for the profile to be fully generated. Cancellation
-                    // and error handling omitted for brevity
-                    await reactiveUtils.whenOnce(() => groundProfileLine.progress === 1);
+                    await reactiveUtils.whenOnce(() => {
+                      return groundProfile.progress === 1;
+                    });
                     
-                    exportToCSV(groundProfileLine.samples);
+                    exportToCSV(groundProfile.samples);
                   }
                   </code>
                 </pre>
               </div>
 
-              <div data-fragment-id="add-export-button" class="code-snippet fragment">
+              <div
+                data-fragment-id="add-export-button"
+                class="code-snippet fragment"
+                style="font-size: 0.9em"
+              >
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim >    
                     function exportToCSV(samples) {                
-                      const fields = ["distance", "elevation", "x", "y", "z"];
-                      const csv = new json2csv.Parser({ fields }).parse(samples);
-                      
-                      // Offer file for download with FileSaver.js
-                      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+                      const fields = ["distance", "x", "y", "elevation"];
+                      const csv = new json2csv.Parser({ fields })
+                        .parse(samples);
+                        
+                      const blob = new Blob([csv], {
+                        type: "text/csv;charset=utf-8"
+                      });
                       saveAs(blob, "profile-data.csv");
                     }
                   </code>
@@ -538,9 +544,7 @@
               </div>
             </div>
             <div class="right-column">
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/elevation-profile/"></iframe>
-              </div>
+              <iframe data-src="./samples/elevation-profile/"></iframe>
             </div>
           </div>
         </section>
