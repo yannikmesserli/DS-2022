@@ -11,7 +11,7 @@ import "@esri/calcite-components/dist/components/calcite-loader";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
 import { HELSINKI_FIELDS } from "./scenes";
 
-const Reveal = (parent as any).Reveal as RevealStatic;
+const Reveal = (parent as any).Reveal as RevealStatic | null;
 
 export function initView(itemId?: string, camera?: Camera) {
   const container = document.getElementById("viewDiv") as HTMLDivElement;
@@ -52,13 +52,16 @@ function showSpinnerUntilLoaded(view: SceneView): void {
 }
 
 export function onInit(title: string, cb: () => void) {
-  cb();
-  // if (getCurrentSlide().getAttribute("data-slideId") === title) {
-  //   cb();
-  // }
+  if (getCurrentSlide()?.getAttribute("data-slideId") === title) {
+    cb();
+  }
 }
 
 export function onFragment(id: string, cb: () => void) {
+  if (!Reveal) {
+    return;
+  }
+
   const run = () => {
     if (getCurrentFragmentId() === id) {
       cb();
@@ -72,16 +75,16 @@ export function onFragment(id: string, cb: () => void) {
 
 export function onPlayClick(name: string, cb: () => void): void {
   getCurrentSlide()
-    .querySelector(`[data-fragment-id="${name}"] > .play`)
+    ?.querySelector(`[data-fragment-id="${name}"] > .play`)
     ?.addEventListener("click", cb);
 }
 
-export function getCurrentSlide(): HTMLElement {
-  return Reveal.getCurrentSlide() as HTMLElement;
+export function getCurrentSlide(): HTMLElement | null {
+  return Reveal?.getCurrentSlide() as HTMLElement;
 }
 
 export function getCurrentFragment(): HTMLElement | null {
-  return getCurrentSlide().querySelector(".current-fragment") ?? null;
+  return getCurrentSlide()?.querySelector(".current-fragment") ?? null;
 }
 
 function getCurrentFragmentId(): string | null {
@@ -89,7 +92,7 @@ function getCurrentFragmentId(): string | null {
 }
 
 export function setHeader(header: string, selector: string = ".header"): void {
-  const headerElement = getCurrentSlide().querySelector(selector);
+  const headerElement = getCurrentSlide()?.querySelector(selector);
   if (!headerElement) {
     return;
   }
