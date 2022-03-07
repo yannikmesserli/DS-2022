@@ -120,7 +120,7 @@ export function addOAuthSupport(): void {
     new OAuthInfo({
       appId: "pZzd4uJ0gZddupQh",
       popup: true,
-      popupCallbackUrl: `${document.location.origin}/oauth-callback-api.html`,
+      popupCallbackUrl: `${import.meta.env.BASE_URL}oauth-callback-api.html`,
     }),
   ]);
 
