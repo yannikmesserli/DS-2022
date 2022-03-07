@@ -854,36 +854,36 @@
                   <code class="lang-ts" data-trim data-line-numbers>
                     query.outStatistics = [
                       new StatisticDefinition({
-                        outStatisticFieldName: "avg_area",
+                        outStatisticFieldName: "sum_area",
                         onStatisticField: "solarAreaSuitableM2",
                         //supports min, max, sum, std, ...
-                        statisticType: "avg"
+                        statisticType: "sum"
                       })
                     ]);
                   </code>
                 </pre>
               </div>
-              <div class="code-snippet fragment">
-                <button class="play" id="statistic-query"></button>
+              <div class="code-snippet fragment" data-fragment-id="statistic-query">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
                     const response =
                       await layerView.queryFeatures(query);
 
-                    output("Average area: "
-                      + response.features[0].attributes.avg_area);
+                    output("Total area: "
+                      + response.features[0].attributes.sum_area);
                   </code>
                 </pre>
               </div>
-              <div class="code-snippet fragment">
-                <button class="play" id="statistic-query"></button>
+              <div class="code-snippet fragment" data-fragment-id="statistic-query-server">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
                     const response =
                       await layer.queryFeatures(query);
 
-                    output("Average area: "
-                      + response.features[0].attributes.avg_area);
+                    output("Total area: "
+                      + response.features[0].attributes.sum_area);
                   </code>
                 </pre>
               </div>
@@ -891,7 +891,7 @@
 
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe data-src="./samples/queries-and-filters/05-query-statistic/"></iframe>
+                <iframe data-src="./samples/statistical-queries/"></iframe>
               </div>
             </div>
           </div>

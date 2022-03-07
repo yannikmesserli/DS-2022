@@ -56,12 +56,12 @@ let highlight: IHandle;
 
 async function queryFeatures(center: Geometry, server = false) {
   // setup statistic definition
-  const avgLabel = "avg_area";
+  const sumLabel = "sum_area";
   const statDefinition = [
     {
       onStatisticField: HELSINKI_FIELDS.solarAreaField,
-      outStatisticFieldName: avgLabel,
-      statisticType: "avg",
+      outStatisticFieldName: sumLabel,
+      statisticType: "sum",
     },
   ];
   const avgContainer = document.getElementById("avgContainer") as HTMLDivElement;
