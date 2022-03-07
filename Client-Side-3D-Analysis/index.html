@@ -752,57 +752,53 @@
 
           <div class="two-columns">
             <div class="left-column">
-              <div class="code-snippet">
+              <div class="code-snippet" data-fragment-id="query-attribute">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
+                  const center = new Point({ x: ..., y: ... });
+
                   layer.outFields = [
-                    "solarAreaSuitableM2", 
-                    "address"
+                    "solarAreaSuitableM2"
                   ];
 
                   const query = layerView.createQuery();
+                  query.geometry = center;
+                  query.distance = 100;
                   query.where = 
                     "solarAreaSuitableM2 BETWEEN 400 AND 500";
-                  </code>
-                </pre>
-              </div>
-              <div class="code-snippet fragment">
-                <button class="play" id="query-1"></button>
-                <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
-                  query.outFields = ["address"];
 
-                  const response = 
+                  const result = 
                     await layerView.queryFeatures(query);
-                  response.features.forEach((entry) => {
-                      output(entry.attributes);
-                  });
+                  layerView.highlight(result.features);
                   </code>
                 </pre>
               </div>
-              <div class="code-snippet fragment">
-                <button class="play" id="query-2"></button>
+              <div class="code-snippet fragment" data-fragment-id="query-server">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
-                    const objectIds = 
-                      await layerView.queryObjectIds(query)
-                    
-                    layerView.highlight(objectIds);
+                  const query = layer.createQuery();
+                  query.where = 
+                    "solarAreaSuitableM2 BETWEEN 400 AND 500";
+                  const result = await layer.queryFeatures(query);
+                  layerView.highlight(result.features);
                   </code>
                 </pre>
               </div>
-              <!-- <div class="code-snippet fragment">
+              <div class="code-snippet fragment" data-fragment-id="highlight-remove">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
                     highlightHandle.remove();
                   </code>
                 </pre>
-              </div> -->
+              </div>
             </div>
 
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe data-src="./samples/queries-and-filters/04-query-attributes/"></iframe>
+                <iframe data-src="./samples/query-attributes/"></iframe>
               </div>
             </div>
           </div>

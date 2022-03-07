@@ -1,10 +1,12 @@
 // @ts-nocheck
 
-import WebScene from "@arcgis/core/WebScene.js";
-import SceneView from "@arcgis/core/views/SceneView.js";
-import config from "@arcgis/core/config.js";
-import appConfig from "../helpers/config.js";
-import * as renderers from "../helpers/renderers.js";
+import WebScene from "@arcgis/core/WebScene";
+import SceneView from "@arcgis/core/views/SceneView";
+import config from "@arcgis/core/config";
+import appConfig from "../helpers/config";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import Graphic from "@arcgis/core/Graphic";
+import * as renderers from "../helpers/renderers";
 
 let view, layer, layerView;
 
@@ -28,6 +30,36 @@ if (slideTitle === "query-attribute") {
 function init() {
   config.portalUrl = appConfig.portalUrl;
 
+  const graphicsLayer = new GraphicsLayer({
+    // elevationInfo: { mode: "on-the-ground" },
+    title: "Sketch GraphicsLayer",
+  });
+
+  const point = {
+    type: "point", // autocasts as new Point()
+    spatialReference: { latestWkid: 3857, wkid: 102100 },
+    x: 2775690.9496367406,
+    y: 8434900.987816326,
+    z: 10,
+  };
+
+  const markerSymbol = {
+    type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+    color: [226, 119, 40],
+    outline: {
+      // autocasts as new SimpleLineSymbol()
+      color: [255, 255, 255],
+      width: 2,
+    },
+  };
+
+  const pointGraphic = new Graphic({
+    geometry: point,
+    symbol: markerSymbol,
+  });
+
+  graphicsLayer.add(pointGraphic);
+
   view = new SceneView({
     map: new WebScene({
       portalItem: { id: appConfig.itemId },
@@ -36,6 +68,8 @@ function init() {
     container: "viewDiv",
     qualityProfile: "high",
   });
+
+  view.map.layers.add(graphicsLayer);
 
   view.ui.add("statsContainer", "top-right");
 

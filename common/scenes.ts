@@ -8,3 +8,4 @@ export const SAN_FRANCISCO = "c7adc0ed4c124c72ad7bc79bddada094";
 export const SAN_FRANCISCO_EDITABLE = "2e38f798f3124f2dae84217839cc43dc";
 export const SHADOW_CAST = "8d7de23cd45f4b3fa4932c57272bacf1";
 export const WORLD_CAPITALS = "c025297bbf004abc863773858add4058";
+export const MUNICH_2 = "a350d4d2b71a40a6a95031d25da9535f";
