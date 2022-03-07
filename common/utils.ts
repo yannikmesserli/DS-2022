@@ -16,13 +16,14 @@ const Reveal = (parent as any).Reveal as RevealStatic;
 export function initView(itemId?: string, camera?: Camera) {
   const container = document.getElementById("viewDiv") as HTMLDivElement;
 
-  const view = new SceneView({
+  const viewProps: __esri.SceneViewProperties = {
     container,
     map: itemId ? new WebScene({ portalItem: { id: itemId } }) : new WebScene({ basemap: "topo" }),
-    camera,
     qualityProfile: "low",
     popup: { defaultPopupTemplateEnabled: false },
-  });
+  };
+
+  const view = new SceneView(camera ? { ...viewProps, camera } : viewProps);
 
   showSpinnerUntilLoaded(view);
 

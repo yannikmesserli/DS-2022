@@ -42,12 +42,12 @@
             <li>
               Analysis
               <ul style="font-size: 80%">
-                <li>Direct Measurement</li>
+                <li>Direct line measurement</li>
                 <li>Area Measurement</li>
                 <li>Line Of Sight</li>
                 <li>Slice</li>
-                <li>Shadow Cast</li>
                 <li>Elevation Profile</li>
+                <li>Shadow Analysis</li>
               </ul>
             </li>
             <li>Filtering &amp; Querying</li>
@@ -452,9 +452,99 @@
           </div>
         </section>
 
-        <!-- 
-          ShadowCast 
-        -->
+        <section
+          class="align-left"
+          data-slideId="elevation-profile"
+          data-background="../img/2022/dev-summit/bg-3.png"
+        >
+          <h2>ElevationProfile widget</h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <div data-fragment-id="add-widget" class="code-snippet">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  const widget = new ElevationProfile({
+                    view
+                  });
+                  
+                  view.ui.add(widget, "top-right");
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="set-profiles" class="code-snippet fragment">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim data-line-numbers>
+                  widget.profiles.push(
+                    new ElevationProfileLineView({
+                      type: "view",
+                      title: "Layers",
+                      color: "#555555",
+                      exclude: [view.map.ground],
+                    })
+                  );
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/elevation-profile/"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="align-left"
+          data-slideId="elevation-profile-csv"
+          data-background="../img/2022/dev-summit/bg-3.png"
+        >
+          <h2>Exporting profile data</h2>
+          <div class="two-columns">
+            <div class="left-column">
+              <div class="code-snippet">
+                <pre>
+                  <code class="lang-ts" data-trim >
+                  async function downloadCSV() {
+                    const groundProfileLine = widget.profiles.getItemAt(0);
+
+                    // Wait for the profile to be fully generated. Cancellation
+                    // and error handling omitted for brevity
+                    await reactiveUtils.whenOnce(() => groundProfileLine.progress === 1);
+                    
+                    exportToCSV(groundProfileLine.samples);
+                  }
+                  </code>
+                </pre>
+              </div>
+
+              <div data-fragment-id="add-export-button" class="code-snippet fragment">
+                <button class="play"></button>
+                <pre>
+                  <code class="lang-ts" data-trim >    
+                    function exportToCSV(samples) {                
+                      const fields = ["distance", "elevation", "x", "y", "z"];
+                      const csv = new json2csv.Parser({ fields }).parse(samples);
+                      
+                      // Offer file for download with FileSaver.js
+                      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+                      saveAs(blob, "profile-data.csv");
+                    }
+                  </code>
+                </pre>
+              </div>
+            </div>
+            <div class="right-column">
+              <div class="iframe-wrapper">
+                <iframe data-src="./samples/elevation-profile/"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section
           class="align-left"
           data-slideId="shadow-cast"
@@ -504,99 +594,6 @@
             </div>
           </div>
         </section>
-
-        <section
-          class="align-left"
-          data-slideId="elevation-profile"
-          data-background="../img/2022/dev-summit/bg-3.png"
-        >
-          <h2>ElevationProfile widget</h2>
-          <div class="two-columns">
-            <div class="left-column">
-              <div data-fragment-id="add-widget" class="code-snippet">
-                <button class="play"></button>
-                <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
-                  const widget = new ElevationProfile({
-                    view
-                  });
-                  
-                  view.ui.add(widget, "top-right");
-                  </code>
-                </pre>
-              </div>
-
-              <div data-fragment-id="set-profiles" class="code-snippet fragment">
-                <button class="play"></button>
-                <pre>
-                  <code class="lang-ts" data-trim data-line-numbers>
-                  widget.profiles.push(
-                    new ElevationProfileLineView({
-                      type: "view",
-                      title: "Layers",
-                      color: "#555555",
-                      exclude: [view.map.ground],
-                    })
-                  );
-                  </code>
-                </pre>
-              </div>
-            </div>
-            <div class="right-column">
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/elevation-profile/"></iframe>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- <section
-          class="align-left"
-          data-slideId="elevation-profile-csv"
-          data-background="../img/2022/dev-summit/bg-3.png"
-        >
-          <h2>Exporting profile data</h2>
-          <div class="two-columns">
-            <div class="left-column">
-              <div class="code-snippet">
-                <pre>
-                  <code class="lang-ts" data-trim >
-                  async function downloadCSV() {
-                    const groundProfileLine = widget.profiles.getItemAt(0);
-
-                    // Wait for the profile to be fully generated. Cancellation
-                    // and error handling omitted for brevity
-                    await reactiveUtils.whenOnce(() => groundProfileLine.progress === 1);
-                    
-                    exportToCSV(groundProfileLine.samples);
-                  }
-                  </code>
-                </pre>
-              </div>
-
-              <div data-fragment-id="add-export-button" class="code-snippet fragment">
-                <button class="play"></button>
-                <pre>
-                  <code class="lang-ts" data-trim >    
-                    function exportToCSV(samples) {                
-                      const fields = ["distance", "elevation", "x", "y", "z"];
-                      const csv = new json2csv.Parser({ fields }).parse(samples);
-                      
-                      // Offer file for download with FileSaver.js
-                      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
-                      saveAs(blob, "profile-data.csv");
-                    }
-                  </code>
-                </pre>
-              </div>
-            </div>
-            <div class="right-column">
-              <div class="iframe-wrapper">
-                <iframe data-src="./samples/elevation-profile/"></iframe>
-              </div>
-            </div>
-          </div>
-        </section> -->
 
         <section data-background="../img/2022/dev-summit/bg-3.png">
           <h2>Documentation & Resources</h2>
