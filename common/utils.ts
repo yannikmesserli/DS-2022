@@ -14,6 +14,7 @@ import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Graphic from "@arcgis/core/Graphic";
 import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 import Point from "@arcgis/core/geometry/Point";
+import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer";
 
 const Reveal = (parent as any).Reveal as RevealStatic | null;
 
@@ -144,6 +145,91 @@ export function throwIfNotAbortError(e: any): void {
 export async function getLayerFromView(layerName: string, view: SceneView): Promise<SceneLayer> {
   await (view.map as any).load();
   return view.map.layers.find((l) => l.title === layerName) as SceneLayer;
+}
+
+const yearClasses = [
+  {
+    minYear: 1500,
+    maxYear: 1899,
+    color: "#bd0026",
+    label: "<1900",
+  },
+  {
+    minYear: 1900,
+    maxYear: 1924,
+    color: "#f03b20",
+    label: "1900 - 1924",
+  },
+  {
+    minYear: 1925,
+    maxYear: 1949,
+    color: "#fd8d3c",
+    label: "1925 - 1949",
+  },
+  {
+    minYear: 1950,
+    maxYear: 1974,
+    color: "#feb24c",
+    label: "1951 - 1974",
+  },
+  {
+    minYear: 1975,
+    maxYear: 1999,
+    color: "#fed976",
+    label: "1975 - 1999",
+  },
+  {
+    minYear: 2000,
+    maxYear: 2020,
+    color: "#ffffb2",
+    label: "2000 - 2020",
+  },
+];
+
+export function applyYearRenderer(layer: SceneLayer) {
+  const classBreakInfos = yearClasses.map((year) => {
+    return {
+      minValue: year.minYear,
+      maxValue: year.maxYear,
+      symbol: {
+        type: "mesh-3d",
+        symbolLayers: [
+          {
+            type: "fill",
+            material: {
+              color: year.color,
+              colorMixMode: "replace",
+            },
+            edges: {
+              type: "solid",
+              color: [50, 50, 50, 0.5],
+            },
+          },
+        ],
+      },
+    };
+  });
+
+  layer.renderer = new ClassBreaksRenderer({
+    field: HELSINKI_FIELDS.yearField,
+    defaultSymbol: {
+      type: "mesh-3d",
+      symbolLayers: [
+        {
+          type: "fill",
+          material: {
+            color: "white",
+            colorMixMode: "replace",
+          },
+          edges: {
+            type: "solid",
+            color: [50, 50, 50, 0.5],
+          },
+        },
+      ],
+    } as any,
+    classBreakInfos: classBreakInfos as any,
+  });
 }
 
 export function applySolarAreaRenderer(layer: SceneLayer) {

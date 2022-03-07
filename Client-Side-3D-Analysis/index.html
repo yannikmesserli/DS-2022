@@ -667,8 +667,8 @@
                   </code>
                 </pre>
                 </div>
-                <div class="code-snippet fragment">
-                  <button class="play" id="filter-0"></button>
+                <div class="code-snippet fragment" data-fragment-id="class-break">
+                  <button class="play"></button>
                   <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
                   layer.renderer = new ClassBreaksRenderer({
@@ -686,8 +686,8 @@
                 </pre>
                 </div>
               </div>
-              <div class="code-snippet fragment">
-                <button class="play" id="filter-1"></button>
+              <div class="code-snippet fragment" data-fragment-id="first-filter">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
                   layer.outFields = ["yearCompleted"];
@@ -697,8 +697,8 @@
                   </code>
                 </pre>
               </div>
-              <div class="code-snippet fragment">
-                <button class="play" id="filter-2"></button>
+              <div class="code-snippet fragment" data-fragment-id="remove-filter">
+                <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
                   layerView.filter = null;
@@ -709,30 +709,11 @@
 
             <div class="right-column">
               <div class="iframe-wrapper">
-                <iframe data-src="./samples/queries-and-filters/02-filter-attributes/"></iframe>
+                <iframe data-src="./samples/filter-attribute/"></iframe>
               </div>
             </div>
           </div>
         </section>
-
-        <!-- <section class="align-left" data-background="../img/2022/dev-summit/bg-3.png">
-          <h2>Documentation</h2>
-          <ul>
-            <li>
-              <a
-                href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html"
-                >https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-SceneLayerView.html#filter"
-              >
-                https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-SceneLayerView.html#filter</a
-              >
-            </li>
-          </ul>
-        </section> -->
 
         <section data-background="../img/2022/dev-summit/bg-3.png">
           <h2>Filters vs Queries</h2>
