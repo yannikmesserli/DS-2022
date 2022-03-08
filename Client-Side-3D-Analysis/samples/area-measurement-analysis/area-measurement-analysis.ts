@@ -51,8 +51,8 @@ function setupClick(): void {
 
       analysis = new AreaMeasurementAnalysis({ geometry });
 
-      (view as any).analyses.removeAll();
-      (view as any).analyses.add(analysis);
+      view.analyses.removeAll();
+      view.analyses.add(analysis);
 
       if (widget) {
         createWidget();

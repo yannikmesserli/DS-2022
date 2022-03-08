@@ -57,7 +57,7 @@ async function queryFeatures(center: Geometry, server = false) {
   const layerView = (await view.whenLayerView(layer)) as SceneLayerView;
 
   const query = layerView.createQuery();
-  query.outStatistics = statDefinition as any;
+  query.outStatistics = statDefinition;
   query.where = "solarAreaSuitableM2 BETWEEN 200 AND 500";
 
   const queryFeatureForHighlight = layerView.createQuery();

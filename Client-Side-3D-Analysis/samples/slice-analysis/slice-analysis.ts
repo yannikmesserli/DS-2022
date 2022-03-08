@@ -91,8 +91,8 @@ function addSlideButton({ title, shape }: SlideInfo) {
     analysis = new SliceAnalysis({ shape });
 
     // Apply the slice to show the inside of the building.
-    (view as any).analyses.removeAll();
-    (view as any).analyses.add(analysis);
+    view.analyses.removeAll();
+    view.analyses.add(analysis);
 
     if (widget) {
       createWidget();

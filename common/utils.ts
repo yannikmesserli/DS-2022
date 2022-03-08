@@ -7,6 +7,7 @@ import OAuthInfo from "@arcgis/core/identity/OAuthInfo";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
 import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer";
+import StatisticDefinition from "@arcgis/core/rest/support/StatisticDefinition";
 import SceneView from "@arcgis/core/views/SceneView";
 import WebScene from "@arcgis/core/WebScene";
 import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
@@ -28,6 +29,8 @@ export function initView(itemId?: string, camera?: Camera) {
   };
 
   const view = new SceneView(camera ? { ...viewProps, camera } : viewProps);
+
+  (view as any).pixelRatio = 1;
 
   showSpinnerUntilLoaded(view);
 
@@ -314,12 +317,12 @@ export function addEditablePoint(view: SceneView, onUpdate: (pointGraphic: Graph
 
 // setup statistic definition
 export const sumLabel = "sum_area";
-export const statDefinition = [
-  {
+export const statDefinition: StatisticDefinition[] = [
+  new StatisticDefinition({
     onStatisticField: HELSINKI_FIELDS.solarAreaField,
     outStatisticFieldName: sumLabel,
     statisticType: "sum",
-  },
+  }),
 ];
 
 export function addSumArea(view: SceneView) {

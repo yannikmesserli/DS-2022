@@ -1,20 +1,20 @@
+import Geometry from "@arcgis/core/geometry/Geometry";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
+import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
 import SceneLayerView from "@arcgis/core/views/layers/SceneLayerView";
+import Sketch from "@arcgis/core/widgets/Sketch";
 import { HELSINKI, HELSINKI_BUILDING_NAME, HELSINKI_FIELDS } from "../../../common/scenes";
 import {
-  point,
   addOAuthSupport,
+  addSumArea,
   applySolarAreaRenderer,
   getLayerFromView,
   initView,
   onPlayClick,
-  sumLabel,
   statDefinition,
-  addSumArea,
+  sumLabel,
 } from "../../../common/utils";
-import Geometry from "@arcgis/core/geometry/Geometry";
-import Sketch from "@arcgis/core/widgets/Sketch";
 
 addOAuthSupport();
 
@@ -48,10 +48,10 @@ getLayerFromView(HELSINKI_BUILDING_NAME, view).then((layer) => {
       if (event.state === "complete") {
         geometry = event.graphic.geometry;
 
-        layerView.filter = {
+        layerView.filter = new FeatureFilter({
           geometry,
           spatialRelationship: "contains",
-        } as any;
+        });
       }
     });
 
@@ -60,10 +60,10 @@ getLayerFromView(HELSINKI_BUILDING_NAME, view).then((layer) => {
       if (!event.cancelled && event.graphics.length) {
         geometry = event.graphics[0].geometry;
 
-        layerView.filter = {
+        layerView.filter = new FeatureFilter({
           geometry,
           spatialRelationship: "contains",
-        } as any;
+        });
       }
     });
 
@@ -97,7 +97,7 @@ async function queryFeatures(geometry?: Geometry) {
   const layerView = (await view.whenLayerView(layer)) as SceneLayerView;
 
   const query = layerView.createQuery();
-  query.outStatistics = statDefinition as any;
+  query.outStatistics = statDefinition;
   query.where = "solarAreaSuitableM2 BETWEEN 200 AND 500";
 
   if (geometry) {

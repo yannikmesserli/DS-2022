@@ -2,6 +2,7 @@ import DirectLineMeasurementAnalysis from "@arcgis/core/analysis/DirectLineMeasu
 import Color from "@arcgis/core/Color";
 import Point from "@arcgis/core/geometry/Point";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
+import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import { WORLD_CAPITALS } from "../../../common/scenes";
 import {
   initView,
@@ -54,8 +55,8 @@ function registerClick(): void {
           endPoint: palmSpringsPoint,
         });
 
-        (view as any).analyses.removeAll();
-        (view as any).analyses.add(analysis);
+        view.analyses.removeAll();
+        view.analyses.add(analysis);
       } else {
         const { x, y, z } = clickedPoint;
         showAlert(`Clicked ${[x, y, z]}`);
@@ -83,7 +84,7 @@ function registerHover(): void {
 
       const graphic = results.length > 0 ? results[0].graphic : null;
       if (graphic) {
-        const lv = (await view.whenLayerView(graphic.layer)) as any;
+        const lv = (await view.whenLayerView(graphic.layer)) as FeatureLayerView;
         throwIfAborted(signal);
 
         highlightHandle = lv.highlight(graphic);

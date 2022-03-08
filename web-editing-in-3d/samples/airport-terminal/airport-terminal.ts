@@ -1,4 +1,5 @@
 import Camera from "@arcgis/core/Camera";
+import Collection from "@arcgis/core/core/Collection";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import SolidEdges3D from "@arcgis/core/symbols/edges/SolidEdges3D";
@@ -60,7 +61,7 @@ onPlayClick("create", async () => {
 onPlayClick("enable-snapping", async () => {
   const opts = sketchVM.snappingOptions;
   opts.enabled = true;
-  opts.featureSources = [{ layer: terminals }] as any;
+  opts.featureSources = new Collection([{ layer: terminals }]);
 });
 
 onPlayClick("enable-edge-offset", async () => {

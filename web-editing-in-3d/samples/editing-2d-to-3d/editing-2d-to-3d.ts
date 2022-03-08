@@ -108,7 +108,7 @@ async function init(type: "2d" | "3d"): Promise<void> {
     layerInfos: [pointInfos, lineInfos, polyInfos],
     snappingOptions: {
       enabled: true,
-      featureSources: [new FeatureSnappingLayerSource({ layer: pointLayer } as any)],
+      featureSources: [new FeatureSnappingLayerSource({ layer: pointLayer })],
     },
   });
 
