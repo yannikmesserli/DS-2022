@@ -73,6 +73,7 @@ iframe {
 }
 
 .two-columns {
+  position: relative;
   display: flex;
   flex-direction: row;
   gap: var(--r-block-margin);
@@ -90,19 +91,17 @@ iframe {
 
 .extend-iframe .two-columns iframe {
   position: absolute;
-  transform: none;
   width: 100%;
   height: 100%;
-  position: absolute;
+  aspect-ratio: auto;
+  transform: none;
 }
 
 .extend-iframe .two-columns .right-column {
   position: absolute;
-  transform: none;
-  aspect-ratio: auto;
   width: 100%;
-  height: 65vh;
-  min-height: 100%;
+  height: 70vh;
+  transform: none;
 }
 
 .two-columns pre {

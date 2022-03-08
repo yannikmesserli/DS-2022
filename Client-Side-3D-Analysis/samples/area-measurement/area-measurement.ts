@@ -6,17 +6,19 @@ import { addOAuthSupport, initView, onPlayClick } from "../../../common/utils";
 
 addOAuthSupport();
 
-const view = initView(MUNICH);
-view.camera = new Camera({
-  position: new Point({
-    spatialReference: SpatialReference.WebMercator,
-    x: 1288725.3850151028,
-    y: 6129370.547797157,
-    z: 713.2540805945173,
-  }),
-  heading: 337.63207497748215,
-  tilt: 46.6208287633336,
-});
+const view = initView(
+  MUNICH,
+  new Camera({
+    position: new Point({
+      spatialReference: SpatialReference.WebMercator,
+      x: 1288725.3850151028,
+      y: 6129370.547797157,
+      z: 713.2540805945173,
+    }),
+    heading: 337.63207497748215,
+    tilt: 46.6208287633336,
+  })
+);
 
 let widget: AreaMeasurement3D | null = null;
 

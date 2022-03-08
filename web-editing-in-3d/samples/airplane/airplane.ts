@@ -9,17 +9,19 @@ import { SAMEDAN_AIRPORT } from "../../../common/scenes";
 import { initView, onPlayClick } from "../../../common/utils";
 import { watchGraphic } from "../utils";
 
-const view = initView(SAMEDAN_AIRPORT);
-view.camera = new Camera({
-  position: {
-    spatialReference: SpatialReference.WebMercator,
-    x: 1099535.0699631039,
-    y: 5865057.781588203,
-    z: 1743.692554133013,
-  },
-  heading: 30.869375675742816,
-  tilt: 77.2140490547386,
-});
+const view = initView(
+  SAMEDAN_AIRPORT,
+  new Camera({
+    position: {
+      spatialReference: SpatialReference.WebMercator,
+      x: 1099535.0699631039,
+      y: 5865057.781588203,
+      z: 1743.692554133013,
+    },
+    heading: 30.869375675742816,
+    tilt: 77.2140490547386,
+  })
+);
 
 const airplaneSymbolPromise = new WebStyleSymbol({
   name: "Airplane_Propeller",

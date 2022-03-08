@@ -9,17 +9,19 @@ import { SAMEDAN_AIRPORT } from "../../../common/scenes";
 import { initView, onInit, onPlayClick } from "../../../common/utils";
 import { watchGraphic } from "../utils";
 
-const view = initView(SAMEDAN_AIRPORT);
-view.camera = new Camera({
-  position: {
-    spatialReference: SpatialReference.WebMercator,
-    x: 1099547.5896370823,
-    y: 5865784.810745756,
-    z: 1721.5289201699197,
-  },
-  heading: 81.67617671105981,
-  tilt: 81.39865815504064,
-});
+const view = initView(
+  SAMEDAN_AIRPORT,
+  new Camera({
+    position: {
+      spatialReference: SpatialReference.WebMercator,
+      x: 1099547.5896370823,
+      y: 5865784.810745756,
+      z: 1721.5289201699197,
+    },
+    heading: 81.67617671105981,
+    tilt: 81.39865815504064,
+  })
+);
 
 const treeSymbolPromise = new WebStyleSymbol({
   name: "Larix",
