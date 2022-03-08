@@ -18,35 +18,92 @@
     <script src="https://jsdev.arcgis.com/4.23/"></script>
 
     <script>
-      require(["esri/Map", "esri/views/SceneView", "esri/widgets/Fullscreen"], (Map, SceneView, Fullscreen) => {
+      require(["esri/Map", "esri/views/SceneView", "esri/widgets/Fullscreen"], (
+        Map,
+        SceneView,
+        Fullscreen
+      ) => {
         const map = new Map({
           qualityProfile: "high",
           basemap: "oceans", //"satellite",
           ground: "world-topobathymetry",
         });
 
-        const view = new SceneView({
+        let view = new SceneView({
           container: "viewDiv",
           map: map,
-          viewingMode: "local",
-          camera: {
-            position: {
-              spatialReference: {
-                latestWkid: 3857,
-                wkid: 102100,
-              },
-              x: -209927.1516836206,
-              y: -54552777.63964999,
-              z: 41002121.64648987,
-            },
-            heading: 0,
-            tilt: 49.56711040409995,
-          },
+          //viewingMode: "local",
         });
         fullscreen = new Fullscreen({
           view: view,
         });
         view.ui.add(fullscreen, "bottom-left");
+
+        window.addEventListener("keypress", onKeypress, false);
+        function onKeypress(event) {
+          changeToLocal();
+        }
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js slide interaction
+        // - - - - - - - - - - - - - - - -
+
+        function changeToLocal() {
+          view = new SceneView({
+            container: "viewDiv",
+            map: map,
+            viewingMode: "local",
+            camera: {
+              position: {
+                spatialReference: {
+                  latestWkid: 3857,
+                  wkid: 102100,
+                },
+                x: -209927.1516836206,
+                y: -54552777.63964999,
+                z: 41002121.64648987,
+              },
+              heading: 0,
+              tilt: 49.56711040409995,
+            },
+          });
+        }
+
+        onFragment("fragment-global-to-local", () => {
+          changeToLocal(true);
+        });
+
+        // - - - - - - - - - - - - - - - -
+        // Reveal.js helpers
+        // - - - - - - - - - - - - - - - -
+
+        function onFragment(elementId, doSomething) {
+          const run = () => {
+            const currentId = getCurrentFragmentId();
+            //console.log(elementId + " " + currentId);
+            if (currentId === elementId) {
+              doSomething();
+            }
+          };
+
+          parent.Reveal.addEventListener("fragmenthidden", run);
+          parent.Reveal.addEventListener("fragmentshown", run);
+          run();
+        }
+
+        function getCurrentSlide() {
+          //console.log("getCurrentSlide");
+          return parent.Reveal.getCurrentSlide();
+        }
+
+        function getCurrentFragment() {
+          //console.log("getCurrentFragment");
+          return getCurrentSlide().querySelector(".current-fragment") ?? null;
+        }
+        function getCurrentFragmentId() {
+          //console.log("getCurrentFragmentId");
+          return getCurrentFragment()?.getAttribute("data-fragment-id") ?? null;
+        }
       });
     </script>
   </head>
