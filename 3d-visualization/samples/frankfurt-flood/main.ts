@@ -21,6 +21,7 @@ import GroupLayer from "@arcgis/core/layers/GroupLayer";
 // addOAuthSupport();
 
 const cityLayer = new IntegratedMeshLayer({
+  //79c3563e42ee40ddb1b8c688eaf0dd2a
   url: "https://tiles.arcgis.com/tiles/cFEFS0EWrhfDeVw9/arcgis/rest/services/Buildings_Frankfurt_2021/SceneServer",
   // Frankfurt integrated mesh data provided by nFrames and Aerowest
   copyright: "nFrames - Aerowest",
