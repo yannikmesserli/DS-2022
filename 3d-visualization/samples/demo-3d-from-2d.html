@@ -288,7 +288,7 @@
 
         // The building footprints used in this example don't have information about the building height.
         // We are using Arcade expressions to extrude footprints dependant on their area:
-        const expresion = `
+        const expression = `
                         var area = Area($feature, 'square-meters'); //square-feet
                         var randomness = (8 * Random() -4);
                         var height;
@@ -349,7 +349,7 @@
               // In case your dataset doesn't have a building height saved in an attribute,
               //you can use a value expression to extrude the footprint by a guessed value based on geometry area.
               //field: "HEIGHT",
-              valueExpression: expresion,
+              valueExpression: expression,
             },
           ],
         };
