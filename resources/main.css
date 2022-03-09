@@ -180,3 +180,12 @@ button.play.swap {
 button.play.swap:hover {
   background-image: url("./play_refresh_64.png");
 }
+
+
+/* Hide inactive fragemnt */
+.fragment-transient.current-visible.visible:not(.current-fragment) {
+  display: none;
+  height: 0px;
+  line-height: 0px;
+  font-size: 0px;
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Esri Dev Summit 2022 - ArcGIS JS API for JavaScript: Creating Custom Layers in 2D and 3D</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="../reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="../reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="../reveal.js/dist/theme/black.css" />
+    <link rel="stylesheet" href="../resources/highlighting-theme.css" />
+    <link rel="stylesheet" href="../resources/main.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-background="../img/2022/dev-summit/bg-1.png" data-background-size="cover">
+          <h1 style="text-align: left; font-size: 60px">
+            ArcGIS JS API for JavaScript: <br />
+            Creating Custom Layers in 2D and 3D
+          </h1>
+          <p style="text-align: left; font-size: 30px; color: var(--r-section-subhead-color)">
+            Dario D'Amico, Arno Fiva, Tristan Morrison
+          </p>
+          <!-- <p style="text-align: left; font-size: 30px">
+            Slides:
+            <a href="http://bit.ly/abc123"><code>http://bit.ly/abc123</code></a>
+          </p> -->
+        </section>
+
+        <section data-background="../img/2022/dev-summit/bg-3.png">
+          <h2 id="agenda">Agenda</h2>
+          <ul style="font-size: 2rem">
+            <li>Intro to Mesh geometries</li>
+            <li>Mesh from features</li>
+            <li>Mesh from elevation</li>
+          </ul>
+        </section>
+
+
+        <section id="damDemo" class="align-left" data-background-iframe="./dam-demo/">
+          <!-- <h2>Building proposal planning app (dive-in)</h2>
+          <iframe class="r-stretch" data-src="./samples/advanced-editing/index.html"></iframe> -->
+          <div data-fragment-id="set-tree-symbol" class="code-snippet fragment">
+            <button class="play"></button>
+            <pre>
+              <code class="lang-ts" data-trim>
+                const webStyle = new WebStyleSymbol({
+                  /* ... */
+                });
+
+                tree.symbol = await webStyle.fetchSymbol();
+              </code>
+            </pre>
+          </div>
+        </section>
+
+        <!-- FEEDBACK SLIDE: -->
+        <section data-markdown data-background="../img/2022/dev-summit/bg-7.png">
+          <textarea data-template>
+            Please provide your feedback for this session by clicking on the session survey link directly below the video.
+          </textarea>
+        </section>
+
+        <!-- ESRI LOGO SLIDE: -->
+        <section data-background="../img/2022/dev-summit/bg-8.png">
+          <!-- <img src="img/esri-science-logo-white.png" /> -->
+        </section>
+      </div>
+    </div>
+
+    <script src="./main.js" type="module"></script>
+  </body>
+</html>

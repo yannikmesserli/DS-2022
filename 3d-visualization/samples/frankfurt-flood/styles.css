@@ -1,0 +1,13 @@
+
+html,
+body,
+#viewDiv {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  overscroll-behavior: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.esri-view-surface::after {
+  outline: none !important;
+}

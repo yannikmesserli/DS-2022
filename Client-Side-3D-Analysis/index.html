@@ -115,7 +115,12 @@
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>                  
                   view.on("click", async (event) => {
-                    const clickedPoint = /* hit test... */
+                    const { results } = await view.hitTest(event);
+
+                    const clickedPoint = results
+                      .find((r) => r.graphic)?.graphic?.geometry;
+                    
+                    if (!clickedPoint) return;
 
                     const { x, y, z } = clickedPoint;
                     showAlert(`Clicked ${[x, y, z]}`);
@@ -128,10 +133,7 @@
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim data-line-numbers>
-                  const palmSpringsPoint = new Point({ 
-                    x: -116.563645,
-                    y: 33.772349
-                  });
+                  const palmSpringsPoint = new Point({ x, y });
                   
                   const analysis =
                     new DirectLineMeasurementAnalysis({ 
