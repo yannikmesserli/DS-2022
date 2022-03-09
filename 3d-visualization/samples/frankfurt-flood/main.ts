@@ -34,6 +34,7 @@ const cityLayer = new IntegratedMeshLayer({
   portalItem: {
     id: "1f1941eafe3942c0b00bcccd5720eedf"
   },
+  visible: false,
 
   // url: "https://tiles.arcgis.com/tiles/cFEFS0EWrhfDeVw9/arcgis/rest/services/Buildings_Frankfurt_2021/SceneServer",
   // Frankfurt integrated mesh data provided by nFrames and Aerowest
