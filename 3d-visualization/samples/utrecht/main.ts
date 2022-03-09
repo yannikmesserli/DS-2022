@@ -22,9 +22,9 @@ addOAuthSupport();
 
 // DEMO STEP 1
 const elevationInfo: __esri.FeatureLayerElevationInfo = {
-  // mode: "on-the-ground"
+  mode: "on-the-ground"
 
-  mode: "absolute-height",
+  // mode: "absolute-height",
 
   // featureExpressionInfo: {
   //   expression: "$feature.FloorHeight * $feature.Level_"
@@ -36,25 +36,25 @@ const elevationInfo: __esri.FeatureLayerElevationInfo = {
 function createFloorSymbol(r: number, g: number, b: number) {
   return new PolygonSymbol3D({
     symbolLayers: [
-      // new FillSymbol3DLayer({
-      //   material: {
-      //     color: [r, g, b]
-      //   },
-      //   outline: {
-      //     size: 1,
-      //     color: [0, 0, 0, 0.75]
-      //   }
-      // })
-      new ExtrudeSymbol3DLayer({
-        size: 1,
+      new FillSymbol3DLayer({
         material: {
-          color: [r, g, b, 0.65]
+          color: [r, g, b]
         },
-        edges: new SolidEdges3D({
-          color: [0, 0, 0, 0.5],
-          size: 1
-        })
+        outline: {
+          size: 1,
+          color: [0, 0, 0, 0.75]
+        }
       })
+      // new ExtrudeSymbol3DLayer({
+      //   size: 1,
+      //   material: {
+      //     color: [r, g, b, 0.65]
+      //   },
+      //   edges: new SolidEdges3D({
+      //     color: [0, 0, 0, 0.5],
+      //     size: 1
+      //   })
+      // })
     ]
   });
 }
