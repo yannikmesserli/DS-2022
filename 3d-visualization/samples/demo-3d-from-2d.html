@@ -132,6 +132,19 @@
           url: "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/Redlands_Storm_Drains/FeatureServer",
           title: "All pipes",
           popupTemplate: popupTemplate,
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "line-3d",
+              symbolLayers: {
+                type: "line",
+                material: {
+                  color: "orange"
+                },
+                size: 1,
+              }
+            }
+          }
         });
 
         function addAllPipesLayer() {
@@ -359,7 +372,7 @@
                 {
                   type: "line", // autocasts as new LineSymbol3DLayer()
                   material: {
-                    color: "#white",
+                    color: "orange",
                   },
                 },
               ],
@@ -405,9 +418,7 @@
           if (event.key == "1") {
             console.log("1");
             addAllPipesLayer();
-            setTimeout(() => {
-              colorDefaultLinesWhite();
-            }, 3000);
+            
           } else if (event.key == "2") {
             console.log("2");
             addBoxCollectorLayer();

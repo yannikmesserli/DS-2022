@@ -82,6 +82,7 @@ const floodWaterLevel = new FeatureLayer({
 
 const waterLevel = new GroupLayer({
   title: "Water level",
+  visible: false,
   // visibilityMode: "exclusive",
   layers: [normalWaterLevel, floodWaterLevel]
 })

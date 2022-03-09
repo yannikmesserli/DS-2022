@@ -62,7 +62,7 @@ require([
   // so that we can apply a CSS shadow filter for the glow
   const view = new SceneView({
     container: "view-container",
-    qualityProfile: "high",
+    // qualityProfile: "high",
     map: map,
     alphaCompositingEnabled: true,
     environment: {

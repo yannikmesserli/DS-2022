@@ -100,7 +100,7 @@
             <div>
               <ul style="display: block">
                 <li>
-                  Core concepts <span class="transparent"> - 15 min</span>
+                  Core concepts <span class="transparent"></span>
                   <ul class="sublist">
                     <li>Setting up a 3D application</li>
                     <li>Sources of data</li>
@@ -108,7 +108,7 @@
                   </ul>
                 </li>
                 <li>
-                  3D visualization use cases <span class="transparent"> - 30 min</span>
+                  3D visualization use cases <span class="transparent"></span>
                   <ul class="sublist">
                     <li>Data-driven thematic visualization</li>
                     <li>3D city from 2D data</li>
@@ -117,7 +117,7 @@
                   </ul>
                 </li>
                 <li>
-                  Q & A <span class="transparent"> - 15 min</span>
+                  Q & A <span class="transparent"></span>
                   <ul class="sublist">
                     <li>Sli.do</li>
                   </ul>
@@ -899,7 +899,7 @@
               <div class="code-snippet">
                 <p class="slidetitle-sub">Add layer</p>
                 <pre><code class="lang-ts" data-trim>
-                  const buildingLayer = new SceneLayer({
+                  const buildingLayer = new BuildingSceneLayer({
                       url: &quot;https://tiles.arcgis.com/tiles/V6ZHFr6zdgNZuVG0/arcgis/rest/services/BSL__4326__US_Redlands__EsriAdminBldg_PublicDemo/SceneServer&quot;,
                   });
                   map.add(layer);
@@ -909,18 +909,9 @@
               <div class="code-snippet fragment" data-fragment-id="fragment-bsl-color">
                 <p class="slidetitle-sub">Color based on model name</p>
                 <button class="play swap" id="bsl-color"></button>
-                <pre><code class="lang-ts smaller-snippet" data-trim>
-                  buildingLayer.allSublayers.forEach((layer) =&gt; {
-                    switch (layer.modelName) {
-                      case &quot;StructuralColumns&quot;:
-                        columnsLayer = layer;
-                        excludedLayers.push(layer);
-                        break;
-                      default:
-                        layer.visible = true;
-                    }
-                  });
-
+                <pre><code class="lang-ts" data-trim>
+                  const columnsLayer = buildingLayer.allSublayers.
+                    find(l => l.modelName === &quot;StructuralColumns&quot;);
                   columnsLayer.renderer = new SimpleRenderer({
                     symbol: new MeshSymbol3D({
                       symbolLayers: [

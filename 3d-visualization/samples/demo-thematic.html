@@ -56,9 +56,11 @@
         // add the layer to a new map
         const map = new Map({
           //basemap: "oceans",
-          basemap: "dark-gray-vector",
+          // basemap: "dark-gray-vector",
+          basemap: "satellite"
           //layers: [earthquakeLayer],
         });
+
 
         // The initial camera of the view
         const initCam = {
@@ -93,7 +95,18 @@
               breakpoint: false,
             },
           },
+          environment: {
+            background: {
+              type: "color",
+              color: [0, 0, 0],
+            },
+            starsEnabled: false,
+            atmosphereEnabled: false,
+          }
         });
+
+        view.popup.autoOpenEnabled = true;
+        view.popup.defaultPopupTemplateEnabled = true;
 
         /*****************************************************************
          * STEP 1
@@ -376,6 +389,8 @@
         });
         view.ui.add(fullscreen, "bottom-left");
         view.popup.defaultPopupTemplateEnabled = true;
+
+        window["view"] = view;
 
         window.addEventListener("keypress", onKeypress, false);
         function onKeypress(event) {
