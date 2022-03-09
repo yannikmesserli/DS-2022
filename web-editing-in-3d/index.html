@@ -240,12 +240,12 @@
                     const geometry = new Point({
                       x: 1099766.76,
                       y: 5865813.01,
-                      z: 50 // We now have elevation!!!
+                      z: 20 // We now have elevation!!!
                     });
                 
                     const airplane = new Graphic({ geometry, symbol });
 
-                    airplanes = new GraphicsLayer({
+                    const airplanes = new GraphicsLayer({
                       elevationInfo: { mode: "relative-to-ground" },
                     });
                     airplanes.add(airplane);
@@ -287,10 +287,9 @@
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
-                    sketchVM.layer = new GraphicsLayer({
-                      elevationInfo = { mode: "absolute-height" }
-                    });
+                    const terminals = new GraphicsLayer();
 
+                    sketchVM.layer = terminals;
                     sketchVM.polygonSymbol = new PolygonSymbol3D({
                       symbolLayers: [new ExtrudeSymbol3DLayer({ 
                         size: 10
