@@ -1,7 +1,6 @@
 import Map from "@arcgis/core/Map";
 import SceneView from "@arcgis/core/views/SceneView";
 
-import "@esri/calcite-components";
 import "@arcgis/core/assets/esri/themes/light/main.css";
 
 // DEMO STEP
