@@ -108,7 +108,10 @@ function highlightOnPointerMove(view: SceneView): IHandle {
   const handle = view.on("pointer-move", async (ev) => {
     const { results } = await view.hitTest(ev);
 
-    const floorGraphic = results[0]?.graphic;
+    const firstGraphic = results[0]?.graphic;
+
+    // Make sure the graphic actually comes from the floors layer
+    const floorGraphic = firstGraphic?.layer === floorsLayer ? firstGraphic : null;
 
     if (floorGraphic === selectedFloor) {
       return;
