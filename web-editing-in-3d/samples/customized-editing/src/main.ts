@@ -23,7 +23,7 @@ import { munichLayer } from "./utilities/layers";
 const view = new SceneView({
   container: "viewDiv",
   map: new Map({
-    basemap: "topo",
+    basemap: "satellite",
     ground: "world-elevation",
     layers: [munichLayer],
   }),
