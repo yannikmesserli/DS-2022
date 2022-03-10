@@ -29,35 +29,27 @@ export function setupModifications(view: SceneView): void {
     polygonSymbol: modificationsSymbol,
   });
 
-  // Emitted when we are creating/drawing a new graphic
+  modificationsLayer.graphics.on("change", () => updateMaskingModification());
+
   modificationsSVM.on("create", (event) => {
     // We only want one masking area, so we simply remove all modifications when we start the draw
     if (event.state === "start") {
-      munichLayer.modifications.removeAll();
       modificationsLayer.removeAll();
     }
-
-    if (event.state === "complete") {
-      updateMaskingModification(event.graphic);
-    }
-  });
-
-  modificationsSVM.on("delete", () => {
-    munichLayer.modifications.removeAll();
   });
 
   // Emitted when we are updating an existing graphic
   modificationsSVM.on("update", (event) => {
     if (event.state === "complete") {
-      updateMaskingModification(event.graphics[0]);
+      updateMaskingModification();
     }
   });
 }
 
-function updateMaskingModification(graphic: Graphic): void {
+function updateMaskingModification(): void {
   munichLayer.modifications.removeAll();
 
-  const geometry = graphic?.geometry as Polygon;
+  const geometry = modificationsLayer.graphics.getItemAt(0)?.geometry as Polygon;
 
   // Add a modification as long as we have a valid polygon of at least 3 vertices
   if (geometry?.rings?.[0].length > 2) {
