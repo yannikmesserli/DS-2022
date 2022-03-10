@@ -10,13 +10,16 @@ import "@arcgis/core/assets/esri/themes/light/main.css";
 // import { setupStoreState } from "./01-b-store-state";
 
 // DEMO STEP
-// import { setupDrawing } from "./02-a-drawing";
+// import { drawingSVM, setupDrawing } from "./02-a-drawing";
 
 // DEMO STEP
 // import { setupDrawingSnapping } from "./02-b-snapping";
 
 // DEMO STEP
 // import { setupExtruding } from "./03-extruding";
+
+// DEMO STEP
+// import { setupMoveFloors } from "./04-move floors";
 
 import { munichLayer } from "./utilities/layers";
 
@@ -52,3 +55,6 @@ const view = new SceneView({
 
 // DEMO STEP
 // setupExtruding(view);
+
+// DEMO STEP
+// setupMoveFloors(drawingSVM);

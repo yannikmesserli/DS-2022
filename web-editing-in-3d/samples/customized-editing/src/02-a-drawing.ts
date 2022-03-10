@@ -4,9 +4,6 @@ import { floorsLayer } from "./utilities/layers";
 import { floorSymbol } from "./utilities/symbols";
 import { addToolbarAction } from "./utilities/actions";
 
-// DEMO STEP
-// import { setupMoveFloors } from "./04-move floors";
-
 export let drawingSVM: SketchViewModel;
 
 export function setupDrawing(view: SceneView): void {
@@ -31,7 +28,4 @@ export function setupDrawing(view: SceneView): void {
       reshapeOptions: { edgeOperation: "offset" },
     },
   });
-
-  // DEMO STEP
-  // setupMoveFloors(drawingSVM);
 }
