@@ -94,8 +94,8 @@
               <div data-fragment-id="place-point" class="code-snippet">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim>               
-                    const tree = new Graphic({ 
+                  <code class="lang-ts" data-trim>
+                    const tree = new Graphic({
                       geometry: new Point({
                         x: 1099766.76,
                         y: 5865813.01
@@ -119,7 +119,7 @@
                     const webStyle = new WebStyleSymbol({
                       /* ... */
                     });
-                    
+
                     tree.symbol = await webStyle.fetchSymbol();
                   </code>
                 </pre>
@@ -155,7 +155,7 @@
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
-                    const sketchVM = new SketchViewModel({ 
+                    const sketchVM = new SketchViewModel({
                       view,
                       layer: trees
                     });
@@ -242,7 +242,7 @@
                       y: 5865813.01,
                       z: 20 // We now have elevation!!!
                     });
-                
+
                     const airplane = new Graphic({ geometry, symbol });
 
                     const airplanes = new GraphicsLayer({
@@ -291,7 +291,7 @@
 
                     sketchVM.layer = terminals;
                     sketchVM.polygonSymbol = new PolygonSymbol3D({
-                      symbolLayers: [new ExtrudeSymbol3DLayer({ 
+                      symbolLayers: [new ExtrudeSymbol3DLayer({
                         size: 10
                       })]
                     });
@@ -351,7 +351,7 @@
                 <button class="play"></button>
                 <pre>
                   <code class="lang-ts" data-trim>
-                  const aircraftLayer = new FeatureLayer({ 
+                  const aircraftLayer = new FeatureLayer({
                     title: "Aircraft",
                     url: "...",
                     elevationInfo: { mode: "absolute-height" },
@@ -408,7 +408,7 @@
                         rotationType: "geographic",
                       }),
                     ];
-                  
+
                     aircraftLayer.renderer = newRenderer;
                   </code>
                 </pre>
@@ -417,12 +417,12 @@
               <div data-fragment-id="layer-infos" class="code-snippet fragment fade-in-then-out">
                 <button class="play"></button>
                 <pre>
-                  <code class="lang-ts" data-trim>  
+                  <code class="lang-ts" data-trim>
                     editor.layerInfos = [{
                       layer: aircraftLayer,
                       formTemplate: new FormTemplate({
                         elements: [
-                          new FieldElement({ 
+                          new FieldElement({
                             fieldName: "ROTATION",
                             label: "Rotation"
                           })
@@ -508,7 +508,14 @@
                 >Sample: SceneLayer attribute editing</a
               >
             </li>
-
+            <li>
+              <a
+                href="https://developers.arcgis.com/javascript/latest/sample-code/layers-integratedmeshlayer-modification/"
+              >
+                Sample: IntegratedMeshLayer modifications
+              </a>
+            </li>
+            <br>
             <li>
               <a
                 href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Sketch-SketchViewModel.html"
@@ -521,6 +528,13 @@
                 href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html"
               >
                 API Docs: SnappingOptions
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-IntegratedMeshLayer.html#modifications"
+              >
+                API Docs: IntegratedMeshLayer modifications
               </a>
             </li>
           </ul>
