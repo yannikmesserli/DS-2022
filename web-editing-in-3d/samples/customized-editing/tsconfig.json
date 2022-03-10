@@ -5,7 +5,7 @@
     "strict": true,
     "target": "ESNext",
     "isolatedModules": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "lib": [
       "ESNext",
       "DOM"
