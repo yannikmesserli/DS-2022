@@ -24,13 +24,13 @@ export function initView(itemId?: string, camera?: Camera) {
   const viewProps: __esri.SceneViewProperties = {
     container,
     map: itemId ? new WebScene({ portalItem: { id: itemId } }) : new WebScene({ basemap: "topo" }),
-    qualityProfile: "high",
+    qualityProfile: "medium",
     popup: { defaultPopupTemplateEnabled: false },
   };
 
   const view = new SceneView(camera ? { ...viewProps, camera } : viewProps);
 
-  (view as any).pixelRatio = 1;
+  (view as any).pixelRatio = 1.5;
 
   showSpinnerUntilLoaded(view);
 
@@ -38,22 +38,19 @@ export function initView(itemId?: string, camera?: Camera) {
 }
 
 function showSpinnerUntilLoaded(view: SceneView): void {
-  const container = view.container;
-
-  container.classList.add("loading");
-
-  const loader = container.appendChild(document.createElement("calcite-loader"));
-  loader.type = "indeterminate";
-  loader.active = true;
-
-  when(
-    () => !view.groundView.updating,
-    () => {
-      container.classList.remove("loading");
-      loader.remove();
-    },
-    { once: true }
-  );
+  // const container = view.container;
+  // container.classList.add("loading");
+  // const loader = container.appendChild(document.createElement("calcite-loader"));
+  // loader.type = "indeterminate";
+  // loader.active = true;
+  // when(
+  //   () => !view.groundView.updating,
+  //   () => {
+  //     container.classList.remove("loading");
+  //     loader.remove();
+  //   },
+  //   { once: true }
+  // );
 }
 
 export function onInit(title: string, cb: () => void) {
