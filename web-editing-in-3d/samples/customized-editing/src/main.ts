@@ -3,23 +3,12 @@ import SceneView from "@arcgis/core/views/SceneView";
 
 import "@arcgis/core/assets/esri/themes/light/main.css";
 
-// DEMO STEP
-// import { setupModifications } from "./01-a-modifications";
-
-// DEMO STEP
-// import { setupStoreState } from "./01-b-store-state";
-
-// DEMO STEP
-// import { drawingSVM, setupDrawing } from "./02-a-drawing";
-
-// DEMO STEP
-// import { setupDrawingSnapping } from "./02-b-snapping";
-
-// DEMO STEP
-// import { setupExtruding } from "./03-extruding";
-
-// DEMO STEP
-// import { setupMoveFloors } from "./04-move floors";
+import { setupModifications } from "./01-a-modifications";
+import { setupStoreState } from "./01-b-store-state";
+import { drawingSVM, setupDrawing } from "./02-a-drawing";
+import { setupDrawingSnapping } from "./02-b-snapping";
+import { setupExtruding } from "./03-extruding";
+import { setupMoveFloors } from "./04-move floors";
 
 import { munichLayer } from "./utilities/layers";
 
@@ -41,20 +30,9 @@ const view = new SceneView({
 // Store view on the window so we can easily access it for debugging purposes
 (window as any).view = view;
 
-// DEMO STEP
-// setupModifications(view);
-
-// DEMO STEP
-// setupStoreState();
-
-// DEMO STEP
-// setupDrawing(view);
-
-// DEMO STEP
-// setupDrawingSnapping();
-
-// DEMO STEP
-// setupExtruding(view);
-
-// DEMO STEP
-// setupMoveFloors(drawingSVM);
+setupModifications(view);
+setupStoreState();
+setupDrawing(view);
+setupDrawingSnapping();
+setupExtruding(view);
+setupMoveFloors(drawingSVM);
